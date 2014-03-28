@@ -27,44 +27,57 @@
 
   <body>
 
-    <div class="container">
-      <div class='col-md-10 col-md-offset-1'>
-        <div class="header">
-          <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="#map">Map</a></li>
-            <li><a href="#apply">Apply for a lot</a></li>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Englewood Large Lots</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav pull-right">
+            <li><a href="#step1">Apply for a lot</a></li>
             <li><a href="#about">About</a></li>
           </ul>
-          <h3 class="text-muted"><a href="index.html" >Englewood Large Lots</a></h3>
-        </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class='col-md-12'>
 
         <div class='row'>
-          <br />
-          <div id='map'></div>
-        </div>
 
-        <div id='lot-info' class='row'>
-          <div class='col-md-10'>
+          <p class='lead'><br />The City of Chicago is selling lots in Englewood for <strong>$1</strong> until <strong>April 21, 2014</strong>. Here's how you get one.</p>
+          <hr />
+          
+          <h3 id='step1'>Step 1) Pick a lot</h3>
+          
+          <div class='col-md-8'>
+            <div id='map'></div>
           </div>
-        </div>
+          <div class='col-md-4'>
+            <div class='well' id='lot-info'>
+              <h4><i class='icon-arrow-left'></i> Click a lot on the left to get started</h4>
+              <img class='img-responsive img-thumbnail' src='/images/map-info.png' />
+            </div>
+          </div>
 
-        <div id='apply' class='row'>
-          <div class='col-md-10'>
-            <h2>Apply for a lot</h2>
-            <p>Demond's content here</p>
-          </div>
-        </div>
+          <div class='clearfix'></div>
 
-        <div id='about' class='row'>
-          <div class='col-md-10'>
-            <h2>About</h2>
-            <p>about this app</p>
-          </div>
+          <h3 id='step1'>Step 2) Download the application</h3>
+
+
+          <h2 id='about'>About</h2>
+          <p>about this app</p>
         </div>
 
         <div class="footer">
-          <p class='pull-right'>&copy; DataMade and LISC-Chicago</p>
+          <p class='pull-right'>&copy; <a href='http://datamade.us'>DataMade</a> and <a href='http://www.lisc-chicago.org/'>LISC-Chicago</a></p>
         </div>
       </div>
     </div> <!-- /container -->
@@ -129,18 +142,23 @@
       function makeInfoBox(feature, layer){
           layer.on({
               click: function(e){
+                  console.log(e)
                   var props = feature.properties;
-                  var address = props.STREET_NUM + ' ' + props.DIR + ' ' + props.STREET_NAM + ' ' + props.TYPE;
-                  var pin = props.PIN14;
-                  var size = props.SQ_FT;
-                  var info = '<h2>' + address + ' <small>(' + size + ' ft<sup>2</sup>)</small></h2>';
-                  info += '<h4>PIN: ' + pin + '</h4>';
-                  info += '<img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?' + pin + '=" />';
-                  $('#lot-info div').html(info);
+                  var address = formatAddress(props);
+                  var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
+                    <p class='lead'>" + address + "</p>\
+                    <table class='table table-bordered table-condensed'><tbody>\
+                      <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
+                      <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
+                      <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
+                    </tbody></table>";
+                  
+                  $('#lot-info').html(info);
                   if (typeof lastClickedLayer !== 'undefined'){
                       geojson.resetStyle(lastClickedLayer);
                   }
-                  layer.setStyle({fillColor:'ffffbf'});
+                  map.setView(e.latlng, 17);
+                  layer.setStyle({fillColor:'#f7fcb9', weight: 2});
                   lastClickedLayer = layer;
               }
           })
