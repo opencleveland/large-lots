@@ -11,6 +11,8 @@ a, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b4
 
 .pull-left img { margin-right: 20px; }
 
+h1, h2, h3, h4, h5, h6 { padding-top: 60px; margin-top: -60px; }
+
 /* leaflet legend styles */
 .info {
     padding: 6px 8px;
