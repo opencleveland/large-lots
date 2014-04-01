@@ -2,7 +2,9 @@
 
 body {
   padding-top: 50px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 a, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45;}
+
+.steps h4 {padding-top: 20px;}
