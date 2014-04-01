@@ -72,14 +72,14 @@
           <div class='col-md-8 steps'>
             <hr />
             <h3 id='step2'>Step 2) Complete the Application Form</h3>
-            
+
             <p>Download and complete the <a href='http://www.cityofchicago.org/content/dam/city/depts/zlup/Sustainable_Development/Publications/Green%20Healthy%20Neighborhoods/Large_Lot_Pilot_Application.pdf'>Large Lot Pilot Program application form</a>.</p>
 
             <a href='http://www.cityofchicago.org/content/dam/city/depts/zlup/Sustainable_Development/Publications/Green%20Healthy%20Neighborhoods/Large_Lot_Pilot_Application.pdf'><img class='img-responsive img-thumbnail' src='images/large-lot-application.png' /></a>
 
             <hr />
             <h3 id='step3'>Step 3) Get a Copy of Your Deed</h3>
-            
+
             <p>The City requires that you submit a copy of your deed in order to prove you already own property on the block. If you don’t have it handy, you can <a href='http://cookrecorder.com/search-our-records/'>download a copy of your deed</a> from the Cook County Recorder of Deeds website for $2.50.</p>
 
             <hr />
@@ -89,7 +89,7 @@
 
             <hr />
             <h3 id='step4'>Step 4) Request Letter of Support from Your Alderman</h3>
-            
+
             <div class='row'>
               <div class='col-md-6'>
                 <p class=''>
@@ -249,111 +249,124 @@
         return params;
     }
 
-      function pilotStyle(feature) {
-        return {
-          weight: 3,
-          opacity: 1,
-          color: 'white',
-          dashArray: '3',
-          fillOpacity: 0.4,
-          fillColor: '#ffffcc'
-        };
-      }
+    function pilotStyle(feature) {
+      return {
+        weight: 3,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.4,
+        fillColor: '#ffffcc'
+      };
+    }
 
-      function getColor(ZONING_CLA) {
-        if (checkZone(ZONING_CLA, "RS")) return "#74c476";
-        if (checkZone(ZONING_CLA, "RT")) return "#41ab5d";
-        if (checkZone(ZONING_CLA, "RM")) return "#238b45";
+    function getColor(ZONING_CLA) {
+      if (checkZone(ZONING_CLA, "RS")) return "#74c476";
+      if (checkZone(ZONING_CLA, "RT")) return "#41ab5d";
+      if (checkZone(ZONING_CLA, "RM")) return "#238b45";
 
-      }
+    }
 
-      function checkZone(ZONING_CLA, value) {
-        if (ZONING_CLA.indexOf(value) != -1)
-          return true;
-        else
-          return false;
-      }
+    function checkZone(ZONING_CLA, value) {
+      if (ZONING_CLA.indexOf(value) != -1)
+        return true;
+      else
+        return false;
+    }
 
-      function formatAddress(prop) {
-        return prop.STREET_NUM + " " + prop.DIR + " " + prop.STREET_NAM + " " + prop.TYPE;
-      }
+    function formatAddress(prop) {
+      return prop.STREET_NUM + " " + prop.DIR + " " + prop.STREET_NAM + " " + prop.TYPE;
+    }
 
-      function selectParcel(feature, layer){
-          var props = feature.properties;
-          var address = formatAddress(props);
-          var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
-            <p class='lead'>" + address + "</p>\
-            <table class='table table-bordered table-condensed'><tbody>\
-              <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
-              <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
-              <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
-            </tbody></table>";
-          $.address.value($.param({'pin': props.PIN14}))
-          $('#lot-info').html(info);
-          if (typeof lastClickedLayer !== 'undefined'){
-              geojson.resetStyle(lastClickedLayer);
-          }
-          map.setView(layer.getBounds().getCenter(), 17);
-          layer.setStyle({fillColor:'#f7fcb9', weight: 2});
-          lastClickedLayer = layer;
-      }
-
-      function makeInfoBox(feature, layer){
-          layer.on({
-              click: function(e){
-                  selectParcel(feature, layer)
-              }
-          })
-      }
-
-      $.when( $.getJSON("data/build/pilot-area.geojson") ).then(function( data, textStatus, jqXHR ) {
-
-        // render a map!
-        map = L.map('map', {scrollWheelZoom: false}).setView([41.76999939256138, -87.63888359069824], 15);
-
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/derekeder.hehblhbj/{z}/{x}/{y}.png', {
-            attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
-        }).addTo(map);
-
-        var pilot_area = {
-          "type": "FeatureCollection",
-          "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-          "features": [
-            { "type": "Feature", "properties": { "id": 1 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -87.634945541302741, 41.77652749479649 ], [ -87.630115898891958, 41.77658421447196 ], [ -87.627548962964951, 41.774443011928234 ], [ -87.626807403697171, 41.773152583821663 ], [ -87.626731346336371, 41.772812246807803 ], [ -87.626598245954966, 41.769238599137182 ], [ -87.626484159913758, 41.763650830396784 ], [ -87.650423214225469, 41.763267894416664 ], [ -87.650727443668686, 41.776017015460056 ], [ -87.634945541302741, 41.776243895666767 ], [ -87.634945541302741, 41.77652749479649 ] ] ] } }
-            ]
-          };
-
-        L.geoJson(pilot_area, {
-            style: pilotStyle,
-        }).addTo(map);
-
-        geojson = L.geoJson(data, {
-                          style: style,
-                          onEachFeature: makeInfoBox
-                      }).addTo(map);
-
-        geojson.eachLayer(function (layer) {
-
-          var popup = "<h4>" + formatAddress(layer.feature.properties) + "</h4>\
-                      <p>\
-                        PIN: " + layer.feature.properties['PIN14'] + "<br />\
-                        Zoned: " + layer.feature.properties['ZONING_CLA'] + "<br />\
-                        Sq Ft: " + layer.feature.properties['SQ_FT'] + "\
-                      </p>";
-          layer.bindLabel(popup);
-        });
-        if(window.location.hash){
-            var query = parseParams($.address.value().replace('/', ''));
-            geojson.eachLayer(function(layer){
-                if (query.pin == layer.feature.properties.PIN14){
-                    selectParcel(layer.feature, layer);
-                }
-            });
+    function selectParcel(feature, layer){
+        var props = feature.properties;
+        var address = formatAddress(props);
+        var alderman = getAlderman(props.WARD);
+        var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
+          <p class='lead'>" + address + "</p>\
+          <table class='table table-bordered table-condensed'><tbody>\
+            <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
+            <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
+            <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
+            <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.WARD + ")</td></tr>\
+          </tbody></table>";
+        $.address.value($.param({'pin': props.PIN14}))
+        $('#lot-info').html(info);
+        if (typeof lastClickedLayer !== 'undefined'){
+            geojson.resetStyle(lastClickedLayer);
         }
+        map.setView(layer.getBounds().getCenter(), 17);
+        layer.setStyle({fillColor:'#f7fcb9', weight: 2});
+        lastClickedLayer = layer;
+    }
 
+    function makeInfoBox(feature, layer){
+        layer.on({
+            click: function(e){
+                selectParcel(feature, layer)
+            }
+        })
+    }
+
+    function getAlderman(ward){
+        var lookup = {
+            20: 'Willie B. Cochran',
+            6: 'Roderick T. Sawyer',
+            16: 'JoAnn Thompson',
+            17: 'Latasha Thomas'
+        }
+        return lookup[ward]
+    }
+
+    $.when( $.getJSON("data/build/pilot-area.geojson") ).then(function( data, textStatus, jqXHR ) {
+
+      // render a map!
+      map = L.map('map', {scrollWheelZoom: false}).setView([41.76999939256138, -87.63888359069824], 15);
+
+      L.tileLayer('https://{s}.tiles.mapbox.com/v3/derekeder.hehblhbj/{z}/{x}/{y}.png', {
+          attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+      }).addTo(map);
+
+      var pilot_area = {
+        "type": "FeatureCollection",
+        "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+        "features": [
+          { "type": "Feature", "properties": { "id": 1 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -87.634945541302741, 41.77652749479649 ], [ -87.630115898891958, 41.77658421447196 ], [ -87.627548962964951, 41.774443011928234 ], [ -87.626807403697171, 41.773152583821663 ], [ -87.626731346336371, 41.772812246807803 ], [ -87.626598245954966, 41.769238599137182 ], [ -87.626484159913758, 41.763650830396784 ], [ -87.650423214225469, 41.763267894416664 ], [ -87.650727443668686, 41.776017015460056 ], [ -87.634945541302741, 41.776243895666767 ], [ -87.634945541302741, 41.77652749479649 ] ] ] } }
+          ]
+        };
+
+      L.geoJson(pilot_area, {
+          style: pilotStyle,
+      }).addTo(map);
+
+      geojson = L.geoJson(data, {
+                        style: style,
+                        onEachFeature: makeInfoBox
+                    }).addTo(map);
+
+      geojson.eachLayer(function (layer) {
+        var alderman = getAlderman(layer.feature.properties['WARD'])
+        var popup = "<h4>" + formatAddress(layer.feature.properties) + "</h4>\
+                    <p>\
+                      PIN: " + layer.feature.properties['PIN14'] + "<br />\
+                      Zoned: " + layer.feature.properties['ZONING_CLA'] + "<br />\
+                      Sq Ft: " + layer.feature.properties['SQ_FT'] + "<br />\
+                      Alderman: " + alderman + " (Ward " + layer.feature.properties['WARD'] + ")\
+                    </p>";
+        layer.bindLabel(popup);
       });
+      if(window.location.hash){
+          var query = parseParams($.address.value().replace('/', ''));
+          geojson.eachLayer(function(layer){
+              if (query.pin == layer.feature.properties.PIN14){
+                  selectParcel(layer.feature, layer);
+              }
+          });
+      }
 
-      </script>
+    });
+
+    </script>
 
   </body>
 </html>
