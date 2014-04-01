@@ -56,9 +56,8 @@
 
           <p class='lead'><br />The City of Chicago is selling lots in Englewood for <strong>$1</strong> until <strong>April 21, 2014</strong>. Here's how you get one.</p>
           <hr />
-          
+
           <h4 id='step1'>Step 1) Pick a lot</h4>
-          
           <div class='col-md-8'>
             <div id='map'></div>
           </div>
@@ -206,8 +205,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="js/jquery-1.10.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.address.js"></script>
 
     <script src="js/leaflet.js" type="text/javascript"></script>
     <script src="js/leaflet.label.js" type="text/javascript"></script>
@@ -229,6 +229,22 @@
           fillColor: getColor(feature.properties.ZONING_CLA)
         };
       }
+
+    function parseParams(query){
+        var re = /([^&=]+)=?([^&]*)/g;
+        var decodeRE = /\+/g;  // Regex for replacing addition symbol with a space
+        var decode = function (str) {return decodeURIComponent( str.replace(decodeRE, " ") );};
+        var params = {}, e;
+        while ( e = re.exec(query) ) {
+            var k = decode( e[1] ), v = decode( e[2] );
+            if (k.substring(k.length - 2) === '[]') {
+                k = k.substring(0, k.length - 2);
+                (params[k] || (params[k] = [])).push(v);
+            }
+            else params[k] = v;
+        }
+        return params;
+    }
 
       function pilotStyle(feature) {
         return {
@@ -259,27 +275,30 @@
         return prop.STREET_NUM + " " + prop.DIR + " " + prop.STREET_NAM + " " + prop.TYPE;
       }
 
+      function selectParcel(feature, layer){
+          var props = feature.properties;
+          var address = formatAddress(props);
+          var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
+            <p class='lead'>" + address + "</p>\
+            <table class='table table-bordered table-condensed'><tbody>\
+              <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
+              <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
+              <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
+            </tbody></table>";
+          $.address.value($.param({'pin': props.PIN14}))
+          $('#lot-info').html(info);
+          if (typeof lastClickedLayer !== 'undefined'){
+              geojson.resetStyle(lastClickedLayer);
+          }
+          map.setView(layer.getBounds().getCenter(), 17);
+          layer.setStyle({fillColor:'#f7fcb9', weight: 2});
+          lastClickedLayer = layer;
+      }
+
       function makeInfoBox(feature, layer){
           layer.on({
               click: function(e){
-                  console.log(e)
-                  var props = feature.properties;
-                  var address = formatAddress(props);
-                  var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
-                    <p class='lead'>" + address + "</p>\
-                    <table class='table table-bordered table-condensed'><tbody>\
-                      <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
-                      <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
-                      <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
-                    </tbody></table>";
-                  
-                  $('#lot-info').html(info);
-                  if (typeof lastClickedLayer !== 'undefined'){
-                      geojson.resetStyle(lastClickedLayer);
-                  }
-                  map.setView(e.latlng, 17);
-                  layer.setStyle({fillColor:'#f7fcb9', weight: 2});
-                  lastClickedLayer = layer;
+                  selectParcel(feature, layer)
               }
           })
       }
@@ -320,6 +339,14 @@
                       </p>";
           layer.bindLabel(popup);
         });
+        if(window.location.hash){
+            var query = parseParams($.address.value().replace('/', ''));
+            geojson.eachLayer(function(layer){
+                if (query.pin == layer.feature.properties.PIN14){
+                    selectParcel(layer.feature, layer);
+                }
+            });
+        }
 
       });
 
