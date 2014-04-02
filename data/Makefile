@@ -43,3 +43,4 @@ land-inventory-parcels.shp: cook-county-parcels.table land-inventory.table
 			OR zoning_classification like '%RM-6%' \
 			OR zoning_classification like '%RM-6.5%' \
 			OR zoning_classification like '%RT-4%'"
+
