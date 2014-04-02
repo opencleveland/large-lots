@@ -181,11 +181,24 @@ var LargeLots = {
   returnAddress: function (response){
     
     if(!response.length){
-      alert("Sorry, no results found for that location.");
+      $('#modalGeocode').modal('show');
       return;
     }
 
     var first = response[0];
+
+    // check lat/long bounds and notify if outside our target area
+    
+    if (first.lat > 41.807788914288814 || 
+        first.lat < 41.74378003152462 ||
+        first.lon > -87.57219314575195 ||
+        first.lon < -87.69750595092773) {
+
+      $('#modalOutside').modal('show');
+      return;
+    }
+
+    
     LargeLots.map.setView([first.lat, first.lon], 17);
 
     if (LargeLots.marker)
