@@ -13,6 +13,10 @@ a, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b4
 
 h1, h2, h3 { padding-top: 60px; margin-top: -60px; }
 
+#search_address {
+    width: 400px;
+}
+
 /* leaflet legend styles */
 .info {
     padding: 6px 8px;
