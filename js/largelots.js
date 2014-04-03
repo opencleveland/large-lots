@@ -10,6 +10,12 @@ var LargeLots = {
   locationScope: 'Chicago',
   boundaryCartocss: '#large_lot_boundary{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}',
   parcelsCartocss: $('#englewood-styles').html().trim(),
+  boundingBox: {
+    'bottom': 41.74378003152462,
+    'top': 41.807788914288814,
+    'right': -87.57219314575195,
+    'left': -87.69750595092773
+  },
 
   initialize: function() {
 
@@ -202,8 +208,9 @@ var LargeLots = {
 
       var s = document.createElement("script");
       s.type = "text/javascript";
-      s.src = "http://nominatim.openstreetmap.org/search/" + encodeURIComponent(raw_address) + "?format=json&json_callback=LargeLots.returnAddress";
+      s.src = "http://nominatim.openstreetmap.org/search/" + encodeURIComponent(raw_address) + "?format=json&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "&json_callback=LargeLots.returnAddress";
       document.body.appendChild(s);
+      //&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "
     }
   },
 
@@ -215,18 +222,6 @@ var LargeLots = {
     }
 
     var first = response[0];
-
-    // check lat/long bounds and notify if outside our target area
-
-    if (first.lat > 41.807788914288814 ||
-        first.lat < 41.74378003152462 ||
-        first.lon > -87.57219314575195 ||
-        first.lon < -87.69750595092773) {
-
-      $('#modalOutside').modal('show');
-      return;
-    }
-
 
     LargeLots.map.setView([first.lat, first.lon], 17);
 
