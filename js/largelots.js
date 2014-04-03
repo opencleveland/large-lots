@@ -93,17 +93,17 @@ var LargeLots = {
             sublayer.on('featureClick', function(e, pos, latlng, data){
                 LargeLots.getOneParcel(data['pin14']);
             });
-            layer.setZIndex(100);
-            if($.address.parameter('pin')){
-                LargeLots.getOneParcel($.address.parameter('pin'))
-            }
+            window.setTimeout(function(){
+                if($.address.parameter('pin')){
+                    LargeLots.getOneParcel($.address.parameter('pin'))
+                }
+            }, 1000)
         }).error(function(e) {
-          console.log('ERROR')
-          console.log(e)
+        //console.log('ERROR')
+        //console.log(e)
       });
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
-
   },
 
   getColor: function (ZONING_CLA) {
