@@ -8,13 +8,13 @@ var LargeLots = {
   geojson: null,
   marker: null,
   locationScope: 'Chicago',
-  cartoLayerUrl: 'http://ericvanzanten.cartodb.com/api/v2/viz/414552ee-bacf-11e3-8a42-0edbca4b5057/viz.json',
-  cartoTableName: 'englewood_large_lots',
+  boundaryCartocss: '#large_lot_boundary{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}',
+  parcelsCartocss: $('#englewood-styles').html().trim(),
 
   initialize: function() {
 
       if (!LargeLots.map) {
-        LargeLots.map = new L.Map('map', {
+        LargeLots.map = L.map('map', {
           center: LargeLots.map_centroid,
           zoom: LargeLots.defaultZoom,
           scrollWheelZoom: false
@@ -43,10 +43,6 @@ var LargeLots = {
 
       legend.addTo(LargeLots.map);
 
-      // large_lot_area defined in data/build/large-lot-boundary.geojson
-      L.geoJson(large_lot_area, {
-          style: LargeLots.areaStyle,
-      }).addTo(LargeLots.map);
       LargeLots.info = L.control({position: 'bottomright'});
 
       LargeLots.info.onAdd = function (map) {
@@ -72,22 +68,37 @@ var LargeLots = {
       LargeLots.info.addTo(LargeLots.map);
 
       var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft"
-      LargeLots.dataLayer = cartodb.createLayer(LargeLots.map, LargeLots.cartoLayerUrl)
+      var cartocss = $('#englewood-styles').html().trim();
+      var layerOpts = {
+          user_name: 'ericvanzanten',
+          type: 'cartodb',
+          sublayers: [{
+                  sql: 'select * from englewood_large_lots',
+                  cartocss: LargeLots.parcelsCartocss,
+                  interactivity: fields
+              },
+              {
+                  sql: 'select * from large_lot_boundary',
+                  cartocss: LargeLots.boundaryCartocss
+              }]
+      }
+      cartodb.createLayer(LargeLots.map, layerOpts)
         .addTo(LargeLots.map)
-        .on('done', function(layer) {
-          var sublayer = layer.getSubLayer(0)
-          sublayer.setInteraction(true);
-          sublayer.set({interactivity:fields})
-          sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
-            LargeLots.info.update(data);
-          });
-          sublayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex){
-            console.log(data);
-          })
-        }).on('error', function() {
-          //log the error
+        .done(function(layer) {
+            var sublayer = layer.getSubLayer(0)
+            sublayer.setInteraction(true);
+            sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
+              LargeLots.info.update(data);
+            });
+            sublayer.on('featureClick', function(e, pos, latlng, data){
+                LargeLots.getOneParcel(data['pin14']);
+                LargeLots.selectParcel(data);
+            });
+            layer.setZIndex(100);
+        }).error(function(e) {
+          console.log('ERROR')
+          console.log(e)
       });
-
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
 
@@ -134,26 +145,34 @@ var LargeLots = {
     return prop.street_number + " " + prop.dir + " " + prop.street_name + " " + prop.type;
   },
 
-  selectParcel: function (feature, layer){
-      var props = feature.properties;
+  getOneParcel: function(pin14){
+      if (LargeLots.lastClickedLayer){
+        LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
+      }
+      var sql = new cartodb.SQL({user: 'ericvanzanten'});
+      sql.execute('select ST_AsGeoJSON(the_geom) from englewood_large_lots where pin14 = {{pin14}}', {pin14:pin14})
+        .done(function(data){
+            var shape = $.parseJSON(data.rows[0].st_asgeojson);
+            LargeLots.lastClickedLayer = L.geoJson(shape);
+            LargeLots.lastClickedLayer.addTo(LargeLots.map);
+            LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2});
+            LargeLots.map.setView(LargeLots.lastClickedLayer.getBounds().getCenter(), 17);
+        })
+  },
+
+  selectParcel: function (props){
       var address = LargeLots.formatAddress(props);
-      var alderman = LargeLots.getAlderman(props.WARD);
-      var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.PIN14 + "=' />\
+      var alderman = LargeLots.getAlderman(props.ward);
+      var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <p class='lead'>" + address + "</p>\
         <table class='table table-bordered table-condensed'><tbody>\
-          <tr><td>PIN</td><td>" + props.PIN14 + "</td></tr>\
-          <tr><td>Zoned</td><td>" + props.ZONING_CLA + "</td></tr>\
-          <tr><td>Sq ft</td><td>" + props.SQ_FT + "</td></tr>\
-          <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.WARD + ")</td></tr>\
+          <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
+          <tr><td>Zoned</td><td>" + props.zoning_classification + "</td></tr>\
+          <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
+          <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.ward + ")</td></tr>\
         </tbody></table>";
-      $.address.parameter('pin', props.PIN14)
+      $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
-      if (typeof lastClickedLayer !== 'undefined'){
-          geojson.resetStyle(lastClickedLayer);
-      }
-      LargeLots.map.setView(layer.getBounds().getCenter(), 17);
-      layer.setStyle({fillColor:'#f7fcb9', weight: 2});
-      lastClickedLayer = layer;
   },
 
   makeInfoBox: function (feature, layer){
