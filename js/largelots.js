@@ -43,7 +43,7 @@ var LargeLots = {
 
       legend.addTo(LargeLots.map);
 
-      LargeLots.info = L.control({position: 'bottomright'});
+      LargeLots.info = L.control({position: 'topright'});
 
       LargeLots.info.onAdd = function (map) {
           this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -92,9 +92,11 @@ var LargeLots = {
             });
             sublayer.on('featureClick', function(e, pos, latlng, data){
                 LargeLots.getOneParcel(data['pin14']);
-                LargeLots.selectParcel(data);
             });
             layer.setZIndex(100);
+            if($.address.parameter('pin')){
+                LargeLots.getOneParcel($.address.parameter('pin'))
+            }
         }).error(function(e) {
           console.log('ERROR')
           console.log(e)
@@ -102,29 +104,6 @@ var LargeLots = {
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
 
-      // change the query for the first layer
-
-  },
-
-  style: function (feature) {
-    return {
-      weight: 0.5,
-      opacity: 1,
-      color: '#00441b',
-      fillOpacity: 1,
-      fillColor: LargeLots.getColor(feature.properties.zoning_classification)
-    };
-  },
-
-  areaStyle: function (feature) {
-    return {
-      weight: 3,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.2,
-      fillColor: '#ffffcc'
-    };
   },
 
   getColor: function (ZONING_CLA) {
@@ -149,15 +128,16 @@ var LargeLots = {
       if (LargeLots.lastClickedLayer){
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
-      var sql = new cartodb.SQL({user: 'ericvanzanten'});
-      sql.execute('select ST_AsGeoJSON(the_geom) from englewood_large_lots where pin14 = {{pin14}}', {pin14:pin14})
+      var sql = new cartodb.SQL({user: 'ericvanzanten', format: 'geojson'});
+      sql.execute('select * from englewood_large_lots where pin14 = {{pin14}}', {pin14:pin14})
         .done(function(data){
-            var shape = $.parseJSON(data.rows[0].st_asgeojson);
+            var shape = data.features[0];
             LargeLots.lastClickedLayer = L.geoJson(shape);
             LargeLots.lastClickedLayer.addTo(LargeLots.map);
-            LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2});
+            LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
             LargeLots.map.setView(LargeLots.lastClickedLayer.getBounds().getCenter(), 17);
-        })
+            LargeLots.selectParcel(shape.properties);
+        });
   },
 
   selectParcel: function (props){
@@ -175,20 +155,19 @@ var LargeLots = {
       $('#lot-info').html(info);
   },
 
-  makeInfoBox: function (feature, layer){
-      layer.on({
-          click: function(e){
-              LargeLots.selectParcel(feature, layer)
-          }
-      })
-  },
-
   getAlderman: function (ward){
       var lookup = {
           20: 'Willie B. Cochran',
           6: 'Roderick T. Sawyer',
           16: 'JoAnn Thompson',
-          17: 'Latasha Thomas'
+          17: 'Latasha Thomas',
+          11: 'James A. Balcer',
+          15: 'Toni Foulkes',
+          18: 'Lona Lane',
+          3: 'Pat Dowell',
+          4: 'William Burns',
+          5: 'Leslie Hariston',
+          8: 'Michelle Harris'
       }
       return lookup[ward]
   },
