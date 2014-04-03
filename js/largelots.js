@@ -2,17 +2,25 @@ var LargeLots = LargeLots || {};
 var LargeLots = {
 
   map: null,
+  map_centroid: [41.77809673652204, -87.63673782348633],
+  defaultZoom: 13,
   lastClickedLayer: null,
   geojson: null,
   marker: null,
   locationScope: 'Chicago',
+  cartoLayerUrl: 'http://ericvanzanten.cartodb.com/api/v2/viz/414552ee-bacf-11e3-8a42-0edbca4b5057/viz.json',
+  cartoTableName: 'englewood_large_lots',
 
   initialize: function() {
 
-    $.when( $.getJSON("data/build/full-area-parcels.geojson") ).then(function( data, textStatus, jqXHR ) {
-
+      if (!LargeLots.map) {
+        LargeLots.map = new L.Map('map', {
+          center: LargeLots.map_centroid,
+          zoom: LargeLots.defaultZoom,
+          scrollWheelZoom: false
+        });
+      }
       // render a map!
-      LargeLots.map = L.map('map', {scrollWheelZoom: false}).setView([41.77809673652204, -87.63673782348633], 13);
       L.Icon.Default.imagePath = '/images/'
 
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/derekeder.hehblhbj/{z}/{x}/{y}.png', {
@@ -23,7 +31,7 @@ var LargeLots = {
       legend.onAdd = function (map) {
 
           var div = L.DomUtil.create('div', 'info legend')
-              
+
           div.innerHTML = '\
           <h4>Lot zoned for</h4>\
           <i style="background:' + LargeLots.getColor('RS') + '"></i> Single family home (RS)<br />\
@@ -39,36 +47,52 @@ var LargeLots = {
       L.geoJson(large_lot_area, {
           style: LargeLots.areaStyle,
       }).addTo(LargeLots.map);
+      LargeLots.info = L.control({position: 'bottomright'});
 
-      geojson = L.geoJson(data, {
-                        style: LargeLots.style,
-                        onEachFeature: LargeLots.makeInfoBox
-                    }).addTo(LargeLots.map);
+      LargeLots.info.onAdd = function (map) {
+          this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+          this.update();
+          return this._div;
+      };
 
-      geojson.eachLayer(function (layer) {
-        var alderman = LargeLots.getAlderman(layer.feature.properties['WARD'])
-        var popup = "<h4>" + LargeLots.formatAddress(layer.feature.properties) + "</h4>\
-                    <p>\
-                      PIN: " + layer.feature.properties['PIN14'] + "<br />\
-                      Zoned: " + layer.feature.properties['ZONING_CLA'] + "<br />\
-                      Sq Ft: " + layer.feature.properties['SQ_FT'] + "<br />\
-                      Alderman: " + alderman + " (Ward " + layer.feature.properties['WARD'] + ")\
-                    </p>";
-        layer.bindLabel(popup);
-      });
+      // method that we will use to update the control based on feature properties passed
+      LargeLots.info.update = function (props) {
+        var date_formatted = '';
+        if (props) {
+          var info = "<h4>" + LargeLots.formatAddress(props) + "</h4>";
+          info += "<p>PIN: " + props.pin14 + "<br />";
+          info += "Zoned: " + props.zoning_classification + "<br />";
+          info += "Sq Ft: " + props.sq_ft + "<br />";
+          info += "Alderman: " + LargeLots.getAlderman(props.ward) + " (Ward " + props.ward + ")</p>";
 
-      if($.address.parameter('pin') != ''){
-          geojson.eachLayer(function(layer){
-              if ($.address.parameter('pin') == layer.feature.properties.PIN14){
-                  LargeLots.selectParcel(layer.feature, layer);
-              }
+          this._div.innerHTML  = info;
+        }
+      };
+
+      LargeLots.info.addTo(LargeLots.map);
+
+      var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft"
+      LargeLots.dataLayer = cartodb.createLayer(LargeLots.map, LargeLots.cartoLayerUrl)
+        .addTo(LargeLots.map)
+        .on('done', function(layer) {
+          var sublayer = layer.getSubLayer(0)
+          sublayer.setInteraction(true);
+          sublayer.set({interactivity:fields})
+          sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
+            LargeLots.info.update(data);
           });
-      }
+          sublayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex){
+            console.log(data);
+          })
+        }).on('error', function() {
+          //log the error
+      });
 
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
 
-    });
+      // change the query for the first layer
+
   },
 
   style: function (feature) {
@@ -77,7 +101,7 @@ var LargeLots = {
       opacity: 1,
       color: '#00441b',
       fillOpacity: 1,
-      fillColor: LargeLots.getColor(feature.properties.ZONING_CLA)
+      fillColor: LargeLots.getColor(feature.properties.zoning_classification)
     };
   },
 
@@ -107,7 +131,7 @@ var LargeLots = {
   },
 
   formatAddress: function (prop) {
-    return prop.STREET_NUM + " " + prop.DIR + " " + prop.STREET_NAM + " " + prop.TYPE;
+    return prop.street_number + " " + prop.dir + " " + prop.street_name + " " + prop.type;
   },
 
   selectParcel: function (feature, layer){
@@ -138,7 +162,7 @@ var LargeLots = {
               LargeLots.selectParcel(feature, layer)
           }
       })
-  }, 
+  },
 
   getAlderman: function (ward){
       var lookup = {
@@ -179,7 +203,7 @@ var LargeLots = {
   },
 
   returnAddress: function (response){
-    
+
     if(!response.length){
       $('#modalGeocode').modal('show');
       return;
@@ -188,8 +212,8 @@ var LargeLots = {
     var first = response[0];
 
     // check lat/long bounds and notify if outside our target area
-    
-    if (first.lat > 41.807788914288814 || 
+
+    if (first.lat > 41.807788914288814 ||
         first.lat < 41.74378003152462 ||
         first.lon > -87.57219314575195 ||
         first.lon < -87.69750595092773) {
@@ -198,7 +222,7 @@ var LargeLots = {
       return;
     }
 
-    
+
     LargeLots.map.setView([first.lat, first.lon], 17);
 
     if (LargeLots.marker)
