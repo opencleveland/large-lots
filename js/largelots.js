@@ -27,23 +27,7 @@ var LargeLots = {
           attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
       }).addTo(LargeLots.map);
 
-      var legend = L.control({position: 'bottomleft'});
-      legend.onAdd = function (map) {
-
-          var div = L.DomUtil.create('div', 'info legend')
-
-          div.innerHTML = '\
-          <h4>Lot zoned for</h4>\
-          <i style="background:' + LargeLots.getColor('RS') + '"></i> Single family home (RS)<br />\
-          <i style="background:' + LargeLots.getColor('RT') + '"></i> Two-flat, townhouse (RT)<br />\
-          <i style="background:' + LargeLots.getColor('RM') + '"></i> Medium-density apartment (RM)<br />\
-          ';
-          return div;
-      };
-
-      legend.addTo(LargeLots.map);
-
-      LargeLots.info = L.control({position: 'topright'});
+      LargeLots.info = L.control({position: 'bottomright'});
 
       LargeLots.info.onAdd = function (map) {
           this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -65,6 +49,10 @@ var LargeLots = {
         }
       };
 
+      LargeLots.info.clear = function(){
+          this._div.innerHTML = '';
+      }
+
       LargeLots.info.addTo(LargeLots.map);
 
       var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft"
@@ -73,7 +61,7 @@ var LargeLots = {
           user_name: 'ericvanzanten',
           type: 'cartodb',
           sublayers: [{
-                  sql: 'select * from englewood_large_lots',
+                  sql: "SELECT * FROM englewood_large_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
                   cartocss: LargeLots.parcelsCartocss,
                   interactivity: fields
               },
@@ -89,6 +77,9 @@ var LargeLots = {
             sublayer.setInteraction(true);
             sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
               LargeLots.info.update(data);
+            });
+            sublayer.on('featureOut', function(e, latlng, pos, data, subLayerIndex) {
+              LargeLots.info.clear();
             });
             sublayer.on('featureClick', function(e, pos, latlng, data){
                 LargeLots.getOneParcel(data['pin14']);
@@ -143,11 +134,12 @@ var LargeLots = {
   selectParcel: function (props){
       var address = LargeLots.formatAddress(props);
       var alderman = LargeLots.getAlderman(props.ward);
+      var zoning = LargeLots.getZoning(props.zoning_classification);
       var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <p class='lead'>" + address + "</p>\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
-          <tr><td>Zoned</td><td>" + props.zoning_classification + "</td></tr>\
+          <tr><td>Zoned</td><td>" + props.zoning_classification + " (" + zoning + ")</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
           <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.ward + ")</td></tr>\
         </tbody></table>";
@@ -170,6 +162,21 @@ var LargeLots = {
           8: 'Michelle Harris'
       }
       return lookup[ward]
+  },
+
+  getZoning: function(code){
+      var zone_type = code.split('-')[0];
+      var text = '';
+      if (zone_type == 'RS'){
+          text = 'Single family home'
+      }
+      if (zone_type == 'RT'){
+          text = 'Two-flat, townhouse'
+      }
+      if (zone_type == 'RM'){
+          text = 'Medium-density apartment'
+      }
+      return text;
   },
 
   addressSearch: function (e) {
