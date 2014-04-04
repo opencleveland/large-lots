@@ -82,9 +82,11 @@ var LargeLots = {
             var sublayer = layer.getSubLayer(0)
             sublayer.setInteraction(true);
             sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
+              $('#map').css('cursor','pointer');
               LargeLots.info.update(data);
             });
             sublayer.on('featureOut', function(e, latlng, pos, data, subLayerIndex) {
+              $('#map').css('cursor','grab');
               LargeLots.info.clear();
             });
             sublayer.on('featureClick', function(e, pos, latlng, data){
