@@ -5,7 +5,11 @@ body {
   font-size: 18px;
 }
 
-a, a:hover, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
+a, a:hover {
+color: #238b45;
+}
+
+.navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
 
 .steps h4 {padding-top: 20px;}
 
