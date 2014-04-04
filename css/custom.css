@@ -35,6 +35,10 @@ h1, h2, h3 { padding-top: 70px; margin-top: -70px; }
     border-color: #555;
 }
 
+#print-page:hover { background-color: #eee; }
+
+#print-page { color: #555; }
+
 
 /* leaflet legend styles */
 .info {

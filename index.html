@@ -55,6 +55,7 @@
             <li><a href="#step3">Application</a></li>
             <li><a href="#step4">Submit</a></li>
             <li><a href="#about">About</a></li>
+            <li><a class='btn-default' id='print-page' href="#"><i class='icon-print'></i> Print</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,7 +73,7 @@
             <p>Enter your address or browse on the map below to find the lot(s) you would like to purchase. Only empty, residential lots with no structures are eligible. <br />For each lot, record the 14-digit Property Index Number (<strong>PIN</strong>).</p>
 
             <p>
-              <form class='form-inline'>
+              <form class='form-inline hidden-print'>
                 <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
                 <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
               </form>
@@ -280,6 +281,8 @@
           LargeLots.addressSearch(e);
         }
       });
+
+      $("#print-page").on("click", function(){ window.print(); });
     </script>
 
   </body>
