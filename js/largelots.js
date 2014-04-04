@@ -142,8 +142,8 @@ var LargeLots = {
       var alderman = LargeLots.getAlderman(props.ward);
       var zoning = LargeLots.getZoning(props.zoning_classification);
       var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
-        <p class='lead'>" + address + "</p>\
         <table class='table table-bordered table-condensed'><tbody>\
+          <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
           <tr><td>Zoned</td><td>" + props.zoning_classification + " (" + zoning + ")</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
