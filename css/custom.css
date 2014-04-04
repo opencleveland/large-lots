@@ -5,7 +5,7 @@ body {
   font-size: 18px;
 }
 
-a, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
+a, a:hover, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
 
 .steps h4 {padding-top: 20px;}
 
@@ -13,10 +13,22 @@ a, .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b4
 
 .pull-left img { margin-right: 20px; }
 
-h1, h2, h3 { padding-top: 60px; margin-top: -60px; }
+h1, h2, h3 { padding-top: 70px; margin-top: -70px; }
 
 #search_address {
     width: 400px;
+}
+
+.btn-primary {
+    background-color: #333;
+    border-color: #333;
+    text-transform: none;
+    font-size: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #555;
+    border-color: #555;
 }
 
 
