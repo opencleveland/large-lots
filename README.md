@@ -33,10 +33,11 @@ We used the following open source tools:
 
 ## Team
 
-* Demond Drummer
-* Derek Eder
-* Eric van Zanten
-* Forest Gregg
+* Demond Drummer - idea, content, outreach
+* Derek Eder - developer, content
+* Eric van Zanten - developer, GIS data merging
+* Forest Gregg - process design, content
+* Aya O'Connor - logo
 
 
 ## Errors / Bugs
