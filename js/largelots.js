@@ -103,13 +103,6 @@ var LargeLots = {
       LargeLots.addressSearch();
   },
 
-  getColor: function (ZONING_CLA) {
-    if (LargeLots.checkZone(ZONING_CLA, "RS")) return "#a1d99b";
-    if (LargeLots.checkZone(ZONING_CLA, "RT")) return "#41ab5d";
-    if (LargeLots.checkZone(ZONING_CLA, "RM")) return "#006d2c";
-
-  },
-
   checkZone: function (ZONING_CLA, value) {
     if (ZONING_CLA.indexOf(value) != -1)
       return true;
@@ -145,7 +138,7 @@ var LargeLots = {
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
-          <tr><td>Zoned</td><td>" + props.zoning_classification + " (" + zoning + ")</td></tr>\
+          <tr><td>Zoned</td><td> Residential (" + props.zoning_classification + ")</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
           <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.ward + ")</td></tr>\
         </tbody></table>";
