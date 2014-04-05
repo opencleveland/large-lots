@@ -29,7 +29,7 @@ var LargeLots = {
       // render a map!
       L.Icon.Default.imagePath = '/images/'
 
-      L.tileLayer('https://{s}.tiles.mapbox.com/v3/derekeder.hehblhbj/{z}/{x}/{y}.png', {
+      L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
           attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
       }).addTo(LargeLots.map);
 
