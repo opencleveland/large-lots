@@ -1,4 +1,4 @@
-# Englewood Large Lots
+# Large Lots
 
 The City of Chicago is selling lots in Englewood for $1 until April 21, 2014. Here's how you get one.
 
@@ -37,7 +37,11 @@ We used the following open source tools:
 * Derek Eder - developer, content
 * Eric van Zanten - developer, GIS data merging
 * Forest Gregg - process design, content
+
+## Contributors
+
 * Aya O'Connor - logo
+* Juan-Pablo Velez - content
 
 
 ## Errors / Bugs
