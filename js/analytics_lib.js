@@ -40,7 +40,7 @@ jQuery(function () {
 		}
 
 		//direct links to files
-		if (href.match(/\.(avi|css|doc|docx|exe|gif|js|jpg|mov|mp3|pdf|png|ppt|pptx|rar|txt|vsd|vxd|wma|wmv|xls|xlsx|zip)$/i)) {
+		if (href.match(/\.(avi|css|csv|doc|docx|exe|gif|js|jpg|mov|mp3|pdf|png|ppt|pptx|rar|txt|vsd|vxd|wma|wmv|xls|xlsx|zip)$/i)) {
 			_trackClickEventWithGA("Downloads", "Click", href);
 		}
 
