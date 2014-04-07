@@ -140,6 +140,7 @@ var LargeLots = {
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
+          <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>\
           <tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
           <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.ward + ")</td></tr>\
