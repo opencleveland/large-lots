@@ -11,13 +11,11 @@ color: #238b45;
 
 .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
 
-.steps h4 {padding-top: 20px;}
-
 #logo img { margin: 5px 0 5px 0;}
 
 .pull-left img { margin-right: 20px; }
 
-h1, h2, h3 { padding-top: 70px; margin-top: -70px; }
+h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px; }
 
 #search_address {
     width: 400px;
