@@ -64,7 +64,7 @@ var LargeLots = {
       var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft"
       var cartocss = $('#englewood-styles').html().trim();
       var layerOpts = {
-          user_name: 'ericvanzanten',
+          user_name: 'datamade',
           type: 'cartodb',
           sublayers: [{
                   sql: "SELECT * FROM englewood_large_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
@@ -120,7 +120,7 @@ var LargeLots = {
       if (LargeLots.lastClickedLayer){
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
-      var sql = new cartodb.SQL({user: 'ericvanzanten', format: 'geojson'});
+      var sql = new cartodb.SQL({user: 'datamade', format: 'geojson'});
       sql.execute('select * from englewood_large_lots where pin14 = {{pin14}}', {pin14:pin14})
         .done(function(data){
             var shape = data.features[0];
