@@ -5,8 +5,8 @@ The City of Chicago is selling lots in Englewood for $1 until April 21, 2014. He
 ## Running locally
 
 ``` bash
-git clone git@github.com:datamade/englewood-large-lots.git
-cd englewood-large-lots
+git clone git@github.com:datamade/large-lots.git
+cd large-lots
 
 # to run locally
 python -m SimpleHTTPServer
@@ -58,4 +58,4 @@ Report it here: https://github.com/datamade/englewood-large-lots/issues
 
 ## Copyright
 
-Copyright (c) 2014 DataMade and LISC-Chicago. Released under the [MIT License](https://github.com/datamade/englewood-large-lots/blob/master/LICENSE).
+Copyright (c) 2014 DataMade and LISC-Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
