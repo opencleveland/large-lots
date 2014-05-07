@@ -42,6 +42,10 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
     border-color: #238B45;
 }
 
+.alert-success a:hover {
+    color: #fff;
+}
+
 
 /* leaflet legend styles */
 .info {
