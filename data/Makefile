@@ -2,7 +2,7 @@ VPATH=raw:build
 include config.mk
 shp=$(notdir $(shell ls raw/cook-county/*.shp))
 
-LAND_HEADER = "pin14,street_number,dir,street_name,type,sq_ft,ward,community_area,tif_district,zoning_classification"
+LAND_HEADER = "pin14,street_number,dir,street_name,type,sq_ft,ward,community_area,zoning_classification,tif_district"
 
 land-inventory.csv:
 	@wget https://data.cityofchicago.org/api/views/aksk-kvfp/rows.csv?accessType=DOWNLOAD -qO- | \
@@ -14,7 +14,7 @@ cook-county-parcels.zip:
 
 land-inventory.table: land-inventory.csv
 	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS land_inventory;"
-	@csvsql build/$(notdir $?) \
+	@csvsql build/land-inventory.csv \
 			--db "postgresql://$(PG_USER):@$(PG_HOST):$(PG_PORT)/$(PG_DB)" --table land_inventory --insert
 	@touch build/land-inventory.table
 
@@ -44,13 +44,14 @@ land-inventory-parcels.shp: cook-county-parcels.table land-inventory.table
 			OR zoning_classification like '%RM-6.5%' \
 			OR zoning_classification like '%RT-4%'"
 
-large-lot-boundary.table: large-lot-boundary.shp:
-	@shp2pgsql -I -s 4326 -d raw/$? large_lot_boundary | \
+large-lot-boundary.table: large-lot-boundary.shp
+	shp2pgsql -I -s 4326 -d raw/large-lot-boundary.shp large_lot_boundary | \
 		psql -d $(PG_DB) -U $(PG_USER) -h $(PG_HOST) -p $(PG_PORT)
 	@touch large-lot-boundary.table
 
 city-owned-residential-lots.table: large-lot-boundary.table
-	@psql -d $(PG_DB) -U $(PG_USER) -h $(PG_HOST) -p $(PG_PORT) -c \
+	psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS city_owned_residential_lots;"
+	psql -d $(PG_DB) -U $(PG_USER) -h $(PG_HOST) -p $(PG_PORT) -c \
 		"CREATE TABLE city_owned_residential_lots AS \
 			SELECT cook_county_parcels.geom, land_inventory.* \
 			FROM cook_county_parcels \
@@ -70,6 +71,7 @@ city-owned-residential-lots.table: large-lot-boundary.table
 	@touch build/$@
 
 full-area-lots.table: city-owned-residential-lots.table
+	psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS full_area_lots;"
 	@psql -d $(PG_DB) -U $(PG_USER) -h $(PG_HOST) -p $(PG_PORT) -c \
 		"CREATE TABLE full_area_lots AS \
 			SELECT city_owned_residential_lots.geom, city_owned_residential_lots.pin14, \
@@ -80,4 +82,36 @@ full-area-lots.table: city-owned-residential-lots.table
 		FROM large_lot_boundary \
 		JOIN city_owned_residential_lots \
 		ON ST_Within(city_owned_residential_lots.geom, large_lot_boundary.geom);"
+	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c \
+		"ALTER TABLE full_area_lots ADD COLUMN status INTEGER;"
+	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c \
+		"UPDATE full_area_lots SET status = 0"
 	@touch build/$@
+
+APP_HEADER="app_id,app_date,first_name,last_name,organization,req_add1,req_pin1,req_add2,req_pin2"
+
+large-lots-applications.csv: large-lots-applications.xls
+	@in2csv raw/$(notdir $?) | \
+		python processors/remove_dashes.py 6 | \
+		python processors/remove_dashes.py 8 | \
+		python processors/remove_x.py 6 | \
+		python processors/remove_x.py 8 | \
+		python processors/zero_pad.py 6 right 14 | \
+		python processors/zero_pad.py 8 right 14 | \
+		(echo $(APP_HEADER); tail -n +2) > build/$@
+
+applications.table: large-lots-applications.csv
+	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS applications;"
+	@csvsql build/large-lots-applications.csv \
+		--db "postgresql://$(PG_USER):@$(PG_HOST):$(PG_PORT)/$(PG_DB)" \
+		--table applications --insert
+	@touch build/applications.table
+
+applied-lots.update: applications.table full-area-lots.table
+	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c \
+		"UPDATE full_area_lots set status = 1 \
+		WHERE pin14 in (SELECT req_pin1 from applications) \
+		OR pin14 in (SELECT req_pin2 from applications)"
+
+full_area_lots.shp: applied-lots.update
+	@pgsql2shp -f build/full_area_lots.shp -h $(PG_HOST) -u $(PG_USER) -p $(PG_PORT) $(PG_DB) full_area_lots
