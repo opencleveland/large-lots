@@ -49,8 +49,12 @@ var LargeLots = {
           info += "<p>PIN: " + props.pin14 + "<br />";
           info += "Zoned: " + props.zoning_classification + "<br />";
           info += "Sq Ft: " + props.sq_ft + "<br />";
-          info += "Alderman: " + LargeLots.getAlderman(props.ward) + " (Ward " + props.ward + ")</p>";
-
+          //info += "Alderman: " + LargeLots.getAlderman(props.ward) + " (Ward " + props.ward + ")</p>";
+          if (props.status == 1){
+              info += "Status: <strong>Application received</strong></p>"
+          } else {
+              info += "Status: <strong>Available</strong></p>"
+          }
           this._div.innerHTML  = info;
         }
       };
@@ -61,7 +65,7 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft"
+      var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft,status"
       var cartocss = $('#englewood-styles').html().trim();
       var layerOpts = {
           user_name: 'datamade',
@@ -121,7 +125,7 @@ var LargeLots = {
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
       var sql = new cartodb.SQL({user: 'datamade', format: 'geojson'});
-      sql.execute('select * from englewood_large_lots where pin14 = {{pin14}}', {pin14:pin14})
+      sql.execute('select * from full_area_lots where pin14 = {{pin14}}', {pin14:pin14})
         .done(function(data){
             var shape = data.features[0];
             LargeLots.lastClickedLayer = L.geoJson(shape);
@@ -136,6 +140,10 @@ var LargeLots = {
       var address = LargeLots.formatAddress(props);
       var alderman = LargeLots.getAlderman(props.ward);
       var zoning = LargeLots.getZoning(props.zoning_classification);
+      var status = 'Available';
+      if (props.status == 1){
+          status = 'Application Received';
+      }
       var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
@@ -143,7 +151,7 @@ var LargeLots = {
           <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>\
           <tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
-          <tr><td>Alderman</td><td>" + alderman + " (Ward " + props.ward + ")</td></tr>\
+          <tr><td>Status</td><td>" + status + "</td></tr>\
         </tbody></table>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);

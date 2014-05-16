@@ -25,12 +25,16 @@
     <!-- <link href="css/leaflet.label.css" media="all" rel="stylesheet" type="text/css" /> -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
     <style id="englewood-styles">
-      #englewood_large_lots {
+      #full_area_lots {
         polygon-fill: #41ab5d;
         polygon-opacity: 0.7;
         line-color: #006d2c;
         line-width: 0.5;
         line-opacity: 1;
+      }
+      #full_area_lots[status=1]{
+        polygon-fill: #7b3294;
+        line-color: #31143b;
       }
     </style>
   </head>
@@ -74,7 +78,7 @@
               </p>
             </div>
             <h2 id='step1'>Step 1) Find a City-owned, residential lot on your block</h2>
-            <p>Enter your address or browse on the map below to find the lot(s) you would like to purchase.<br /> 
+            <p>Enter your address or browse on the map below to find the lot(s) you would like to purchase.<br />
             <p>The city is only selling lots that are residential and have no buildings on them. <br />Each lot has its own 14-digit <strong>PIN</strong> number. Write it down for your application.</p>
 
             <p>
@@ -177,7 +181,7 @@
             <hr />
             <h3 id='step3c'>3. Economic Disclosure Statement</h3>
 
-            <p>Everyone who does business with the City of Chicago needs to fill out an <a href='https://www.cityofchicago.org/content/dam/city/depts/dps/EDS/EDS_2012a.pdf'>Economic Disclosure Statement</a> (EDS), and since you are buying a lot from them, you need to fill one out too.</p> 
+            <p>Everyone who does business with the City of Chicago needs to fill out an <a href='https://www.cityofchicago.org/content/dam/city/depts/dps/EDS/EDS_2012a.pdf'>Economic Disclosure Statement</a> (EDS), and since you are buying a lot from them, you need to fill one out too.</p>
 
             <p>Many of the sections on the form are for businesses, so fill it out to the best of your ability according to the <a href='https://www.cityofchicago.org/content/dam/city/depts/dps/RulesRegulations/EDS2010Instructions.pdf'>instructions</a>.</p>
 
@@ -185,9 +189,9 @@
 
             <hr />
             <h2 id='step4'>Step 4) Submit your application</h2>
-            
+
             <p>The Large Lots Pilot Program ended on <strong>April 21st, 2014</strong> and the City of Chicago is no longer accepting applications.</p>
-            
+
             <p> The Large Lot Program will <a href='http://articles.chicagotribune.com/2014-05-06/business/chi-lot-purchase-program-20140505_1_property-taxes-city-council-100-applications'>open again</a> for <strong>East Garfield Park</strong> starting <strong>July 1st, 2014</strong>. Check back here for more information.
 
             <!-- <p>Large Lot Pilot Program applications must be received by the close of business on <strong>April 21, 2014</strong>. Incomplete applications will not be considered.</p>
@@ -275,9 +279,9 @@
               <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf'>Chicago - Wards</a></li>
               <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
             </ul>
-            
+
             <p>We prepared some extracts of the above sources for this project. You can download those here:</p>
-            
+
             <ul>
                 <li>Complete listing of lots displayed in the map (<a href="data/build/large_lot_listing.csv">CSV</a>)</li>
                 <li>Geospatial definitions of the lots displayed above (<a href="data/build/large_lot_area_parcels.zip">Shapefile</a>)</li>
