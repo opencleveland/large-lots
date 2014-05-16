@@ -67,7 +67,7 @@ var LargeLots = {
           user_name: 'datamade',
           type: 'cartodb',
           sublayers: [{
-                  sql: "SELECT * FROM englewood_large_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
+                  sql: "SELECT * FROM full_area_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
                   cartocss: LargeLots.parcelsCartocss,
                   interactivity: fields
               },
