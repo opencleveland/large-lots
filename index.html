@@ -69,8 +69,7 @@
         <p class='lead'><br /><br /><br />The City of Chicago is <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/large-lot-program.html'>selling vacant residential lots </a> for <strong>$1</strong>. Here's how you get one.<br /><br /></p>
 
         <div class='row'>
-
-          <div class='col-md-8'>
+          <div class='col-md-12'>
             <p>The Large Lot program is being rolled out as a set of pilot programs for different parts of Chicago in the South and West sides:</p>
 
             <ul>
@@ -80,21 +79,24 @@
 
             <hr />
             <h2 id='pilot1'>Pilot #1: Englewood</h2>
-            <p>The Englewood pilot ended on <strong>April 21st, 2014</strong>. If you submitted an application, browse the map or enter your address below to see what lots have been applied for.</p>
+            <div class='row'>
+              <div class='col-md-8'>
+                <p>The Englewood pilot ended on <strong>April 21st, 2014</strong>. If you submitted an application, browse the map or enter your address below to see what lots have been applied for.</p>
+              </div>
+            </div>
 
             <p>
-              <form class='form-inline hidden-print'>
+              <form class='form-inline hidden-print' id='lot-form'>
                 <div class="form-group">
                   <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
                   <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
                 </div>
                 <div class="form-group">
-                  <label>
-                    <input id="applied" class="toggle-parcels" type="checkbox" checked=true /> Show lots applied for
-                  </label>
-                  <label>
-                    <input id="available" class="toggle-parcels" type="checkbox" /> Show available
-                  </label>
+                    <input id="available" class="toggle-parcels checkbox" type="checkbox" />
+                    <label for='available'>Available</label>
+                    
+                    <input id="applied" class="toggle-parcels checkbox" type="checkbox" checked=true />
+                    <label for='applied'>Application received</label>
                 </div>
               </form>
             </p>
