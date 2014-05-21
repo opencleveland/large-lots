@@ -12,9 +12,9 @@ land-inventory.csv:
 cook-county-parcels.zip:
 	@wget "https://datacatalog.cookcountyil.gov/api/geospatial/e62c-6rz8?method=export&format=Shapefile" -O raw/$@
 
-land-inventory.table: land-inventory.csv
+land-inventory.table: large_lot_listing.csv
 	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS land_inventory;"
-	@csvsql build/land-inventory.csv \
+	@csvsql build/large_lot_listing.csv \
 			--db "postgresql://$(PG_USER):@$(PG_HOST):$(PG_PORT)/$(PG_DB)" --table land_inventory --insert
 	@touch build/land-inventory.table
 
@@ -47,7 +47,7 @@ land-inventory-parcels.shp: cook-county-parcels.table land-inventory.table
 large-lot-boundary.table: large-lot-boundary.shp
 	shp2pgsql -I -s 4326 -d raw/large-lot-boundary.shp large_lot_boundary | \
 		psql -d $(PG_DB) -U $(PG_USER) -h $(PG_HOST) -p $(PG_PORT)
-	@touch large-lot-boundary.table
+	@touch build/large-lot-boundary.table
 
 city-owned-residential-lots.table: large-lot-boundary.table
 	psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c "DROP TABLE IF EXISTS city_owned_residential_lots;"
@@ -110,8 +110,9 @@ applications.table: large-lots-applications.csv
 applied-lots.update: applications.table full-area-lots.table
 	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c \
 		"UPDATE full_area_lots set status = 1 \
-		WHERE pin14 in (SELECT req_pin1 from applications) \
-		OR pin14 in (SELECT req_pin2 from applications)"
+		WHERE pin14 in (SELECT req_pin1 from applications where status != 1) \
+		OR pin14 in (SELECT req_pin2 from applications where status != 1)"
+	@touch build/applied-lots.update
 
 full_area_lots.shp: applied-lots.update
 	@pgsql2shp -f build/full_area_lots.shp -h $(PG_HOST) -u $(PG_USER) -p $(PG_PORT) $(PG_DB) full_area_lots
