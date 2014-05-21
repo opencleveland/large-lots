@@ -70,6 +70,7 @@ var LargeLots = {
       var layerOpts = {
           user_name: 'datamade',
           type: 'cartodb',
+          cartodb_logo: false,
           sublayers: [{
                   sql: "SELECT * FROM full_area_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
                   cartocss: LargeLots.parcelsCartocss,

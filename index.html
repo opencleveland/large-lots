@@ -67,14 +67,20 @@
     <div class="container">
       <div class='col-md-12'>
         <p class='lead'><br /><br /><br />The City of Chicago is <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/large-lot-program.html'>selling vacant residential lots </a> for <strong>$1</strong>. Here's how you get one.<br /><br /></p>
-        <hr />
+
         <div class='row'>
 
           <div class='col-md-8'>
-            <p>The Large Lot askdfjlkasdjfkljalk</p>
+            <p>The Large Lot program is being rolled out as a set of pilot programs for different parts of Chicago in the South and West sides:</p>
 
+            <ul>
+              <li><a href='#pilot1'>Pilot #1: Englewood</a> - <strong>Closed</strong> on April 21st, 2014</li>
+              <li><a href='#pilot2'>Pilot #2: East Garfield Park</a> - <strong>Opens</strong> on July 1st, 2014</li>
+            </ul>
+
+            <hr />
             <h2 id='pilot1'>Pilot #1: Englewood</h2>
-            <p>The Englewood pilot ended on <strong>April 21st, 2014</strong>. See your application status or browse the lots that have been applied for. Enter your address or browse on the map below.</p>
+            <p>The Englewood pilot ended on <strong>April 21st, 2014</strong>. If you submitted an application, browse the map or enter your address below to see what lots have been applied for.</p>
 
             <p>
               <form class='form-inline hidden-print'>
@@ -107,8 +113,12 @@
             <p> The Large Lot Program will <a href='http://articles.chicagotribune.com/2014-05-06/business/chi-lot-purchase-program-20140505_1_property-taxes-city-council-100-applications'>open again</a> for <strong>East Garfield Park</strong> starting <strong>July 1st, 2014</strong>. Check back here for more information.
             </p>
 
+            <p>
+              <img class='img-responsive' src='/images/east-garfield-park.png' alt='East Garfield Park' title='East Garfield Park' />
+            </p>
+
             <hr />
-            <h2 id='step2'>Eligibility</h2>
+            <h3 id='eligibility'>Eligibility</h3>
 
             <ul>
               <li>You must <strong>own property on the same block</strong> as the lot you want. To prove this, you need to include a copy of your property deed in your application.</li>
@@ -212,7 +222,7 @@
             <ul>
                 <li>Complete listing of lots displayed in the map (<a href="data/build/large_lot_listing.csv">CSV</a>)</li>
                 <li>Geospatial definitions of the lots displayed above (<a href="data/build/large_lot_area_parcels.zip">Shapefile</a>)</li>
-                <li>Boundary of the Large Lots Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
+                <li>Boundary of the Large Lot Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
             </ul>
 
             <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
@@ -257,7 +267,7 @@
             <h4 class="modal-title" id="myModalLabel">Sorry! We couldn't find you</h4>
           </div>
           <div class="modal-body">
-            <p>We couldn't find your address within the Large Lots program area.</p>
+            <p>We couldn't find your address within the Large Lot program area.</p>
 
             <p>Try to include the street direction (N,S,E,W) or suffix (Ave, Dr, St, etc), or browse the map instead.</p>
           </div>
