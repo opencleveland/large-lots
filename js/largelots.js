@@ -72,7 +72,7 @@ var LargeLots = {
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [{
-                  sql: "SELECT * FROM full_area_lots WHERE zoning_classification = 'RT-4A' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RS-2' OR zoning_classification = 'RS-3' OR zoning_classification = 'RM-6' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RM-5' OR zoning_classification = 'RT-3.5' OR zoning_classification = 'RT-4'",
+                  sql: "SELECT * FROM full_area_lots where status = 1",
                   cartocss: LargeLots.parcelsCartocss,
                   interactivity: fields
               },
@@ -84,17 +84,17 @@ var LargeLots = {
       cartodb.createLayer(LargeLots.map, layerOpts)
         .addTo(LargeLots.map)
         .done(function(layer) {
-            var sublayer = layer.getSubLayer(0)
-            sublayer.setInteraction(true);
-            sublayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
+            LargeLots.lotsLayer = layer.getSubLayer(0)
+            LargeLots.lotsLayer.setInteraction(true);
+            LargeLots.lotsLayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
               $('#map div').css('cursor','pointer');
               LargeLots.info.update(data);
             });
-            sublayer.on('featureOut', function(e, latlng, pos, data, subLayerIndex) {
+            LargeLots.lotsLayer.on('featureOut', function(e, latlng, pos, data, subLayerIndex) {
               $('#map div').css('cursor','inherit');
               LargeLots.info.clear();
             });
-            sublayer.on('featureClick', function(e, pos, latlng, data){
+            LargeLots.lotsLayer.on('featureClick', function(e, pos, latlng, data){
                 LargeLots.getOneParcel(data['pin14']);
             });
             window.setTimeout(function(){
@@ -108,6 +108,38 @@ var LargeLots = {
       });
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
+      $('.toggle-parcels').on('click', function(e){
+          if($(e.target).is(':checked')){
+              $(e.target).prop('checked', true)
+          } else {
+              $(e.target).prop('checked', false);
+          }
+          LargeLots.toggleParcels()
+      })
+  },
+
+  toggleParcels: function(){
+      var checks = []
+      $.each($('.toggle-parcels'), function(i, box){
+          if($(box).is(':checked')){
+              checks.push($(box).attr('id'))
+          }
+      });
+      var sql = 'select * from full_area_lots where ';
+      var clauses = []
+      if(checks.indexOf('applied') >= 0){
+          clauses.push('status = 1')
+      }
+      if(checks.indexOf('available') >= 0){
+          clauses.push('status = 0')
+      }
+      if(clauses.length > 0){
+          clauses = clauses.join(' or ');
+          sql += clauses;
+      } else {
+          sql = 'select * from full_area_lots where status not in (0,1)'
+      }
+      LargeLots.lotsLayer.setSQL(sql);
   },
 
   checkZone: function (ZONING_CLA, value) {

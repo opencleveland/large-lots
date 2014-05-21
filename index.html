@@ -84,8 +84,18 @@
 
             <p>
               <form class='form-inline hidden-print'>
-                <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
-                <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
+                <div class="form-group">
+                  <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
+                  <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
+                </div>
+                <div class="form-group">
+                  <label>
+                    <input id="applied" class="toggle-parcels" type="checkbox" checked=true /> Show lots applied for
+                  </label>
+                  <label>
+                    <input id="available" class="toggle-parcels" type="checkbox" /> Show available
+                  </label>
+                </div>
               </form>
             </p>
           </div>
