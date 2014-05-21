@@ -75,30 +75,10 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
     opacity: 0.7;
 }
 
-
-input[type="checkbox"].checkbox + label {
-    display: inline;
-    position: relative;
-    background-color: #ccc;
-    
-    /*label styling*/
-    padding: 2px 4px;
-    font-size: 0.8em;
-    font-weight: bold;
-    line-height: 14px;
-    color: #ffffff;
-    vertical-align: baseline;
-    white-space: nowrap;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+.label-available {
+    background-color: #389250;
 }
 
-#available + label {
-    background-color: #6ac682;
-}
-
-#applied + label {
+.label-applied {
     background-color: #A1285D;
 }
