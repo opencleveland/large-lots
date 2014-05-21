@@ -173,9 +173,11 @@ var LargeLots = {
       var address = LargeLots.formatAddress(props);
       var alderman = LargeLots.getAlderman(props.ward);
       var zoning = LargeLots.getZoning(props.zoning_classification);
-      var status = 'Available';
+      var status = 'Not applied for';
+      var status_class = 'available';
       if (props.status == 1){
-          status = 'Application Received';
+          status = 'Application received';
+          status_class = 'applied';
       }
       var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <table class='table table-bordered table-condensed'><tbody>\
@@ -184,7 +186,7 @@ var LargeLots = {
           <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>\
           <tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>\
           <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
-          <tr><td>Status</td><td>" + status + "</td></tr>\
+          <tr><td>Status</td><td><span class='label label-" + status_class + "'>" + status + "</span></td></tr>\
         </tbody></table>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
