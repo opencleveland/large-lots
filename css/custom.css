@@ -21,6 +21,8 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
     width: 400px;
 }
 
+#lot-form input[type=checkbox] { margin-left: 20px; }
+
 .btn-primary {
     background-color: #333;
     border-color: #333;
@@ -71,4 +73,32 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+}
+
+
+input[type="checkbox"].checkbox + label {
+    display: inline;
+    position: relative;
+    background-color: #ccc;
+    
+    /*label styling*/
+    padding: 2px 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 14px;
+    color: #ffffff;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#available + label {
+    background-color: #6ac682;
+}
+
+#applied + label {
+    background-color: #A1285D;
 }
