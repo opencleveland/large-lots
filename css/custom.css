@@ -75,10 +75,7 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
     opacity: 0.7;
 }
 
-.label-available {
-    background-color: #389250;
-}
-
-.label-applied {
-    background-color: #A1285D;
-}
+.label-available { background-color: #389250; }
+.label-applied { background-color: #A1285D; }
+.label-danger { background-color: #BE4630; }
+.label-success { background-color: #389250; }
