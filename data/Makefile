@@ -110,8 +110,8 @@ applications.table: large-lots-applications.csv
 applied-lots.update: applications.table full-area-lots.table
 	@psql -h $(PG_HOST) -U $(PG_USER) -p $(PG_PORT) -d $(PG_DB) -c \
 		"UPDATE full_area_lots set status = 1 \
-		WHERE pin14 in (SELECT req_pin1 from applications where status != 1) \
-		OR pin14 in (SELECT req_pin2 from applications where status != 1)"
+		WHERE pin14 in (SELECT distinct req_pin1 from applications) \
+		OR pin14 in (SELECT distinct req_pin2 from applications)"
 	@touch build/applied-lots.update
 
 full_area_lots.shp: applied-lots.update
