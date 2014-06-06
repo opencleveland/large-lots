@@ -1,0 +1,81 @@
+#map { width: 100%; height: 500px;}
+
+body {
+  padding-top: 50px;
+  font-size: 18px;
+}
+
+a, a:hover {
+color: #238b45;
+}
+
+.navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
+
+#logo img { margin: 5px 0 5px 0;}
+
+.pull-left img { margin-right: 20px; }
+
+h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px; }
+
+#search_address {
+    width: 400px;
+}
+
+#lot-form input[type=checkbox] { margin-left: 20px; }
+
+.btn-primary {
+    background-color: #333;
+    border-color: #333;
+    text-transform: none;
+    font-size: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #555;
+    border-color: #555;
+}
+
+#print-page:hover { background-color: #eee; }
+
+#print-page { color: #555; }
+
+.alert-success {
+    background-color: #238B45;
+    border-color: #238B45;
+}
+
+.alert-success a:hover {
+    color: #fff;
+}
+
+
+/* leaflet legend styles */
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.label-available { background-color: #389250; }
+.label-applied { background-color: #A1285D; }
+.label-danger { background-color: #BE4630; }
+.label-success { background-color: #389250; }
