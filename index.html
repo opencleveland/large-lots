@@ -106,6 +106,43 @@
             </div>
           </div>
         </div>
+
+        <div class="row" id="lot-display">
+              <div class="col-sm-6">
+                <h3>Lot #1</h3>
+                <p><strong>Address: </strong></p>
+                <p><strong>PIN: </strong></p>
+                <p>How do you plan on using this lot? (optional)</p>
+                <select class="form-control" id="use1">
+                  <option></option>
+                  <option>Side lot or yard</option>
+                  <option>Garage</option>
+                  <option>Home Expansion</option>
+                  <option>Community Garden</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+
+              <div class="col-sm-6">
+                <h3>Lot #2</h3>
+                <p><strong>Address: </strong></p>
+                <p><strong>PIN: </strong></p>
+                <p>How do you plan on using this lot? (optional)</p>
+                <select class="form-control" id="use2">
+                  <option></option>
+                  <option>Side lot or yard</option>
+                  <option>Garage</option>
+                  <option>Home Expansion</option>
+                  <option>Community Garden</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+
+
+
         <div class='row'>
           <div class='col-md-8 steps'>
 
@@ -137,13 +174,7 @@
           <h1>APPLY!</h1>
           <div class="app-section" id="app-intro">
             <p>blah blah some text here</p>
-            <h3>About the application process:</h3>
-            <ul>
-              <li>Incomplete applications will not be processed</li>
-              <li>Once an application has been approved, the City will work with the buyer to close the transaction. The porperty will be transferred "AS IS" via a Quit Claim Deed</li>
-              <li>Lots will be sold in a first come, first serve manner</li>
-              <li>The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer</li>
-            </ul>
+            
             <br>
           </div>
           <div class="app-section" id="eligibility">
@@ -151,16 +182,6 @@
             <h2>1. CONFIRM YOUR ELIGIBILITY</h2>
             A sentence here about eligibility [I am applying as myself vs on behalf of a nonprofit?]
             <div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> I own property on the same block as the lot(s) I want
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> zoned residential???
-                </label>
-              </div>
               <div class="checkbox">
                 <label>
                   <input type="checkbox"> I have paid all property taxes I owe to the city of Chicago
@@ -178,12 +199,7 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"> Non-profit: articles of incorporation and certificate of good standing? ***ask about this
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> Non-profit: I am not a church
+                  <input type="checkbox"> I am not a church (churches are not eligible for the Large Lots program)
                 </label>
               </div>
             </div>
@@ -193,7 +209,7 @@
             <hr>
             <h2>2. UPLOAD PROOF OF OWNERSHIP</h2>
             <div>
-              <p>Insert explanation of why folks need to provide deed blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
+              <p>You'll need to prove that you own property on the same block as the lot(s) you are applying to get. To prove ownership, you'll have to provide a deed.</p>
 
               <div class="accordion" id="deed-help">  
 
@@ -232,15 +248,16 @@
           </div>
           <div class="app-section" id="select-lots">
             <hr>
-            <h2>3. SELECTED LOTS</h2>
+            <h2>3. CONFIRM YOUR LOT(S)</h2>
             <div class="row" id="lot-display">
               <div class="col-sm-6">
                 <h3>Lot #1</h3>
                 <p><strong>Address: </strong></p>
                 <p><strong>PIN: </strong></p>
+                <p><strong>Use: </strong></p>
                 <br>
 
-                <p>How do you plan on using this lot? (optional)</p>
+                <p>How do you plan on using this lot? (optional) **move to top</p>
                 <div class="radio">
                   <label>
                     <input type="radio" name="use1" id="use1a" value="1a" checked>
@@ -279,9 +296,10 @@
                 <h3>Lot #2</h3>
                 <p><strong>Address: </strong></p>
                 <p><strong>PIN: </strong></p>
+                <p><strong>Use: </strong></p>
                 <br>
 
-                <p>How do you plan on using this lot? (optional)</p>
+                <p>How do you plan on using this lot? (optional) **move to top</p>
                 <div class="radio">
                   <label>
                     <input type="radio" name="use2" id="use2a" value="1a" checked>
@@ -318,8 +336,15 @@
 
               </div>
             </div>
+
+            <br>
+            <button class="btn btn-default">Edit Selections</button>
+            *this button takes applicant back up to map
+            <br>
             <br>
           </div>
+
+
           <div class="app-section" id="personal-info">
             <hr>
             <h2>4. ABOUT YOU</h2>
@@ -371,6 +396,12 @@
                 <br>
                 <p>TERMS OF THE PROGRAM (reword this!) By completing this application, I understand that the City of Chicago does not commit to transferring said lot(s), and that this Application is a Statement of Interest only.</p>
                 <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. I agree to maintain the lot requested in accordance with all local ordinances and relevant laws. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
+                <h3>About the application process:</h3>
+                <ul>
+                  <li>Once an application has been approved, the City will work with the buyer to close the transaction. The porperty will be transferred "AS IS" via a Quit Claim Deed</li>
+                  <li>Lots will be sold in a first come, first serve manner</li>
+                  <li>The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer</li>
+                </ul>
                 <div class="checkbox">
                   <label>
                     <input type="checkbox"> I understand and agree to the terms
