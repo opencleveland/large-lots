@@ -80,3 +80,17 @@ h1, h2, h3, #deed-online, #deed-in-person { padding-top: 70px; margin-top: -70px
 .label-danger { background-color: #BE4630; }
 .label-success { background-color: #389250; }
 
+
+/* deed help style */
+#deed-help{
+    margin-left: 1em;
+    margin-right: 1em;
+    padding: .6em;
+    border-radius: 6px;
+    background-color: #D6F0C9;
+}
+
+#deed-help img{
+    max-width: 100%;
+    min-width: 100%;
+}

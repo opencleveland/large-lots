@@ -54,8 +54,7 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav pull-right">
-            <li><a href="#pilot1">Pilot #1</a></li>
-            <li><a href="#pilot2">Pilot #2</a></li>
+            <li><a href="#">APPLY</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#about">About</a></li>
             <li><a class='btn-default' id='print-page' href="#"><i class='icon-print'></i> Print</a></li>
@@ -66,7 +65,11 @@
 
     <div class="container">
       <div class='col-md-12'>
-        <p class='lead'><br /><br /><br />The City of Chicago is <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/large-lot-program.html'>selling vacant residential lots </a> for <strong>$1</strong>. LARGE LOTS INTRO GOES HERE (needs to be on same block, apply for up to 2 - this basic info should also go up top here) (you can apply as yourself, or on behalf of a nonprofit?) <br /><br /></p>
+        <p class='lead'><br /><br /><br />The City of Chicago is selling vacant residential lots in East Garfield Park for <strong>$1</strong>. If you or your organization own a property in East Garfield Park, you can apply for any vacant lots on the same block!<br /><br />
+
+
+
+        </p>
 
         <div class='row'>
           <div class='col-md-12'>
@@ -75,18 +78,19 @@
 
 
             <p>
+              <h1>Browse Vacant Lots</h1>
               <form class='form-inline hidden-print' id='lot-form'>
                 <div class="form-group">
                   <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
                   <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
                 </div>
                 <div class="form-group">
-                    <input id="available" class="toggle-parcels checkbox" type="checkbox" />
+                  <input id="available" class="toggle-parcels checkbox" type="checkbox" />
 
-                    <label for='available'><span class="label label-available">Not applied for</span></label>
+                  <label for='available'><span class="label label-available">Not applied for</span></label>
 
-                    <input id="applied" class="toggle-parcels checkbox" type="checkbox" checked=true />
-                    <label for='applied'><span class="label label-applied">Application received</span></label>
+                  <input id="applied" class="toggle-parcels checkbox" type="checkbox" checked=true />
+                  <label for='applied'><span class="label label-applied">Application received</span></label>
                 </div>
               </form>
             </p>
@@ -102,69 +106,81 @@
               <ol>
                 <li>Enter your address to view available lots near you</li>
                 <li>Click on a lot on the map for details</li>
+                <li>Add up to two lots to your application</li>
               </ol>
             </div>
           </div>
         </div>
 
         <div class="row" id="lot-display">
-              <div class="col-sm-6">
-                <h3>Lot #1</h3>
-                <p><strong>Address: </strong></p>
-                <p><strong>PIN: </strong></p>
-                <p>How do you plan on using this lot? (optional)</p>
-                <select class="form-control" id="use1">
-                  <option></option>
-                  <option>Side lot or yard</option>
-                  <option>Garage</option>
-                  <option>Home Expansion</option>
-                  <option>Community Garden</option>
-                  <option>Other</option>
-                </select>
-              </div>
+          <div class="col-sm-6">
+            <h3>Lot #1</h3>
+            <p><strong>Address: </strong></p>
+            <p><strong>PIN: </strong></p>
+            <p>How do you plan on using this lot? (optional)</p>
+            <select class="form-control" id="use1">
+              <option>Side lot or yard</option>
+              <option>Garage</option>
+              <option>Home Expansion</option>
+              <option>Community Garden</option>
+              <option>Other</option>
+            </select>
+          </div>
 
 
-              <div class="col-sm-6">
-                <h3>Lot #2</h3>
-                <p><strong>Address: </strong></p>
-                <p><strong>PIN: </strong></p>
-                <p>How do you plan on using this lot? (optional)</p>
-                <select class="form-control" id="use2">
-                  <option></option>
-                  <option>Side lot or yard</option>
-                  <option>Garage</option>
-                  <option>Home Expansion</option>
-                  <option>Community Garden</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
+          <div class="col-sm-6">
+            <h3>Lot #2</h3>
+            <p><strong>Address: </strong></p>
+            <p><strong>PIN: </strong></p>
+            <p>How do you plan on using this lot? (optional)</p>
+            <select class="form-control" id="use2">
+              <option></option>
+              <option>Side lot or yard</option>
+              <option>Garage</option>
+              <option>Home Expansion</option>
+              <option>Community Garden</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+        </div>
 
 
 
 
         <div class='row'>
-          <div class='col-md-8 steps'>
+          <div class='col-md-12'>
 
             <br>
-            <h3 id='eligibility'>Details (info about after purchase?)</h3>
+            <h3>Program Eligibility</h3>
 
             <ul>
 
-              <li>You must pay property taxes. Here's what you can expect to pay:</li>
+              <li>You can't owe the City any money, including property taxes, water bills, parking tickets, and any other obligations.</li>
 
-              <li>You must own lot for 5 years before selling (reword)***</li>
+              <li>You cannot be a church (churches are not eligible for the Large Lots program)</li>
+
+              <li>blah</li>
+            </ul>
+
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-12'>
+
+            <br>
+            <h3>Buyer Responsibilities</h3>
+
+            <ul>
+              <li>You will have to pay property taxes. You should expect to pay $200-$600 per year in property taxes, based on the assessed value of your lot.</li>
+
+              <li>You must own the lot for at least 5 years before selling it</li>
 
               <li>You can't use the lot for business (reword)</li>
 
               <li>blah</li>
-
-              
             </ul>
             <br>
-
-            
-
           </div>
         </div>
 
@@ -177,51 +193,36 @@
             
             <br>
           </div>
-          <div class="app-section" id="eligibility">
-            <hr>
-            <h2>1. CONFIRM YOUR ELIGIBILITY</h2>
-            A sentence here about eligibility [I am applying as myself vs on behalf of a nonprofit?]
-            <div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> I have paid all property taxes I owe to the city of Chicago
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> I have paid all water bills I owe to the city of Chicago
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> I have paid all parking tickets I owe to the city of Chicago
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> I am not a church (churches are not eligible for the Large Lots program)
-                </label>
-              </div>
-            </div>
-            <br>
-          </div>
+          
           <div class="app-section" id="ownership">
             <hr>
-            <h2>2. UPLOAD PROOF OF OWNERSHIP</h2>
+            <h2>1. UPLOAD PROOF OF OWNERSHIP</h2>
             <div>
               <p>You'll need to prove that you own property on the same block as the lot(s) you are applying to get. To prove ownership, you'll have to provide a deed.</p>
 
               <div class="accordion" id="deed-help">  
 
                 <div class="accordion-group">  
-                  <div class="accordion-heading">  
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#deed-help" href="#collapseOne">  
-                      How can I get my deed?
-                    </a>  
+                  <div class="accordion-heading accordion-toggle" data-toggle="collapse" data-parent="#deed-help" href="#collapseOne">  
+                    How can I get my deed?
                   </div>  
                   <div id="collapseOne" class="accordion-body collapse">  
-                    <div class="accordion-inner">  
-                      blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+                    <div class="accordion-inner">
+                      <br>
+                      <p>The Cook County Recorder of Deeds holds records of property ownership. If your deed was dated before 1985, you will need to pick up your deed <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">in person</a>. If your deed is from after 1985, you can download a scanned version of your property deed by following these steps:
+                      <h3>1. Search records under your PIN</h3>
+                        
+                      <p>
+                        Enter your current PIN <a href="http://12.218.239.81/i2/default.aspx" target="blank">here</a> and click Search. You will see a list of various records associated with your PIN.
+                        <img src="images/deed1.png"/>
+                      </p>
+                      <h3>2. View your deed</h3>
+                      <p>
+                      Click on the most recent deed - this will likely be in the first row. Document details will show up on the right side of the page, and a scanned image of your deed will show up in a new window. If you do not see the scanned image, click View Images (make sure pop-ups are allowed).[screenshot?]</p>
+                      <h3>3. Download your deed as a PDF (this costs $4.00)</h3>
+                      <p>
+                      <img src="images/deed3.png"/>
+                      Within the pop-up, click Print Document and enter your payment information. Once you are done, you will have the scanned document as a PDF on your computer.</p>
                     </div>  
                   </div>  
                 </div>
@@ -233,7 +234,7 @@
 
               <form role="form">
                 <div class="form-group">
-                  <label for="input-PIN">Your Current Property Ientification Number (PIN)</label>
+                  <label for="input-PIN">Your Current Property Identification Number (PIN)</label>
                   <input type="text" class="form-control" id="input-PIN" placeholder="##-##-###-###-####">
                 </div>
                 <div class="form-group">
@@ -248,7 +249,7 @@
           </div>
           <div class="app-section" id="select-lots">
             <hr>
-            <h2>3. CONFIRM YOUR LOT(S)</h2>
+            <h2>2. REVIEW YOUR LOT(S)</h2>
             <div class="row" id="lot-display">
               <div class="col-sm-6">
                 <h3>Lot #1</h3>
@@ -256,41 +257,6 @@
                 <p><strong>PIN: </strong></p>
                 <p><strong>Use: </strong></p>
                 <br>
-
-                <p>How do you plan on using this lot? (optional) **move to top</p>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use1" id="use1a" value="1a" checked>
-                    Side lot or yard
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use1" id="use1b" value="1b">
-                    Garage
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use1" id="use1c" value="1c">
-                    Home expansion
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use1" id="use1d" value="1d">
-                    Community Garden
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use1" id="use1e" value="1e">
-                    Other
-                  </label>
-                </div>
-
-
-
               </div>
               <div class="col-sm-6">
                 <h3>Lot #2</h3>
@@ -298,48 +264,10 @@
                 <p><strong>PIN: </strong></p>
                 <p><strong>Use: </strong></p>
                 <br>
-
-                <p>How do you plan on using this lot? (optional) **move to top</p>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use2" id="use2a" value="1a" checked>
-                    Side lot or yard
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use2" id="use2b" value="1b">
-                    Garage
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use2" id="use2c" value="1c">
-                    Home expansion
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use2" id="use2d" value="1d">
-                    Community Garden
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="use2" id="use2e" value="1e">
-                    Other
-                  </label>
-                </div>
-
-
-
-
               </div>
             </div>
 
-            <br>
             <button class="btn btn-default">Edit Selections</button>
-            *this button takes applicant back up to map
             <br>
             <br>
           </div>
@@ -347,7 +275,7 @@
 
           <div class="app-section" id="personal-info">
             <hr>
-            <h2>4. ABOUT YOU</h2>
+            <h2>3. ABOUT YOU</h2>
             <div>
               <form role="form">
                 <div class="form-group">
@@ -394,25 +322,31 @@
 
 
                 <br>
-                <p>TERMS OF THE PROGRAM (reword this!) By completing this application, I understand that the City of Chicago does not commit to transferring said lot(s), and that this Application is a Statement of Interest only.</p>
-                <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. I agree to maintain the lot requested in accordance with all local ordinances and relevant laws. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
-                <h3>About the application process:</h3>
-                <ul>
-                  <li>Once an application has been approved, the City will work with the buyer to close the transaction. The porperty will be transferred "AS IS" via a Quit Claim Deed</li>
-                  <li>Lots will be sold in a first come, first serve manner</li>
-                  <li>The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer</li>
-                </ul>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> I understand and agree to the terms
-                  </label>
-                </div>
-                <br>
+                
 
-                <button type="submit" class="btn btn-success btn-lg">SUBMIT!</button>
+                
               </form>
             </div>
           </div>
+
+          <div class="app-section" id="terms">
+            <hr>
+            <h2>4. ACCEPT TERMS</h2>
+            <div>
+              <p>This application is a Statement of Interest only, and does not guarantee that the City of Chicago will transfer ownership of the lots indicated. If this application has been approved, the City will work with the buyer to close the transaction - the property will be transferred "AS IS" via a Quit Claim Deed. The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer</p>
+              <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. I agree to maintain the lot requested in accordance with all local ordinances and relevant laws. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
+                
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> I understand and agree to the terms
+                </label>
+              </div>
+              <br>
+
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg">SUBMIT!</button>
 
 
 
