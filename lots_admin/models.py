@@ -15,9 +15,9 @@ class Application(models.Model):
     last_name = models.CharField(max_length=255, null=True)
     organization = models.CharField(max_length=255, null=True)
     owned_pin = models.CharField(max_length=14)
-    owned_address = models.ForeignKey(Address)
+    owned_address = models.ForeignKey(Address, related_name='owned_address')
     deed_image = models.FileField(upload_to='deeds')
-    contact_address = models.ForeignKey(Address)
+    contact_address = models.ForeignKey(Address, related_name='contact_address')
     phone = models.CharField(max_length=15)
     email = models.CharField(max_length=255, null=True)
     how_heard = models.CharField(max_length=255, null=True)
@@ -32,14 +32,14 @@ class Application(models.Model):
 class Lot(models.Model):
     USE_CHOICES = (
         (None, '------',),
-        ('side_yard', 'Side lot or yard',),
-        ('garage':, 'Garage',)
-        ('home_expansion', 'Home expansion',),
-        ('community_garden', 'Community garden',),
-        ('other', 'Other',),
+        ('side_yard', 'Side lot or yard'),
+        ('garage', 'Garage'),
+        ('home_expansion', 'Home expansion'),
+        ('community_garden', 'Community garden'),
+        ('other', 'Other'),
     )
     pin = models.CharField(max_length=14)
-    address = models.ForignKey(Address)
+    address = models.ForeignKey(Address)
     application = models.ManyToManyField(Application)
     planned_use = models.CharField(max_length=20,
                   choices=USE_CHOICES, default=None, null=True)

@@ -54,12 +54,18 @@
           <a id='logo' href="/"><img src='{% static 'images/large_lots.png' %}' alt='Large Lots' /></a>
         </div>
         <div class="collapse navbar-collapse">
-            {% block top_nav %}{% endblock %}
+          <ul class="nav navbar-nav pull-right">
+            <li {% if request.path == '/' %}class='active' {% endif %}><a href="{% url 'home' %}">Home</a></li>
+            <li {% if request.path == '/apply/' %}class='active' {% endif %}><a href="{% url 'apply' %}">Apply</a></li>
+            <li {% if request.path == '/status/' %}class='active' {% endif %}><a href="{% url 'status' %}">Application status</a></li>
+            <li {% if request.path == '/faq/' %}class='active' {% endif %}><a href="{% url 'faq' %}">FAQ</a></li>
+            <li {% if request.path == '/about/' %}class='active' {% endif %}><a href="{% url 'about' %}">About</a></li>
+          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="main-content">
       {% block content %}{% endblock %}
     </div> <!-- /container -->
     {% block modals %}{% endblock %}

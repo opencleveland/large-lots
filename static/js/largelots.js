@@ -17,6 +17,33 @@ var LargeLots = {
     'left': -87.69750595092773
   },
 
+  initialize_garfield_park: function() {
+
+    if (!LargeLots.map) {
+      LargeLots.map = L.map('map', {
+        center: [41.87691065423128, -87.70651817321776],
+        zoom: 14,
+        scrollWheelZoom: false
+      });
+    }
+
+    L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
+        attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+    }).addTo(LargeLots.map);
+
+    var layerOpts = {
+        user_name: 'datamade',
+        type: 'cartodb',
+        cartodb_logo: false,
+        sublayers: [
+            {
+                sql: 'select * from east_garfield_park',
+                cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
+            }]
+    }
+    cartodb.createLayer(LargeLots.map, layerOpts).addTo(LargeLots.map);
+  },
+
   initialize: function() {
 
       if (!LargeLots.map) {

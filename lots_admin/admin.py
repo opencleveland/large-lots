@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from lots_admin.models import Address, Application, Lot
+
+admin.site.register(Address)
+admin.site.register(Application)
+admin.site.register(Lot)
