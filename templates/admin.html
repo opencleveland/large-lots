@@ -1,4 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Admin coming</h2>
+{% for application in applications %}
+    <p>{{application}}</p>
+{% endfor %}
 {% endblock %}

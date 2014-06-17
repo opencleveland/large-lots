@@ -21,5 +21,6 @@ def lots_login(request):
 
 @login_required(login_url='/lots-login/')
 def lots_admin(request):
-    return render(request, 'admin.html')
+    applications = Application.objects.all()
+    return render(request, 'admin.html', {'applications': applications})
 
