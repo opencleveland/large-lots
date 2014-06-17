@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^faq/$', 'lots_client.views.faq', name='faq'),
     url(r'^about/$', 'lots_client.views.about', name='about'),
     url(r'^lots-admin/$', 'lots_admin.views.lots_admin', name='lots_admin'),
+    url(r'^lots-login/$', 'lots_admin.views.lots_login', name='lots_login'),
 
     url(r'^django-admin/', include(admin.site.urls)),
 )
