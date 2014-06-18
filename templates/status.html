@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block extra_css %}
+    <style id="englewood-styles">
+      #full_area_lots {
+        polygon-fill: #6ac682;
+        polygon-opacity: 0.7;
+        line-color: #389250;
+        line-width: 0.5;
+        line-opacity: 1;
+      }
+      #full_area_lots[status=1]{
+        polygon-fill: #A1285D;
+        line-color: #680D35;
+      }
+    </style>
+{% endblock %}
 {% block content %}
       <div class='col-md-12'>
 
@@ -71,7 +86,7 @@
 
     <!--<script src="js/leaflet.js" type="text/javascript"></script> -->
     <script src="{% static 'js/leaflet.label.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/largelots.js' %}"></script>
+    <script src="{% static 'js/largelots_pilot1.js' %}"></script>
     <script src="{% static 'js/analytics_lib.js' %}"></script>
 
     <script>

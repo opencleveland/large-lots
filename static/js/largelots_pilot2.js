@@ -2,46 +2,17 @@ var LargeLots = LargeLots || {};
 var LargeLots = {
 
   map: null,
-  map_centroid: [41.77809673652204, -87.63673782348633],
-  defaultZoom: 13,
+  map_centroid: [41.8787248907554, -87.7055433591891],
+  defaultZoom: 14,
   lastClickedLayer: null,
   geojson: null,
   marker: null,
   locationScope: 'Chicago',
-  boundaryCartocss: '#large_lot_boundary{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}',
-  parcelsCartocss: $('#englewood-styles').html().trim(),
   boundingBox: {
     'bottom': 41.74378003152462,
     'top': 41.807788914288814,
     'right': -87.57219314575195,
     'left': -87.69750595092773
-  },
-
-  initialize_garfield_park: function() {
-
-    if (!LargeLots.map) {
-      LargeLots.map = L.map('map', {
-        center: [41.87691065423128, -87.70651817321776],
-        zoom: 14,
-        scrollWheelZoom: false
-      });
-    }
-
-    L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
-        attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
-    }).addTo(LargeLots.map);
-
-    var layerOpts = {
-        user_name: 'datamade',
-        type: 'cartodb',
-        cartodb_logo: false,
-        sublayers: [
-            {
-                sql: 'select * from east_garfield_park',
-                cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
-            }]
-    }
-    cartodb.createLayer(LargeLots.map, layerOpts).addTo(LargeLots.map);
   },
 
   initialize: function() {
@@ -72,15 +43,16 @@ var LargeLots = {
       LargeLots.info.update = function (props) {
         var date_formatted = '';
         if (props) {
-          var info = "<h4>" + LargeLots.formatAddress(props) + "</h4>";
-          info += "<p>PIN: " + props.pin14 + "<br />";
-          info += "Zoned: " + props.zoning_classification + "<br />";
-          info += "Sq Ft: " + props.sq_ft + "<br />";
-          //info += "Alderman: " + LargeLots.getAlderman(props.ward) + " (Ward " + props.ward + ")</p>";
-          if (props.status == 1){
-              info += "Status: <strong>Application received</strong></p>"
-          } else {
-              info += "Status: <strong>Available</strong></p>"
+          var info = '';
+          if(props.street_number){
+              info += "<h4>" + LargeLots.formatAddress(props) + "</h4>";
+              info += "<p>PIN: " + props.pin14 + "<br />";
+          }
+          if (props.zoning_classification){
+              info += "Zoned: " + props.zoning_classification + "<br />";
+          }
+          if (props.sq_ft){
+              info += "Sq Ft: " + props.sq_ft + "<br />";
           }
           this._div.innerHTML  = info;
         }
@@ -92,26 +64,27 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "pin14,zoning_classification,ward,street_name,dir,street_number,type,sq_ft,status"
-      var cartocss = $('#englewood-styles').html().trim();
+      var fields = "pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
       var layerOpts = {
           user_name: 'datamade',
           type: 'cartodb',
           cartodb_logo: false,
-          sublayers: [{
-                  sql: "SELECT * FROM lots_with_status where status = 1",
-                  cartocss: LargeLots.parcelsCartocss,
+          sublayers: [
+              {
+                  sql: 'select * from egp_parcels',
+                  cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               },
               {
-                  sql: 'select * from large_lot_boundary',
-                  cartocss: LargeLots.boundaryCartocss
-              }]
+                  sql: 'select * from east_garfield_park',
+                  cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
+              }
+          ]
       }
       cartodb.createLayer(LargeLots.map, layerOpts)
         .addTo(LargeLots.map)
         .done(function(layer) {
-            LargeLots.lotsLayer = layer.getSubLayer(0)
+            LargeLots.lotsLayer = layer.getSubLayer(0);
             LargeLots.lotsLayer.setInteraction(true);
             LargeLots.lotsLayer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
               $('#map div').css('cursor','pointer');
@@ -152,7 +125,7 @@ var LargeLots = {
               checks.push($(box).attr('id'))
           }
       });
-      var sql = 'select * from lots_with_status where ';
+      var sql = 'select * from egp_parcels where ';
       var clauses = []
       if(checks.indexOf('applied') >= 0){
           clauses.push('status = 1')
@@ -164,20 +137,13 @@ var LargeLots = {
           clauses = clauses.join(' or ');
           sql += clauses;
       } else {
-          sql = 'select * from lots_with_status where status not in (0,1)'
+          sql = 'select * from egp_parcels where status not in (0,1)'
       }
       LargeLots.lotsLayer.setSQL(sql);
   },
 
-  checkZone: function (ZONING_CLA, value) {
-    if (ZONING_CLA.indexOf(value) != -1)
-      return true;
-    else
-      return false;
-  },
-
   formatAddress: function (prop) {
-    return prop.street_number + " " + prop.dir + " " + prop.street_name + " " + prop.type;
+    return prop.street_number + " " + prop.street_dir + " " + prop.street_name + " " + prop.street_type;
   },
 
   getOneParcel: function(pin14){
@@ -185,7 +151,7 @@ var LargeLots = {
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
       var sql = new cartodb.SQL({user: 'datamade', format: 'geojson'});
-      sql.execute('select * from lots_with_status where pin14 = {{pin14}}', {pin14:pin14})
+      sql.execute('select * from egp_parcels where pin14 = cast({{pin14}} as text)', {pin14:pin14})
         .done(function(data){
             var shape = data.features[0];
             LargeLots.lastClickedLayer = L.geoJson(shape);
@@ -193,62 +159,31 @@ var LargeLots = {
             LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
             LargeLots.map.setView(LargeLots.lastClickedLayer.getBounds().getCenter(), 17);
             LargeLots.selectParcel(shape.properties);
-        });
+        }).error(function(e){console.log(e)});
   },
 
   selectParcel: function (props){
       var address = LargeLots.formatAddress(props);
-      var alderman = LargeLots.getAlderman(props.ward);
-      var zoning = LargeLots.getZoning(props.zoning_classification);
-      var status = 'Not applied for';
-      var status_class = 'available';
-      if (props.status == 1){
-          status = 'Application received';
-          status_class = 'applied';
-      }
       var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
-          <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>\
-          <tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>\
-          <tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>\
-          <tr><td>Status</td><td><span class='label label-" + status_class + "'>" + status + "</span></td></tr>\
-        </tbody></table>";
+          <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>";
+      if (props.zoning_classification){
+          info += "<tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>";
+      }
+      if (props.sq_ft){
+          info += "<tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>";
+
+      }
+      if (props.city_owned == 'T' && props.residential == 'T'){
+          info += "<tr><td colspan='2'><button type='button' class='btn btn-default'>I’d like to apply for this lot</button></td></tr>"
+      } else {
+          info += "<tr><td colspan='2'><button type='button' class='btn btn-default'>This is my address</button></td></tr>"
+      }
+      info += "</tbody></table>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
-  },
-
-  getAlderman: function (ward){
-      var lookup = {
-          20: 'Willie B. Cochran',
-          6: 'Roderick T. Sawyer',
-          16: 'JoAnn Thompson',
-          17: 'Latasha Thomas',
-          11: 'James A. Balcer',
-          15: 'Toni Foulkes',
-          18: 'Lona Lane',
-          3: 'Pat Dowell',
-          4: 'William Burns',
-          5: 'Leslie Hariston',
-          8: 'Michelle Harris'
-      }
-      return lookup[ward]
-  },
-
-  getZoning: function(code){
-      var zone_type = code.split('-')[0];
-      var text = '';
-      if (zone_type == 'RS'){
-          text = 'Single family home'
-      }
-      if (zone_type == 'RT'){
-          text = 'Two-flat, townhouse'
-      }
-      if (zone_type == 'RM'){
-          text = 'Medium-density apartment'
-      }
-      return text;
   },
 
   addressSearch: function (e) {
