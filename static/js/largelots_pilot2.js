@@ -71,7 +71,7 @@ var LargeLots = {
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: 'select * from egp_parcels',
+                  sql: "select * from egp_parcels where city_owned='T' and residential='T'",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               },
@@ -164,26 +164,34 @@ var LargeLots = {
 
   selectParcel: function (props){
       var address = LargeLots.formatAddress(props);
-      var info = "<p>Selected lot: </p><img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
+      var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
-          <tr><td>PIN</td><td>" + props.pin14 + "</td></tr>\
-          <tr><td>&nbsp;</td><td><a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>Tax and deed history &raquo;</a></td></tr>";
+          <tr><td>PIN</td><td>" + props.pin14 + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
       if (props.zoning_classification){
           info += "<tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>";
       }
       if (props.sq_ft){
-          info += "<tr><td>Sq ft</td><td>" + props.sq_ft + "</td></tr>";
+          info += "<tr><td>Sq ft</td><td>" + LargeLots.addCommas(props.sq_ft) + "</td></tr>";
 
       }
-      if (props.city_owned == 'T' && props.residential == 'T'){
-          info += "<tr><td colspan='2'><button type='button' class='btn btn-default'>I’d like to apply for this lot</button></td></tr>"
-      } else {
-          info += "<tr><td colspan='2'><button type='button' class='btn btn-default'>This is my address</button></td></tr>"
-      }
+      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + props.pin14 + "' data-address='" + address + "' href='#' class='btn btn-success'><i class='fa fa-check'></i> Apply for this lot</button></td></tr>"
       info += "</tbody></table>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
+
+      $("#lot_apply").on("click", function(){
+        if ($("#id_lot_1_address").val() == "") {
+          $("#id_lot_1_address").val($(this).data('address'));
+          $("#id_lot_1_pin").val($(this).data('pin'));
+        }
+        else {
+          $("#id_lot_2_address").val($(this).data('address'));
+          $("#id_lot_2_pin").val($(this).data('pin'));
+        }
+
+        $(".panel-heading").ScrollTo({offsetTop: "70px"});
+      });
   },
 
   addressSearch: function (e) {
@@ -241,6 +249,18 @@ var LargeLots = {
   convertToPlainString: function (text) {
     if (text == undefined) return '';
     return decodeURIComponent(text);
+  },
+
+  addCommas: function(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
   }
 
 }
