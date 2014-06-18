@@ -2,9 +2,9 @@ from django.db import models
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
-    city = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    zip_code = models.CharField(max_length=10)
+    city = models.CharField(max_length=20, default='Chicago')
+    state = models.CharField(max_length=20, default='IL')
+    zip_code = models.CharField(max_length=10, null=True)
 
     def __unicode__(self):
         return '%s %s, %s %s' % \
@@ -38,7 +38,7 @@ class Lot(models.Model):
         ('community_garden', 'Community garden'),
         ('other', 'Other'),
     )
-    pin = models.CharField(max_length=14)
+    pin = models.CharField(max_length=14, primary_key=True)
     address = models.ForeignKey(Address)
     application = models.ManyToManyField(Application)
     planned_use = models.CharField(max_length=20,
