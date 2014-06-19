@@ -35,7 +35,7 @@ def lots_admin(request):
 def csv_dump(request):
     response = HttpResponse(content_type='text/csv')
     now = datetime.now().isoformat()
-    response['Content-Disposition'] = 'attachment; filename=Large Lots Applications %s.csv' % now
+    response['Content-Disposition'] = 'attachment; filename=Large_Lots_Applications_%s.csv' % now
     applications = Application.objects.all()
     header = [
         'ID', 

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
 <h2>Applications Received</h2>
-<table class="table table-striped">
+<p><a href="{% url 'csv_dump' %}">Export as CSV</a></p>
+<table id="received" class="table table-striped">
     <thead>
         <th>ID</th>
         <th>Name</th>
@@ -27,4 +29,12 @@
     {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/jquery.tablesorter.min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#received').tablesorter();
+        })
+    </script>
 {% endblock %}

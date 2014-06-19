@@ -9,6 +9,20 @@ a, a:hover {
     color: #238b45;
 }
 
+#received th {
+    cursor: pointer;
+}
+
+#received th.sortDown {
+    background-image: url('../images/desc.gif');
+    background-color: #ccc;
+}
+
+#received th.sortUp {
+    background-image: url('../images/asc.gif');
+    background-color: #ccc;
+}
+
 .navbar-header>.navbar-brand, .navbar-inverse .navbar-nav>li>a {color: #238b45; margin-top: 7px;}
 
 #logo img { margin: 5px 0 5px 0;}
