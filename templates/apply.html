@@ -60,7 +60,7 @@
                       <div class="col-sm-6">
                         <div class="row">
                           <div class="col-sm-12">
-                            <h3>Lot #1<span class="red">*</span></h3> 
+                            <h3>Lot #1<span class="red">*</span></h3>
                             {% if form.lot_1_address.errors %}
                             <div class="form-group has-error">
                             {% else %}
@@ -338,11 +338,11 @@
                         <label for="id_how_heard">Did you receive assistance in completing this application? If so, from who?</label>
                         <select class="form-control" id="id_how_heard" name="how_heard">
                           <option></option>
-                          <option>Friend or neighbor</option>
-                          <option>Community organization</option>
-                          <option>City of Chicago</option>
-                          <opyion>Chicago Public Library</option>
-                          <option>Other</option>
+                          <option value="Friend or neighbor">Friend or neighbor</option>
+                          <option value="Community organization">Community organization</option>
+                          <option value="City of Chicago">City of Chicago</option>
+                          <option value="Chicago Public Library">Chicago Public Library</option>
+                          <option value="Other">Other</option>
                         </select>
                       </div>
                     </div>
@@ -377,10 +377,23 @@
                     <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
 
                     <div class='well'>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I understand and agree to the terms<span class="red">*</span>
-                        </label>
+                      {% if form.terms.errors %}
+                      <div class="form-group has-error">
+                      {% else %}
+                      <div class="form-group">
+                      {% endif %}
+                        <div class="checkbox">
+                          <label>
+                            <input id="id_terms" name="terms" type="checkbox" />
+                              {% if form.terms.errors %}
+                              {% for error in form.terms.errors %}
+                                  <span class="help-block">{{ error }}</span>
+                              {% endfor %}
+                              {% else %}
+                              I understand and agree to the terms<span class="red">*</span>
+                              {% endif %}
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>

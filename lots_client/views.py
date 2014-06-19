@@ -14,10 +14,10 @@ class ApplicationForm(forms.Form):
         error_messages={
             'required': 'Provide the lot’s Parcel Identification Number'
         })
-    lot_1_use = forms.ChoiceField(choices=Lot.USE_CHOICES,required=False)
+    lot_1_use = forms.CharField(required=False)
     lot_2_address = forms.CharField(required=False)
     lot_2_pin = forms.CharField(required=False)
-    lot_2_use = forms.ChoiceField(choices=Lot.USE_CHOICES,required=False)
+    lot_2_use = forms.CharField(required=False)
     owned_address = forms.CharField(
         error_messages={
             'required': 'Provide the address of the building you own'
@@ -35,38 +35,25 @@ class ApplicationForm(forms.Form):
     contact_state = forms.CharField()
     contact_zip_code = forms.CharField()
     how_heard = forms.CharField(required=False)
+    terms = forms.BooleanField(error_messages={'required': 'Verify that you have read and agree to the terms'})
 
 def home(request):
     return render(request, 'index.html')
 
-def get_lot_address(pin=None, address=None):
-    if pin:
-        query = 'select * from egp_parcels where pin14 = cast(%s as text) limit 1'
-        l1_add = requests.get(CARTODB, params={'q': query % pin})
-        if l1_add.json().get('rows'):
-            row = l1_add.json()['rows'][0]
-            l1_address = '%s %s %s %s' % (
-                    row.get('street_number', ''),
-                    row.get('street_dir', ''),
-                    row.get('street_name', ''),
-                    row.get('street_type', ''),
-                )
-            l1_add_info = {
-                'street': l1_address,
-                'city': 'Chicago',
-                'state': 'IL',
-            }
-            l1_address, created = Address.objects.get_or_create(**l1_add_info)
-    else:
-        l1_address, created = Address.objects.get_or_create(street=address)
-    return l1_address
+def get_lot_address(address):
+    add_info = {
+        'street': address,
+        'city': 'Chicago',
+        'state': 'IL',
+    }
+    add_obj, created = Address.objects.get_or_create(**add_info)
+    return add_obj
 
 def apply(request):
     if request.method == 'POST':
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            l1_address = get_lot_address(pin=form.cleaned_data['lot_1_pin'], 
-                address=form.cleaned_data['lot_1_address'])
+            l1_address = get_lot_address(form.cleaned_data['lot_1_address'])
             lot1_info = {
                 'pin': form.cleaned_data['lot_1_pin'],
                 'address': l1_address,
@@ -75,8 +62,7 @@ def apply(request):
             lot1, created = Lot.objects.get_or_create(**lot1_info)
             lot2 = None
             if form.cleaned_data.get('lot_2_pin'):
-                l2_address = get_lot_address(pin=form.cleaned_data['lot_2_pin'], 
-                    address=form.cleaned_data['lot_2_address'])
+                l2_address = get_lot_address(form.cleaned_data['lot_2_address'])
                 lot2_info = {
                     'pin': form.cleaned_data['lot_2_pin'],
                     'address': l2_address,
@@ -90,7 +76,7 @@ def apply(request):
                 'zip_code': form.cleaned_data['contact_zip_code']
             }
             c_address, created = Address.objects.get_or_create(**c_address_info)
-            owned_address = get_lot_address(address=form.cleaned_data['owned_address'])
+            owned_address = get_lot_address(form.cleaned_data['owned_address'])
             app_info = {
                 'first_name': form.cleaned_data['first_name'],
                 'last_name': form.cleaned_data['last_name'],

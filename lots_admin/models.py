@@ -1,4 +1,5 @@
 from django.db import models
+import time
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
@@ -10,13 +11,18 @@ class Address(models.Model):
         return '%s %s, %s %s' % \
             (self.street, self.city, self.state, self.zip_code)
 
+def upload_name(instance, filename):
+    now = int(time.time())
+    return 'deeds/%s-%s-%s_%s' % \
+        (instance.first_name, instance.last_name, now, filename)
+
 class Application(models.Model):
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     organization = models.CharField(max_length=255, null=True)
     owned_pin = models.CharField(max_length=14)
     owned_address = models.ForeignKey(Address, related_name='owned_address')
-    deed_image = models.FileField(upload_to='deeds')
+    deed_image = models.FileField(upload_to=upload_name)
     contact_address = models.ForeignKey(Address, related_name='contact_address')
     phone = models.CharField(max_length=15)
     email = models.CharField(max_length=255, null=True)
@@ -30,19 +36,10 @@ class Application(models.Model):
 
 
 class Lot(models.Model):
-    USE_CHOICES = (
-        (None, '------',),
-        ('side_yard', 'Side lot or yard'),
-        ('garage', 'Garage'),
-        ('home_expansion', 'Home expansion'),
-        ('community_garden', 'Community garden'),
-        ('other', 'Other'),
-    )
     pin = models.CharField(max_length=14, primary_key=True)
     address = models.ForeignKey(Address)
     application = models.ManyToManyField(Application)
-    planned_use = models.CharField(max_length=20,
-                  choices=USE_CHOICES, default=None, null=True)
+    planned_use = models.CharField(max_length=20, default=None, null=True)
 
     def __unicode__(self):
         return self.pin
