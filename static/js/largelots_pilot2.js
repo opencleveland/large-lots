@@ -143,6 +143,7 @@ var LargeLots = {
   },
 
   formatAddress: function (prop) {
+    if (prop.street_type == null) prop.street_type = "";
     return prop.street_number + " " + prop.street_dir + " " + prop.street_name + " " + prop.street_type;
   },
 
@@ -164,10 +165,12 @@ var LargeLots = {
 
   selectParcel: function (props){
       var address = LargeLots.formatAddress(props);
+      var pin_formatted = LargeLots.formatPin(props.pin14);
+
       var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
-          <tr><td>PIN</td><td>" + props.pin14 + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
+          <tr><td>PIN</td><td>" + pin_formatted + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
       if (props.zoning_classification){
           info += "<tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>";
       }
@@ -175,7 +178,7 @@ var LargeLots = {
           info += "<tr><td>Sq ft</td><td>" + LargeLots.addCommas(props.sq_ft) + "</td></tr>";
 
       }
-      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + props.pin14 + "' data-address='" + address + "' href='#' class='btn btn-success'><i class='fa fa-check'></i> Apply for this lot</button></td></tr>"
+      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'><i class='fa fa-check'></i> Apply for this lot</button></td></tr>"
       info += "</tbody></table>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
@@ -243,6 +246,10 @@ var LargeLots = {
         shadowAnchor: [0, 0]
       });
     LargeLots.marker = L.marker([first.lat, first.lon]).addTo(LargeLots.map);
+  },
+
+  formatPin: function(pin) {
+    return pin.replace(/(\d{2})(\d{2})(\d{3})(\d{3})(\d{4})/, '$1-$2-$3-$4-$5');
   },
 
   //converts a slug or query string in to readable text

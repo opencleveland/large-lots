@@ -92,14 +92,8 @@
                         {% else %}
                         <div class="form-group">
                         {% endif %}
-                        <select class="form-control" id="id_lot_1_use" name="lot_1_use">
-                          <option value='None'>How do you plan on using this lot?</option>
-                          <option value='side_yard'>Side lot or yard</option>
-                          <option value='garage'>Garage</option>
-                          <option value='home_expansion'>Home Expansion</option>
-                          <option value='community_garden'>Community Garden</option>
-                          <option value='other'>Other</option>
-                        </select>
+                        <label for="lot_1_use">How do you plan on using this lot?</label>
+                        <input type="text" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
                         {% for error in form.lot_1_use.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -140,14 +134,8 @@
                         {% else %}
                         <div class="form-group">
                         {% endif %}
-                        <select class="form-control" id="id_lot_2_use" name="lot_2_use">
-                          <option value='None'>How do you plan on using this lot?</option>
-                          <option value='side_yard'>Side lot or yard</option>
-                          <option value='garage'>Garage</option>
-                          <option value='home_expansion'>Home Expansion</option>
-                          <option value='community_garden'>Community Garden</option>
-                          <option value='other'>Other</option>
-                        </select>
+                        <label for="lot_2_use">How do you plan on using this lot?</label>
+                        <input type="text" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
                         {% for error in form.lot_2_use.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -178,13 +166,13 @@
                         <label for="id_owned_address"><i class="fa fa-home"></i> Address<span class="red">*</span></label>
                         <div class="row">
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
-                            {% for error in form.owned_address.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                          </div>
-                          <div class="col-sm-6">
-                            <p>Chicago, IL</p>
+                            <div class='input-group'>
+                              <input type="text" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
+                              <span class="input-group-addon">Chicago, IL</span>
+                              {% for error in form.owned_address.errors %}
+                                  <span class="help-block">{{ error }}</span>
+                              {% endfor %}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -202,7 +190,7 @@
 
                       <ol>
                         <li>If you <strong>do</strong> have a paper copy handy, scan it or take a picture.</li>
-                        <li>If you <strong>don't</strong> have a copy, download it from the <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a></li>
+                        <li>If you <strong>don't</strong> have a copy, download it from the <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> for <strong>$4.00</strong> or pick it up in person at <a href='https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z'>118 N Clark St.</a></li>
                       </ol>
 
                         <div class="panel-group" id="accordion">
@@ -216,7 +204,7 @@
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse">
                               <div class="panel-body">
-                                <p>The <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> holds records of property ownership. If your deed was dated before 1985, you will need to pick up your deed <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">in person</a>. If your deed is from after 1985, you can download a scanned version of your property deed by following these steps:
+                                <p>The <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> holds records of property ownership. If your deed was dated before 1985, you will need to pick up your deed in person at <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">118 N Clark St</a>. If your deed is from after 1985, you can download a scanned version of your property deed by following these steps:
 
                                 <p><strong>1. Search records under your PIN</strong></p>
 
@@ -347,8 +335,16 @@
                         {% else %}
                         <div class="form-group">
                         {% endif %}
-                        <label for="id_how_heard">How did you hear about the Large Lots program?</label>
-                        <input type="text" class="form-control" id="id_how_heard" name="how_heard" placeholder="">
+                        <label for="id_how_heard">Did you receive assistance in completing this application?</label>
+                        friend or neighbor; community organization; City of Chicago; Chicago Public Library; other
+                        <select class="form-control" id="id_how_heard" name="how_heard">
+                          <option></option>
+                          <option>Friend or neighbor</option>
+                          <option>Community organization</option>
+                          <option>City of Chicago</option>
+                          <opyion>Chicago Public Library</option>
+                          <option>Other</option>
+                        </select>
                       </div>
                     </div>
                   </div>
