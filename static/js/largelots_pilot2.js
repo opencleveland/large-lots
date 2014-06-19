@@ -9,10 +9,10 @@ var LargeLots = {
   marker: null,
   locationScope: 'Chicago',
   boundingBox: {
-    'bottom': 41.74378003152462,
-    'top': 41.807788914288814,
-    'right': -87.57219314575195,
-    'left': -87.69750595092773
+    'bottom': 41.868506217235485,
+    'top': 41.891607773180716,
+    'right': -87.68617630004883,
+    'left': -87.7223539352417
   },
 
   initialize: function() {
@@ -25,7 +25,7 @@ var LargeLots = {
         });
       }
       // render a map!
-      L.Icon.Default.imagePath = '/images/'
+      L.Icon.Default.imagePath = '/static/images/'
 
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
           attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
@@ -227,8 +227,8 @@ var LargeLots = {
   },
 
   returnAddress: function (response){
-
     if(!response.length){
+      $('#addr_search_modal').html(LargeLots.convertToPlainString($.address.parameter('address')));
       $('#modalGeocode').modal('show');
       return;
     }

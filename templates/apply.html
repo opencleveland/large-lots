@@ -408,6 +408,26 @@
           <p class='pull-right'>&copy; <a href='http://datamade.us'>DataMade</a> and <a href='http://www.lisc-chicago.org/'>LISC-Chicago</a></p>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="modalGeocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel"><strong id='addr_search_modal'></strong> is not in East Garfield Park.</h4>
+            </div>
+            <div class="modal-body">
+              <p>Only residents of East Garfield Park can purchase lots for this pilot.</p>
+
+              <p>If you think this is a mistake, try to include the street direction (N,S,E,W) or suffix (Ave, Dr, St, etc), or browse the map instead.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">OK, thanks</button>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock %}
 {% block extra_js %}
     <script type="infowindow/html" id="infowindow_template">
