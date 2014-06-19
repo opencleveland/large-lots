@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-sm-12">
+    <h2>Thanks for Applying {{app.first_name}}!</h2>
+    <p>Here’s the info we have for you: </p>
+    <p>
+        You applied for a lot at
+        <strong>{{ lots|first }}</strong>.
+        {% if lots|length > 1 %}
+            You also applied for a lot at <strong>{{lots|last}}</strong>.
+        {% endif %}
+    </p>
+    <p>
+      You own property at <strong>{{app.owned_address.street}}</strong> and you can
+      be reached by mail at <strong>{{app.contact_address.street}} {{app.contact_address.city}},
+      {{app.contact_address.state}} {{app.contact_address.zip_code}}</strong> by phone at
+      <strong>{{app.phone}}</strong>{% if app.email %} and by email at <strong>{{ app.email }}</strong>{% endif %}.
+    </p>
+    {% if app.email %}
+        <p>You should receive an email confirming this soon!</p>
+    {% endif %}
+</div>
+{% endblock %}

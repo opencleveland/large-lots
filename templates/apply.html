@@ -47,7 +47,7 @@
           </div>
         </div>
         <br />
-        <form role="form" method="POST" enctype="multipart/form-data">
+        <form role="form" id="application" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class='row'>
               <div class='col-md-8'>
@@ -67,7 +67,7 @@
                             <div class="form-group">
                             {% endif %}
                               <div class="input-group">
-                                <input type="text" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
+                                <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
                                 <span class="input-group-addon">Chicago, IL</span>
                                 {% for error in form.lot_1_address.errors %}
                                     <span class="help-block">{{ error }}</span>
@@ -82,7 +82,7 @@
                         <div class="form-group">
                         {% endif %}
                           <label for="lot_1_pin">PIN</label>
-                          <input type="text" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="##-##-###-###-####">
+                          <input type="text" value="{{lot_1_pin}}" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="##-##-###-###-####">
                           {% for error in form.lot_1_pin.errors %}
                               <span class="help-block">{{ error }}</span>
                           {% endfor %}
@@ -93,7 +93,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="lot_1_use">How do you plan on using this lot?</label>
-                        <input type="text" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
+                        <input type="text" value="{{lot_1_use}}" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
                         {% for error in form.lot_1_use.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -109,7 +109,7 @@
                             <div class="form-group">
                             {% endif %}
                               <div class="input-group">
-                                <input type="text" class="form-control" id="id_lot_2_address" name="lot_2_address" placeholder="Street" />
+                                <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_address" name="lot_2_address" placeholder="Street" />
                                 <span class="input-group-addon">Chicago, IL</span>
                                 {% for error in form.lot_2_address.errors %}
                                     <span class="help-block">{{ error }}</span>
@@ -124,7 +124,7 @@
                           <div class="form-group">
                           {% endif %}
                           <label for="lot_2_pin">PIN</label>
-                          <input type="text" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
+                          <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
                           {% for error in form.lot_2_pin.errors %}
                               <span class="help-block">{{ error }}</span>
                           {% endfor %}
@@ -135,7 +135,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="lot_2_use">How do you plan on using this lot?</label>
-                        <input type="text" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
+                        <input type="text" value="{{lot_2_use}}" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
                         {% for error in form.lot_2_use.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -165,11 +165,12 @@
                         {% endif %}
                         <label for="id_owned_address"><i class="fa fa-home"></i> Address<span class="red">*</span></label>
                         <div class="row">
-                          <div class="col-sm-6">
+                          <div class="col-sm-12">
                             <div class='input-group'>
-                              <input type="text" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
+                              <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
                               <span class="input-group-addon">Chicago, IL</span>
                               {% for error in form.owned_address.errors %}
+                                  <br />
                                   <span class="help-block">{{ error }}</span>
                               {% endfor %}
                             </div>
@@ -232,7 +233,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="id_deed_image"><i class='fa fa-cloud-upload'></i> Upload your deed</label><span class="red">*</span>
-                        <input type="file" id="id_deed_image" name="deed_image">
+                        <input type="file" value="{{deed_image}}" id="id_deed_image" name="deed_image">
                         {% for error in form.deed_image.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -257,13 +258,13 @@
                         <label for="id_first_name"><i class="fa fa-user"></i> Name<span class="red">*</span></label>
                         <div class="row">
                           <div class="col-xs-6">
-                            <input type="text" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
+                            <input type="text" value="{{first_name}}" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
                             {% for error in form.first_name.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                           </div>
                           <div class="col-xs-6">
-                            <input type="text" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
+                            <input type="text" value="{{last_name}}" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
                             {% for error in form.last_name.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
@@ -276,7 +277,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="id_organization"><i class="fa fa-group"></i> Organization</label>
-                        <input type="text" class="form-control" id="id_organization" name="organization" />
+                        <input type="text" value="{{organization}}" class="form-control" id="id_organization" name="organization" />
                         {% for error in form.organization.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -287,7 +288,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="id_phone"><i class="fa fa-phone"></i> Phone<span class="red">*</span></label>
-                        <input type="tel" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
+                        <input type="tel" value="{{phone}}" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
                         {% for error in form.phone.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -298,7 +299,7 @@
                         <div class="form-group">
                         {% endif %}
                         <label for="id_email"><i class="fa fa-envelope"></i> Email</label>
-                        <input type="email" class="form-control" id="id_email" name="email" placeholder="name@email.com">
+                        <input type="email" value="{{email}}" class="form-control" id="id_email" name="email" placeholder="name@email.com">
                         {% for error in form.phone.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -312,16 +313,16 @@
                         <label for="id_contact_street"><i class="fa fa-home"></i> Address<span class="red">*</span></label>
                         <div class="row">
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
+                            <input type="text" value="{{contact_street}}" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" class="form-control" id="id_contact_city" name="contact_city" placeholder="City">
+                            <input type="text" class="form-control" value="{{contact_city}}" id="id_contact_city" name="contact_city" placeholder="City">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" class="form-control" id="id_contact_state" name="contact_state" placeholder="State">
+                            <input type="text" class="form-control" value="{{contact_state}}" id="id_contact_state" name="contact_state" placeholder="State">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" class="form-control" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
+                            <input type="text" class="form-control" value="{{contact_zip_code}}" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
                           </div>
                           {% for error in form.contact_street.errors %}
                               <div class="col-sm-12">
@@ -338,11 +339,11 @@
                         <label for="id_how_heard">Did you receive assistance in completing this application? If so, from who?</label>
                         <select class="form-control" id="id_how_heard" name="how_heard">
                           <option></option>
-                          <option value="Friend or neighbor">Friend or neighbor</option>
-                          <option value="Community organization">Community organization</option>
-                          <option value="City of Chicago">City of Chicago</option>
-                          <option value="Chicago Public Library">Chicago Public Library</option>
-                          <option value="Other">Other</option>
+                          <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
+                          <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
+                          <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
+                          <option value="Chicago Public Library" {% if how_heard == 'Chicago Public Library' %}selected=true{% endif %}>Chicago Public Library</option>
+                          <option value="Other" {% if how_heard == 'Other' %}selected=true{% endif %}>Other</option>
                         </select>
                       </div>
                     </div>
@@ -384,7 +385,7 @@
                       {% endif %}
                         <div class="checkbox">
                           <label>
-                            <input id="id_terms" name="terms" type="checkbox" />
+                            <input id="id_terms" name="terms" type="checkbox" {% if terms %}checked=true{% endif %}/>
                               {% if form.terms.errors %}
                               {% for error in form.terms.errors %}
                                   <span class="help-block">{{ error }}</span>
@@ -467,6 +468,16 @@
       });
 
       $("#print-page").on("click", function(){ window.print(); });
+      $('#application').on('submit', function(){
+          var valid = true;
+          if(!$('#id_lot_1_address').val()){
+              valid = false;
+          }
+          if(!('#id_lot_1_pin').val()){
+              valid = false;
+          }
+          return valid
+      })
     </script>
 {% endblock %}
 

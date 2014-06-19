@@ -4,6 +4,9 @@ from django.shortcuts import render
 from django import forms
 from lots_admin.models import Lot, Application, Address
 import requests
+from django.core.cache import cache
+from django.http import HttpResponse, HttpResponseRedirect
+import json
 
 CARTODB = 'http://datamade.cartodb.com/api/v2/sql'
 
@@ -45,6 +48,7 @@ def get_lot_address(address):
         'street': address,
         'city': 'Chicago',
         'state': 'IL',
+        'zip_code': '',
     }
     add_obj, created = Address.objects.get_or_create(**add_info)
     return add_obj
@@ -52,6 +56,7 @@ def get_lot_address(address):
 def apply(request):
     if request.method == 'POST':
         form = ApplicationForm(request.POST, request.FILES)
+        context = {}
         if form.is_valid():
             l1_address = get_lot_address(form.cleaned_data['lot_1_address'])
             lot1_info = {
@@ -94,9 +99,42 @@ def apply(request):
             if lot2:
                 app.lot_set.add(lot2)
             app.save()
+            request.session['app_id'] = app.id
+            return HttpResponseRedirect('/apply-confirm/')
+        else:
+            context['lot_1_address'] = form['lot_1_address'].value()
+            context['lot_1_pin'] = form['lot_1_pin'].value()
+            context['lot_1_use'] = form['lot_1_use'].value()
+            context['lot_2_address'] = form['lot_2_address'].value()
+            context['lot_2_pin'] = form['lot_2_pin'].value()
+            context['lot_2_use'] = form['lot_2_use'].value()
+            context['owned_address'] = form['owned_address'].value()
+            context['deed_image'] = form['deed_image'].value()
+            context['first_name'] = form['first_name'].value()
+            context['last_name'] = form['last_name'].value()
+            context['organization'] = form['organization'].value()
+            context['phone'] = form['phone'].value()
+            context['email'] = form['email'].value()
+            context['contact_street'] = form['contact_street'].value()
+            context['contact_city'] = form['contact_city'].value()
+            context['contact_state'] = form['contact_state'].value()
+            context['contact_zip_code'] = form['contact_zip_code'].value()
+            context['how_heard'] = form['how_heard'].value()
+            context['terms'] = form['terms'].value()
+            context['form'] = form
+            return render(request, 'apply.html', context)
     else:
         form = ApplicationForm()
     return render(request, 'apply.html', {'form': form})
+
+def apply_confirm(request):
+    app_id = request.session.get('app_id')
+    if app_id:
+        app = Application.objects.get(id=app_id)
+        lots = [l.address.street for l in app.lot_set.all()]
+        return render(request, 'apply_confirm.html', {'app': app, 'lots': lots})
+    else:
+        return HttpResponseRedirect('/apply/')
 
 def status(request):
     return render(request, 'status.html')

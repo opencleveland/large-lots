@@ -61,6 +61,7 @@
             <li {% if request.path == '/status/' %}class='active' {% endif %}><a href="{% url 'status' %}">Application status</a></li>
             <li {% if request.path == '/faq/' %}class='active' {% endif %}><a href="{% url 'faq' %}">FAQ</a></li>
             <li {% if request.path == '/about/' %}class='active' {% endif %}><a href="{% url 'about' %}">About</a></li>
+            {% if request.user.is_authenticated %}<li><a href="{% url 'logout' %}">Logout</a></li>{% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
