@@ -71,7 +71,7 @@ var LargeLots = {
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: "select * from egp_parcels where city_owned='T' and residential='T'",
+                  sql: "select * from egp_parcels where city_owned='T' and residential='T' and alderman_hold != 'T'",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               },
