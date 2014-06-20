@@ -7,6 +7,7 @@ import requests
 from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseRedirect
 import json
+from uuid import uuid4
 
 CARTODB = 'http://datamade.cartodb.com/api/v2/sql'
 
@@ -91,7 +92,8 @@ def apply(request):
                 'contact_address': c_address,
                 'phone': form.cleaned_data['phone'],
                 'email': form.cleaned_data.get('email'),
-                'how_heard': form.cleaned_data.get('how_heard')
+                'how_heard': form.cleaned_data.get('how_heard'),
+                'tracking_id': unicode(uuid4()),
             }
             app = Application(**app_info)
             app.save()
@@ -99,8 +101,7 @@ def apply(request):
             if lot2:
                 app.lot_set.add(lot2)
             app.save()
-            request.session['app_id'] = app.id
-            return HttpResponseRedirect('/apply-confirm/')
+            return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
             context['lot_1_pin'] = form['lot_1_pin'].value()
@@ -127,14 +128,10 @@ def apply(request):
         form = ApplicationForm()
     return render(request, 'apply.html', {'form': form})
 
-def apply_confirm(request):
-    app_id = request.session.get('app_id')
-    if app_id:
-        app = Application.objects.get(id=app_id)
-        lots = [l.address.street for l in app.lot_set.all()]
-        return render(request, 'apply_confirm.html', {'app': app, 'lots': lots})
-    else:
-        return HttpResponseRedirect('/apply/')
+def apply_confirm(request, tracking_id):
+    app = Application.objects.get(tracking_id=tracking_id)
+    lots = [l.address.street for l in app.lot_set.all()]
+    return render(request, 'apply_confirm.html', {'app': app, 'lots': lots})
 
 def status(request):
     return render(request, 'status.html')
