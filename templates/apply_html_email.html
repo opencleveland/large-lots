@@ -4,11 +4,7 @@
 </a>
 <div class="row">
     <h2>Thanks for Applying {{app.first_name}}!</h2>
-    {% if lots|length > 1 %}
-    <p>These are the lots you applied for:</p>
-    {% else %}
-    <p>This is the lot you applied for:</p>
-    {% endif %}
+    <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on the web</a></p>
     {% for lot in lots %}
         <div>
             <img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />

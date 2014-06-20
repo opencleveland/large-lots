@@ -28,6 +28,7 @@ class Application(models.Model):
     email = models.CharField(max_length=255, null=True)
     how_heard = models.CharField(max_length=255, null=True)
     tracking_id = models.CharField(max_length=40)
+    status = models.CharField(max_length=50, null=True)
 
     def __unicode__(self):
         if self.first_name and self.last_name:

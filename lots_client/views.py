@@ -109,7 +109,7 @@ def apply(request):
                 html_template = get_template('apply_html_email.html')
                 text_template = get_template('apply_text_email.txt')
                 lots = [l for l in app.lot_set.all()]
-                context = Context({'app': app, 'lots': lots})
+                context = Context({'app': app, 'lots': lots, 'host': request.get_host()})
                 html_content = html_template.render(context)
                 text_content = text_template.render(context)
                 subject, from_email, to = 'Large Lots Application', settings.EMAIL_HOST_USER, app.email

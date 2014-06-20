@@ -3,9 +3,13 @@
 {% block content %}
 <div class="col-sm-8 col-sm-offset-2">
     <div class="row">
-        <h2>Thanks for Applying {{app.first_name}}!</h2>
-        {% if lots|length > 1 %}
-        <p>These are the lots you applied for:</p>
+        <div class="col-sm-12">
+            <h2>Thanks for Applying {{app.first_name}}!</h2>
+            {% if app.email %}
+                <p>You should receive confirmation email soon!</p>
+            {% endif %}
+            {% if lots|length > 1 %}
+        </div>
         {% for lot in lots %}
             <div class="col-sm-6">
                 <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
@@ -26,7 +30,7 @@
             </div>
         {% endfor %}
         {% else %}
-        <p>This is the lot you applied for: </p>
+        </div>
         {% for lot in lots %}
         <div class="col-sm-12">
             <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
@@ -74,9 +78,16 @@
                     {% endif %}
                 </tbody>
             </table>
-            {% if app.email %}
-                <p>You should receive an email confirming this soon!</p>
-            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p><strong>If you have any questions, please contact:</strong></p>
+            <p>
+               Jeanne Chandler, Department of Planning and Developement<br />
+               Phone: (312) 744-0605<br />
+               Email: Jeanne.Chandler@cityofchicago.org
+            </p>
         </div>
     </div>
 </div>
