@@ -1,36 +1,6 @@
-"""
-Django settings for lots project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = [
-    '.datamade.us',
-    '.largelots.org'
-]
-
-
-# Application definition
+from local_settings import *
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -111,13 +81,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_KEY']
-AWS_STORAGE_BUCKET_NAME = 'large-lots-uploads'
-
-EMAIL_HOST = os.environ['LOTS_EMAIL_HOST']
-EMAIL_PORT = os.environ['LOTS_EMAIL_PORT']
-EMAIL_USE_TLS = os.environ['LOTS_EMAIL_USE_TLS']
-EMAIL_HOST_USER = os.environ['LOTS_EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['LOTS_EMAIL_HOST_PASSWORD']
-RAVEN_CONFIG = {'dsn': os.environ['SENTRY_DSN']}
