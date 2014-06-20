@@ -27,6 +27,8 @@ S3.
 LOTS_EMAIL_HOST_PASSWORD`` These are used to configure the email settings for
 Django. See [Django docs](https://docs.djangoproject.com/en/1.6/topics/email/) for more info.
 
+``SENTRY_DSN`` This is a connection string for [Sentry](http://getsentry.com)
+
 Run the app:
 
 ```bash 
