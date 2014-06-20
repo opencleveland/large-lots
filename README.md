@@ -23,6 +23,10 @@ S3.
 
 ``AWS_SECRET_KEY`` The secret that goes with the key above.
 
+``LOTS_EMAIL_HOST, LOTS_EMAIL_PORT, LOTS_EMAIL_USE_TLS, LOTS_EMAIL_HOST_USER,
+LOTS_EMAIL_HOST_PASSWORD`` These are used to configure the email settings for
+Django. See [Django docs](https://docs.djangoproject.com/en/1.6/topics/email/) for more info.
+
 Run the app:
 
 ```bash 
