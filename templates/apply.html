@@ -338,7 +338,7 @@
                         {% endif %}
                         <label for="id_how_heard">Did you receive assistance in completing this application? If so, from who?</label>
                         <select class="form-control" id="id_how_heard" name="how_heard">
-                          <option></option>
+                          <option>I did not receive assistance</option>
                           <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
                           <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
                           <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
@@ -401,7 +401,14 @@
                 </div>
               </div>
 
-            <button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button>
+            <p><button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button></p>
+
+            <p><strong>If you have any questions, please contact:</strong></p>
+            <p>
+               Jeanne Chandler, Department of Planning and Developement<br />
+               Phone: (312) 744-0605<br />
+               Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
+            </p>
           </form>
         </div>
       </div>

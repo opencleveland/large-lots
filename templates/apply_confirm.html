@@ -6,9 +6,11 @@
         <div class="col-sm-12">
             <h2>Thanks for Applying {{app.first_name}}!</h2>
             {% if app.email %}
-                <p>You should receive confirmation email soon!</p>
+                <p>You should receive confirmation email shortly.</p>
             {% endif %}
             {% if lots|length > 1 %}
+        
+        <p>You applied for the following lots:</p>
         </div>
         {% for lot in lots %}
             <div class="col-sm-6">
@@ -84,9 +86,10 @@
         <div class="col-sm-12">
             <p><strong>If you have any questions, please contact:</strong></p>
             <p>
-               Jeanne Chandler, Department of Planning and Developement<br />
+               Jeanne Chandler<br />
+               Department of Planning and Developement<br />
                Phone: (312) 744-0605<br />
-               Email: Jeanne.Chandler@cityofchicago.org
+               Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
             </p>
         </div>
     </div>

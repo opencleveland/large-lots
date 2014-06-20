@@ -3,7 +3,7 @@
 ------------------------------------------------------------
 
 {% if lots|length > 1 %}
-These are the lots you applied for:
+You applied for the following lots:
 {% for lot in lots %}
     Address: {{lot.address.street}}
     PIN: {{lot.pin}}
@@ -17,6 +17,8 @@ This is the lot you applied for: </p>
 {% endif %}
 
 Your contact info:
+    {{app.first_name}} {{app.last_name}}
+    {{app.organization}}
     Address: {{app.contact_address.street}} {{app.contact_address.city}}, {{app.contact_address.state}} {{app.contact_address.zip_code}}
     Phone:  {{app.phone}}
     Email:  {{app.email}}

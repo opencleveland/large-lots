@@ -4,7 +4,9 @@
 </a>
 <div class="row">
     <h2>Thanks for Applying {{app.first_name}}!</h2>
-    <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on the web</a></p>
+    <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on LargeLots.org</a></p>
+
+    <p>You applied for the following lots:</p>
     {% for lot in lots %}
         <div>
             <img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
@@ -31,6 +33,10 @@
     <h4>Your contact info:</h4>
     <table>
         <tbody>
+            <tr>
+                <td>Name</td>
+                <td>{{app.first_name}} {{app.last_name}}<br />{{app.organization}}</td>
+            </tr>
             <tr>
                 <td>Address</td>
                 <td>
