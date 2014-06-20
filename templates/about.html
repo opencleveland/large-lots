@@ -1,46 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>About</h2>
+  <div class='col-md-8'>
+    <h2>About</h2>
 
-  <p><strong>LargeLots.org</strong> was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a> and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
+    <p><strong>LargeLots.org</strong> was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a> and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
 
-  <p>Our map was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
+    <p>Our map was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
 
-  <ul>
-    <li><a href='https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp'>Chicago - City Owned Land Inventory</a></li>
-    <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf'>Chicago - Wards</a></li>
-    <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
-  </ul>
+    <ul>
+      <li><a href='https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp'>Chicago - City Owned Land Inventory</a></li>
+      <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf'>Chicago - Wards</a></li>
+      <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
+    </ul>
 
-  <p>We prepared some extracts of the above sources for this project. You can download those here:</p>
+    <p>We prepared some extracts of the above sources for this project. You can download those here:</p>
 
-  <ul>
-      <li>Complete listing of lots displayed in the map (<a href="data/build/large_lot_listing.csv">CSV</a>)</li>
-      <li>Geospatial definitions of the lots displayed above (<a href="data/build/large_lot_area_parcels.zip">Shapefile</a>)</li>
-      <li>Boundary of the Large Lot Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
-  </ul>
+    <ul>
+        <li>Complete listing of lots displayed in the map (<a href="data/build/large_lot_listing.csv">CSV</a>)</li>
+        <li>Geospatial definitions of the lots displayed above (<a href="data/build/large_lot_area_parcels.zip">Shapefile</a>)</li>
+        <li>Boundary of the Large Lot Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
+    </ul>
 
-  <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
+    <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
 
-  <ul>
-    <li><a href='http://www.qgis.org/en/site/'>QGIS</a> - graphic information system (GIS) desktop application</li>
-    <li><a href='http://postgis.net/'>PostGIS</a> - geospatial database</li>
-    <li><a href='http://getbootstrap.com/'>Bootstrap</a> - Responsive HTML, CSS and Javascript framework</li>
-    <li><a href='http://leafletjs.com/'>Leaflet</a> - javascript library interactive maps</li>
-    <li><a href='http://cartodb.com'>CartoDB</a> - platform for rendering interactive map tiles</li>
-    <li><a href='https://github.com/asual/jquery-address'>jQuery Address</a> - javascript library creating RESTful URLs</li>
-  </ul>
+    <ul>
+      <li><a href='http://www.qgis.org/en/site/'>QGIS</a> - graphic information system (GIS) desktop application</li>
+      <li><a href='http://postgis.net/'>PostGIS</a> - geospatial database</li>
+      <li><a href='http://getbootstrap.com/'>Bootstrap</a> - Responsive HTML, CSS and Javascript framework</li>
+      <li><a href='http://leafletjs.com/'>Leaflet</a> - javascript library interactive maps</li>
+      <li><a href='http://cartodb.com'>CartoDB</a> - platform for rendering interactive map tiles</li>
+      <li><a href='https://github.com/asual/jquery-address'>jQuery Address</a> - javascript library creating RESTful URLs</li>
+    </ul>
 
-  <h3>Press</h3>
-  <ul>
-    <li><a href="http://www.smartchicagocollaborative.org/largelots-org-a-working-app-for-the-englewood-neighborhood/">Largelots.org – A working app for the Englewood Neighborhood</a> - Christopher Whitaker, Smart Chicago Collaborative</li>
-    <li><a href="http://www.columbiachronicle.com/metro/article_93095606-cce1-11e3-a559-001a4bcf6878.html">Local hackers raise awareness through community-focused websites</a> - Jennifer Wolan, The Columbia Chronicle</li>
-    <li><a href="http://wbezdata.tumblr.com/post/83103392730/how-largelots-org-became-a-reality">How LargeLots.org became a reality</a> - Chris Hagan, WBEZ Chicago Public Data</li>
-    <li><a href="https://soundcloud.com/techshift/hackers-fight-neighborhood-blight">Hackers fight neighborhood blight</a> - Aysha Butler and Demond Drummer interview on WBEZ Tech Shift</li>
-    <li><a href="http://chicagotonight.wttw.com/2014/04/17/empty-lots-sale-chicago">Empty Lots for Sale in Chicago</a> - Brandis Friedman, WTTW Chicago Tonight</li>
-    <li><a href="http://abclocal.go.com/wls/story?section=news/local/chicago_news&amp;id=9498064">Chicago-owned residential lots sell for $1 in Englewood, Washington Park, Woodlawn</a> - Ben Bradley, ABC 7 Chicago</li>
-    <li><a href="http://chicago.curbed.com/archives/2014/04/07/how-to-buy-a-city-owned-lot-in-englwood-for-only-1.php">Here’s How to Buy a City-Owned Lot in Englewood for Only $1</a> - AJ LaTrace, Curbed Chicago</li>
-    <li><a href="http://www.lisc-chicago.org/blog/9">Website Helps Residents Buy $1 Vacant Lots</a> - Patrick Barry, LISC Chicago</li>
-    <li><a href="http://www.teamworkenglewood.org/news/7462">Teamwork Englewood Launches LargeLots.org</a> - Demond Drummer, Teamwork Englewood</li>
-  </ul>
+    <h3>Press</h3>
+    <ul>
+      <li><a href="http://www.smartchicagocollaborative.org/largelots-org-a-working-app-for-the-englewood-neighborhood/">Largelots.org – A working app for the Englewood Neighborhood</a> - Christopher Whitaker, Smart Chicago Collaborative</li>
+      <li><a href="http://www.columbiachronicle.com/metro/article_93095606-cce1-11e3-a559-001a4bcf6878.html">Local hackers raise awareness through community-focused websites</a> - Jennifer Wolan, The Columbia Chronicle</li>
+      <li><a href="http://wbezdata.tumblr.com/post/83103392730/how-largelots-org-became-a-reality">How LargeLots.org became a reality</a> - Chris Hagan, WBEZ Chicago Public Data</li>
+      <li><a href="https://soundcloud.com/techshift/hackers-fight-neighborhood-blight">Hackers fight neighborhood blight</a> - Aysha Butler and Demond Drummer interview on WBEZ Tech Shift</li>
+      <li><a href="http://chicagotonight.wttw.com/2014/04/17/empty-lots-sale-chicago">Empty Lots for Sale in Chicago</a> - Brandis Friedman, WTTW Chicago Tonight</li>
+      <li><a href="http://abclocal.go.com/wls/story?section=news/local/chicago_news&amp;id=9498064">Chicago-owned residential lots sell for $1 in Englewood, Washington Park, Woodlawn</a> - Ben Bradley, ABC 7 Chicago</li>
+      <li><a href="http://chicago.curbed.com/archives/2014/04/07/how-to-buy-a-city-owned-lot-in-englwood-for-only-1.php">Here’s How to Buy a City-Owned Lot in Englewood for Only $1</a> - AJ LaTrace, Curbed Chicago</li>
+      <li><a href="http://www.lisc-chicago.org/blog/9">Website Helps Residents Buy $1 Vacant Lots</a> - Patrick Barry, LISC Chicago</li>
+      <li><a href="http://www.teamworkenglewood.org/news/7462">Teamwork Englewood Launches LargeLots.org</a> - Demond Drummer, Teamwork Englewood</li>
+    </ul>
+  </div>
 {% endblock %}
