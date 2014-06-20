@@ -1,0 +1,61 @@
+{% load lots_filters %}
+<a id='logo' href="http://largelots.org">
+  <img src='http://largelots.org/images/large_lots.png' alt='Large Lots' />
+</a>
+<div class="row">
+    <h2>Thanks for Applying {{app.first_name}}!</h2>
+    <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on the web</a></p>
+    {% for lot in lots %}
+        <div>
+            <img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Address</td>
+                        <td>{{lot.address.street}}</td>
+                    </tr>
+                    <tr>
+                        <td>PIN</td>
+                        <td>
+                            {{lot.pin}} (<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
+    {% endfor %}
+</div>
+<div class="row">
+    <h4>Your contact info:</h4>
+    <table>
+        <tbody>
+            <tr>
+                <td>Address</td>
+                <td>
+                    {{app.contact_address.street}}
+                    {{app.contact_address.city}},
+                    {{app.contact_address.state}}
+                    {{app.contact_address.zip_code}}
+                </td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{app.phone}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{app.email}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <p><strong>If you have any questions, please contact:</strong></p>
+    <p>
+       Jeanne Chandler, Department of Planning and Developement<br />
+       Phone: (312) 744-0605<br />
+       Email: Jeanne.Chandler@cityofchicago.org
+    </p>
+</div>

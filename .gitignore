@@ -7,3 +7,6 @@
 *.prj
 *.table
 *.zip
+*.pyc
+*.sqlite3
+.env

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load lots_filters %}
+{% block content %}
+<div class="col-sm-8 col-sm-offset-2">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Thanks for Applying {{app.first_name}}!</h2>
+            {% if app.email %}
+                <p>You should receive confirmation email soon!</p>
+            {% endif %}
+            {% if lots|length > 1 %}
+        </div>
+        {% for lot in lots %}
+            <div class="col-sm-6">
+                <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
+                <table class="table table-bordered table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>Address</td>
+                            <td>{{lot.address.street}}</td>
+                        </tr>
+                        <tr>
+                            <td>PIN</td>
+                            <td>
+                                {{lot.pin}} (<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+        {% else %}
+        </div>
+        {% for lot in lots %}
+        <div class="col-sm-12">
+            <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <td>Address</td>
+                        <td>{{lot.address.street}}</td>
+                    </tr>
+                    <tr>
+                        <td>PIN</td>
+                        <td>
+                            {{lot.pin}} (<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>Your contact info:</p>
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <td>Address</td>
+                        <td>
+                            {{app.contact_address.street}}
+                            {{app.contact_address.city}},
+                            {{app.contact_address.state}}
+                            {{app.contact_address.zip_code}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{app.phone}}</td>
+                    </tr>
+                    {% if app.email %}
+                        <tr>
+                            <td>Email</td>
+                            <td>{{app.email}}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p><strong>If you have any questions, please contact:</strong></p>
+            <p>
+               Jeanne Chandler, Department of Planning and Developement<br />
+               Phone: (312) 744-0605<br />
+               Email: Jeanne.Chandler@cityofchicago.org
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
