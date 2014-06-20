@@ -108,3 +108,10 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_KEY']
 AWS_STORAGE_BUCKET_NAME = 'large-lots-uploads'
+
+EMAIL_HOST = os.environ['LOTS_EMAIL_HOST']
+EMAIL_PORT = os.environ['LOTS_EMAIL_PORT']
+EMAIL_USE_TLS = os.environ['LOTS_EMAIL_USE_TLS']
+EMAIL_HOST_USER = os.environ['LOTS_EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['LOTS_EMAIL_HOST_PASSWORD']
+

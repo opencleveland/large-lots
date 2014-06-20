@@ -26,25 +26,12 @@
     <!-- <link href="css/leaflet.label.css" media="all" rel="stylesheet" type="text/css" /> -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
     {% block extra_css %}{% endblock %}
-    <style id="englewood-styles">
-      #full_area_lots {
-        polygon-fill: #6ac682;
-        polygon-opacity: 0.7;
-        line-color: #389250;
-        line-width: 0.5;
-        line-opacity: 1;
-      }
-      #full_area_lots[status=1]{
-        polygon-fill: #A1285D;
-        line-color: #680D35;
-      }
-    </style>
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
+        {% block nav %}
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -64,9 +51,9 @@
             {% if request.user.is_authenticated %}<li><a href="{% url 'logout' %}">Logout</a></li>{% endif %}
           </ul>
         </div><!--/.nav-collapse -->
+        {% endblock %}
       </div>
     </div>
-
     <div class="container" id="main-content">
       {% block content %}{% endblock %}
     </div> <!-- /container -->

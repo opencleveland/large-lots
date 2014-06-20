@@ -1,0 +1,28 @@
+{% load lots_filters %}
+** Thanks for Applying {{app.first_name}}!
+------------------------------------------------------------
+
+{% if lots|length > 1 %}
+These are the lots you applied for:
+{% for lot in lots %}
+    Address: {{lot.address.street}}
+    PIN: {{lot.pin}}
+{% endfor %}
+{% else %}
+This is the lot you applied for: </p>
+{% for lot in lots %}
+    Address: {{lot.address.street}}
+    PIN: {{lot.pin}}
+{% endfor %}
+{% endif %}
+
+Your contact info:
+    Address: {{app.contact_address.street}} {{app.contact_address.city}}, {{app.contact_address.state}} {{app.contact_address.zip_code}}
+    Phone:  {{app.phone}}
+    Email:  {{app.email}}
+
+If you have any questions, please contact:
+
+Jeanne Chandler, Department of Planning and Developement
+Phone: (312) 744-0605
+Email: Jeanne.Chandler@cityofchicago.org

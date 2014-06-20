@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*
 
 from django.shortcuts import render
+from django.conf import settings
 from django import forms
+from django.template import Context
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
 from lots_admin.models import Lot, Application, Address
 import requests
 from django.core.cache import cache
@@ -101,6 +105,17 @@ def apply(request):
             if lot2:
                 app.lot_set.add(lot2)
             app.save()
+            if app.email:
+                html_template = get_template('apply_html_email.html')
+                text_template = get_template('apply_text_email.txt')
+                lots = [l for l in app.lot_set.all()]
+                context = Context({'app': app, 'lots': lots})
+                html_content = html_template.render(context)
+                text_content = text_template.render(context)
+                subject, from_email, to = 'Large Lots Application', settings.EMAIL_HOST_USER, app.email
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, 'text/html')
+                msg.send()
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
@@ -130,7 +145,7 @@ def apply(request):
 
 def apply_confirm(request, tracking_id):
     app = Application.objects.get(tracking_id=tracking_id)
-    lots = [l.address.street for l in app.lot_set.all()]
+    lots = [l for l in app.lot_set.all()]
     return render(request, 'apply_confirm.html', {'app': app, 'lots': lots})
 
 def status(request):
