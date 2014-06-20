@@ -2,19 +2,36 @@
 
 The City of Chicago is selling lots in Englewood for $1 until April 21, 2014. Here's how you get one.
 
-## Running locally
+## Configuring and running locally
+
+Clone the repo and install the requirements:
 
 ``` bash
 git clone git@github.com:datamade/large-lots.git
 cd large-lots
+pip install -r requirements.txt
+```
 
-# to run locally
-python -m SimpleHTTPServer
+Setup a few Environmental variables:
+
+``DJANGO_SECRET_KEY`` Django’s [Secret
+Key](https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-SECRET_KEY)
+used by the project. Can be any relatively hard to guess string.
+
+``AWS_ACCESS_KEY`` AWS key used by the file storage mechanism to store files in
+S3.
+
+``AWS_SECRET_KEY`` The secret that goes with the key above.
+
+Run the app:
+
+```bash 
+python manage.py runserver
 ```
 
 navigate to http://localhost:8000/
 
-# Data
+## Data
 
 Our map was built using open data from Chicago and Cook County:
 
@@ -22,7 +39,7 @@ Our map was built using open data from Chicago and Cook County:
 * [Chicago - Wards](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf)
 * [Cook County - 2012 Parcels](https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8)
 
-# dependencies
+## Dependencies
 We used the following open source tools:
 
 * [QGIS](http://www.qgis.org/en/site/) - graphic information system (GIS) desktop application

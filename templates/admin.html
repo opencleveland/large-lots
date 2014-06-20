@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<h2>Applications Received</h2>
+<p><a href="{% url 'csv_dump' %}">Export as CSV</a></p>
+<table id="received" class="table table-striped">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Organization</th>
+        <th>Owned Address</th>
+        <th>Contact Address</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Deed</th>
+    </thead>
+    <tbody>
+    {% for application in applications %}
+        <tr>
+            <td>{{application.id}}</td>
+            <td>{{application.first_name}} {{application.last_name}}</td>
+            <td>{{application.organization}}</td>
+            <td>{{application.owned_address.street}}</td>
+            <td>{{application.contact_address.street}}</td>
+            <td>{{application.phone}}</td>
+            <td>{{application.email}}</td>
+            <td><a href="{{application.deed_image.url}}" target="_blank">Download</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/jquery.tablesorter.min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#received').tablesorter();
+        })
+    </script>
+{% endblock %}

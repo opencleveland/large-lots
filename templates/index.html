@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+      <div class='col-md-12'>
+
+        <div class='row'>
+          <div class='col-md-6'>
+            <div class='well'>
+              <h3>East Garfield Park</h3>
+
+              <p> The Large Lot Program is open again for <strong>East Garfield Park</strong>! Applications will be accepted until <strong>July 31st, 2014</strong>. Apply for a lot today!
+              </p>
+
+              <div class='row'>
+                <div class='col-md-10 col-md-offset-1'>
+                  <p><a href='{% url "apply" %}'><img src='{% static "images/phase-2-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='East Garfield Park' /></a></p>
+                </div>
+              </div>
+
+              <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
+            </div>
+          </div>
+
+          <div class='col-md-6'>
+            <div class='well'>
+              <h3>Englewood, Washington Park and Woodlawn</h3>
+
+              <p>The Englewood pilot ended on <strong>April 21st, 2014</strong> and <strong>414 applications</strong> for lots were received. Check the status of each lot application.</p>
+
+              <div class='row'>
+                <div class='col-md-10 col-md-offset-1'>
+                  <p>
+                  <a href='{% url "status" %}'><img src='{% static "images/phase-1-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='Englewood, Washington Park and Woodlawn' /></a>
+                  </p>
+                </div>
+              </div>
+
+              <p class='text-center'><a href='{% url "status" %}' class="btn btn-danger btn-lg">Check status</a></p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p class='pull-right'>&copy; <a href='http://datamade.us'>DataMade</a> and <a href='http://www.lisc-chicago.org/'>LISC-Chicago</a></p>
+        </div>
+      </div>
+{% endblock %}
