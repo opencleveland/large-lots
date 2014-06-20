@@ -24,7 +24,10 @@ DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.datamade.us',
+    '.largelots.org'
+]
 
 
 # Application definition
@@ -85,8 +88,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "lots", "static"),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates')
