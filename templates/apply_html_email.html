@@ -18,9 +18,7 @@
                     </tr>
                     <tr>
                         <td>PIN</td>
-                        <td>
-                            {{lot.pin}} (<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)
-                        </td>
+                        <td>{{lot.pin}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -35,7 +33,11 @@
         <tbody>
             <tr>
                 <td>Name</td>
-                <td>{{app.first_name}} {{app.last_name}}<br />{{app.organization}}</td>
+                <td>{{app.first_name}} {{app.last_name}}</td>
+            </tr>
+            <tr>
+                <td>Organization</td>
+                <td>{{app.organization}}</td>
             </tr>
             <tr>
                 <td>Address</td>
