@@ -176,25 +176,24 @@
                   <div class="well" id="ownership">
                     <h2>2. Proof of ownership on the block</h2>
                     <p><span class="red">*</span>Required</p>
-                    <div>
-                      <p>You'll need to prove that you own property on the same block as the lot(s) you are applying to get.</p>
 
-                        {% if form.owned_address.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_owned_address"><i class="fa fa-home"></i> Address<span class="red">*</span></label>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class='input-group'>
-                              <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
-                              <span class="input-group-addon">Chicago, IL</span>
-                            </div>
-                            {% for error in form.owned_address.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
+                      <p>You'll need to prove that you own property <strong>on the same block</strong> as the lot(s) you are applying to get.</p>
+
+                      {% if form.owned_address.errors %}
+                      <div class="form-group has-error">
+                      {% else %}
+                      <div class="form-group">
+                      {% endif %}
+                      <label for="id_owned_address"><i class="fa fa-home"></i> Block address<span class="red">*</span></label>
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <div class='input-group'>
+                            <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
+                            <span class="input-group-addon">Chicago, IL</span>
                           </div>
+                          {% for error in form.owned_address.errors %}
+                              <span class="help-block">{{ error }}</span>
+                          {% endfor %}
                         </div>
                       </div>
 

@@ -7,7 +7,7 @@ var LargeLots = {
   lastClickedLayer: null,
   geojson: null,
   marker: null,
-  locationScope: 'Chicago',
+  locationScope: 'chicago',
   boundingBox: {
     'bottom': 41.868506217235485,
     'top': 41.891607773180716,
@@ -199,28 +199,30 @@ var LargeLots = {
 
   addressSearch: function (e) {
     if (e) e.preventDefault();
-    var searchRadius = $("#search_address").val();
-    if (searchRadius != '') {
+    var searchAddress = $("#search_address").val();
+    if (searchAddress != '') {
 
-      var raw_address = $("#search_address").val().toLowerCase();
-      raw_address = raw_address.replace(" n ", " north ");
-      raw_address = raw_address.replace(" s ", " south ");
-      raw_address = raw_address.replace(" e ", " east ");
-      raw_address = raw_address.replace(" w ", " west ");
+      var searchAddress = searchAddress.toLowerCase();
+      searchAddress = searchAddress.replace(" n ", " north ");
+      searchAddress = searchAddress.replace(" s ", " south ");
+      searchAddress = searchAddress.replace(" e ", " east ");
+      searchAddress = searchAddress.replace(" w ", " west ");
+      
+      $("#id_owned_address").val(searchAddress.replace((", " + LargeLots.locationScope), ""));
 
       if(LargeLots.locationScope && LargeLots.locationScope.length){
-        var checkaddress = raw_address.toLowerCase();
+        var checkaddress = searchAddress.toLowerCase();
         var checkcity = LargeLots.locationScope.split(",")[0].toLowerCase();
         if(checkaddress.indexOf(checkcity) == -1){
-          raw_address += ", " + LargeLots.locationScope;
+          searchAddress += ", " + LargeLots.locationScope;
         }
       }
 
-      $.address.parameter('address', encodeURIComponent(raw_address));
+      $.address.parameter('address', encodeURIComponent(searchAddress));
 
       var s = document.createElement("script");
       s.type = "text/javascript";
-      s.src = "http://nominatim.openstreetmap.org/search/" + encodeURIComponent(raw_address) + "?format=json&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "&json_callback=LargeLots.returnAddress";
+      s.src = "http://nominatim.openstreetmap.org/search/" + encodeURIComponent(searchAddress) + "?format=json&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "&json_callback=LargeLots.returnAddress";
       document.body.appendChild(s);
       //&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "
     }
