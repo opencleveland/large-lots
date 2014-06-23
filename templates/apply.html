@@ -142,7 +142,7 @@
                           <div class="form-group">
                           {% endif %}
                           <label for="lot_2_pin">PIN</label>
-                          <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
+                          <input type="text" value="{{lot_2_pin}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
                           {% for error in form.lot_2_pin.errors %}
                               <span class="help-block">{{ error }}</span>
                           {% endfor %}
