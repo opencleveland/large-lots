@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*
 
-import string
 import re
 from django.shortcuts import render
 from django.conf import settings
@@ -178,14 +177,10 @@ def apply(request):
                 if label and error:
                     context['error_messages'][label] = form.errors[field][0]
             return render(request, 'apply.html', context)
+    elif settings.APPLICATION_DISPLAY:
+        form = ApplicationForm()
     else:
-        date_override = request.GET.get('date')
-        if date_override:
-            dt = timezone.make_aware(parser.parse(date_override),
-                timezone.get_current_timezone())
-            chicago_time = timezone.localtime(dt)
-        else:
-            chicago_time = timezone.localtime(timezone.now())
+        chicago_time = timezone.localtime(timezone.now())
         start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
             timezone.get_current_timezone())
         end_date = timezone.make_aware(datetime(2014, 8, 4, 23, 59),
