@@ -5,6 +5,7 @@ import re
 from django.shortcuts import render
 from django.conf import settings
 from django import forms
+from django.utils import timezone
 from django.template import Context
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
@@ -15,6 +16,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 from uuid import uuid4
 from collections import OrderedDict
+from datetime import datetime
+from dateutil import parser
 
 class ApplicationForm(forms.Form):
     lot_1_address = forms.CharField(
@@ -176,7 +179,21 @@ def apply(request):
                     context['error_messages'][label] = form.errors[field][0]
             return render(request, 'apply.html', context)
     else:
-        form = ApplicationForm()
+        date_override = request.GET.get('date')
+        if date_override:
+            dt = timezone.make_aware(parser.parse(date_override),
+                timezone.get_current_timezone())
+            chicago_time = timezone.localtime(dt)
+        else:
+            chicago_time = timezone.localtime(timezone.now())
+        start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
+            timezone.get_current_timezone())
+        end_date = timezone.make_aware(datetime(2014, 8, 4, 23, 59),
+            timezone.get_current_timezone())
+        if start_date < chicago_time < end_date:
+            form = ApplicationForm()
+        else:
+            form = None
     return render(request, 'apply.html', {'form': form})
 
 def apply_confirm(request, tracking_id):

@@ -19,421 +19,430 @@
         <p>If you own land in East Garfield Park, you can <strong>buy up two vacant lots</strong> from the City of Chicago. The lots must be on the same block as land you already own. Individuals and organizations can apply, but churches are not eligible.</p>
 
         <p>Applications will be accepted until <strong>August 4th, 2014 at 11:59pm</strong>. For more information, read the <a href='/faq/'>FAQ</a> and <a href='/about/'>about</a> pages.</p>
+        {% if form %}
+            <div class='row'>
+              <div class='col-md-12'>
+                <p>
+                  <h2 id='browse'>1. Search for and select up to two lots on your block</h2>
+                  <form class='form-inline hidden-print' id='lot-form'>
+                    <div class="form-group">
+                      <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
+                      <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
+                    </div>
+                  </form>
+                </p>
+              </div>
 
-        <div class='row'>
-          <div class='col-md-12'>
-            <p>
-              <h2 id='browse'>1. Search for and select up to two lots on your block</h2>
-              <form class='form-inline hidden-print' id='lot-form'>
-                <div class="form-group">
-                  <input class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
-                  <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
+              <div class='col-md-8'>
+                <div id='map'></div>
+              </div>
+              <div class='col-md-4'>
+                <div class='well' id='lot-info'>
+                  <p>To get started:</p>
+
+                  <ol>
+                    <li>Enter your address to view available lots near you</li>
+                    <li>Click on a lot on the map for details</li>
+                    <li>Add up to two lots to your application</li>
+                  </ol>
                 </div>
-              </form>
-            </p>
-          </div>
-
-          <div class='col-md-8'>
-            <div id='map'></div>
-          </div>
-          <div class='col-md-4'>
-            <div class='well' id='lot-info'>
-              <p>To get started:</p>
-
-              <ol>
-                <li>Enter your address to view available lots near you</li>
-                <li>Click on a lot on the map for details</li>
-                <li>Add up to two lots to your application</li>
-              </ol>
+              </div>
             </div>
-          </div>
-        </div>
-        <br />
-        <form role="form" id="application" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% if form.errors %}
-                <div id="form-errors" class="row">
-                    <div class="col-md-8">
-                        <div class="form-group has-error">
-                            <h3>There were some problems with your application: </h3>
-                            {% for label, message in error_messages.items %}
-                            <p class="help-block">
-                                <strong>{{label}}</strong> {{message}}</p>
-                            {% endfor %}
+            <br />
+            <form role="form" id="application" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div id="form-errors" class="row">
+                        <div class="col-md-8">
+                            <div class="form-group has-error">
+                                <h3>There were some problems with your application: </h3>
+                                {% for label, message in error_messages.items %}
+                                <p class="help-block">
+                                    <strong>{{label}}</strong> {{message}}</p>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
-            <div class='row'>
-              <div class='col-md-8'>
-                <div class="panel panel-default">
-                  <div class='panel-heading'>
-                    Selected lots:
-                  </div>
-                  <div class="panel-body">
-                    <p><a href='#' id='apply_another'><i class='fa fa-map-marker'></i> Use the map above</a> to search for and select the lot(s) you want to apply for. If you know it already, you may enter the lot address and PIN manually. You may apply for <strong>up to two lots</strong>.</p>
-                    <div class="row" id="lot-display">
-                      <div class="col-sm-6">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <h3>Lot #1<span class="red">*</span></h3>
-                            {% if form.lot_1_address.errors %}
+                {% endif %}
+                <div class='row'>
+                  <div class='col-md-8'>
+                    <div class="panel panel-default">
+                      <div class='panel-heading'>
+                        Selected lots:
+                      </div>
+                      <div class="panel-body">
+                        <p><a href='#' id='apply_another'><i class='fa fa-map-marker'></i> Use the map above</a> to search for and select the lot(s) you want to apply for. If you know it already, you may enter the lot address and PIN manually. You may apply for <strong>up to two lots</strong>.</p>
+                        <div class="row" id="lot-display">
+                          <div class="col-sm-6">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <h3>Lot #1<span class="red">*</span></h3>
+                                {% if form.lot_1_address.errors %}
+                                <div class="form-group has-error">
+                                {% else %}
+                                <div class="form-group">
+                                {% endif %}
+                                  <div class="input-group">
+                                    <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
+                                    <div class="input-group-addon">Chicago, IL</div>
+                                  </div>
+                                  {% for error in form.lot_1_address.errors %}
+                                      <span class="help-block">{{ error }}</span>
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+                            {% if form.lot_1_pin.errors %}
                             <div class="form-group has-error">
                             {% else %}
                             <div class="form-group">
                             {% endif %}
-                              <div class="input-group">
-                                <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
-                                <div class="input-group-addon">Chicago, IL</div>
+                              <label for="lot_1_pin">PIN</label>
+                              <input type="text" value="{{lot_1_pin}}" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="##-##-###-###-####">
+                              {% for error in form.lot_1_pin.errors %}
+                                  <span class="help-block">{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                            {% if form.lot_1_use.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="lot_1_use">How do you plan on using this lot?</label>
+                            <input type="text" value="{{lot_1_use}}" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
+                            {% for error in form.lot_1_use.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            </div>
+                            <button class="clear-lot-selection btn btn-default btn-block" data-lot="1">
+                                Clear selection <i class="fa fa-undo"></i>
+                            </button>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <h3>Lot #2 <small>(optional)</small></h3>
+                                {% if form.lot_2_address.errors %}
+                                <div class="form-group has-error">
+                                {% else %}
+                                <div class="form-group">
+                                {% endif %}
+                                  <div class="input-group">
+                                    <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_address" name="lot_2_address" placeholder="Street" />
+                                    <span class="input-group-addon">Chicago, IL</span>
+                                    {% for error in form.lot_2_address.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                  </div>
+                                </div>
                               </div>
-                              {% for error in form.lot_1_address.errors %}
+                            </div>
+                              {% if form.lot_2_pin.errors %}
+                              <div class="form-group has-error">
+                              {% else %}
+                              <div class="form-group">
+                              {% endif %}
+                              <label for="lot_2_pin">PIN</label>
+                              <input type="text" value="{{lot_2_pin}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
+                              {% for error in form.lot_2_pin.errors %}
+                                  <span class="help-block">{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                            {% if form.lot_2_use.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="lot_2_use">How do you plan on using this lot?</label>
+                            <input type="text" value="{{lot_2_use}}" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
+                            {% for error in form.lot_2_use.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            </div>
+                            <button class="clear-lot-selection btn btn-default btn-block" data-lot="2">
+                                Clear selection <i class="fa fa-undo"></i>
+                            </button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="application">
+
+                  <div class='row'>
+                    <div class='col-md-8'>
+                      <div class="well" id="ownership">
+                        <h2>2. Proof of ownership on the block</h2>
+                        <p><span class="red">*</span>Required</p>
+
+                          <p>You'll need to prove that you own property <strong>on the same block</strong> as the lot(s) you are applying to get.</p>
+
+                          {% if form.owned_address.errors %}
+                          <div class="form-group has-error">
+                          {% else %}
+                          <div class="form-group">
+                          {% endif %}
+                          <label for="id_owned_address"><i class="fa fa-home"></i> Block address<span class="red">*</span></label>
+                          <div class="row">
+                            <div class="col-sm-8">
+                              <div class='input-group'>
+                                <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
+                                <span class="input-group-addon">Chicago, IL</span>
+                              </div>
+                              {% for error in form.owned_address.errors %}
                                   <span class="help-block">{{ error }}</span>
                               {% endfor %}
                             </div>
                           </div>
-                        </div>
-                        {% if form.lot_1_pin.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                          <label for="lot_1_pin">PIN</label>
-                          <input type="text" value="{{lot_1_pin}}" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="##-##-###-###-####">
-                          {% for error in form.lot_1_pin.errors %}
-                              <span class="help-block">{{ error }}</span>
-                          {% endfor %}
-                        </div>
-                        {% if form.lot_1_use.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="lot_1_use">How do you plan on using this lot?</label>
-                        <input type="text" value="{{lot_1_use}}" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
-                        {% for error in form.lot_1_use.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                        </div>
-                        <button class="clear-lot-selection btn btn-default btn-block" data-lot="1">
-                            Clear selection <i class="fa fa-undo"></i>
-                        </button>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <h3>Lot #2 <small>(optional)</small></h3>
-                            {% if form.lot_2_address.errors %}
+
+                            {% if form.owned_pin.errors %}
                             <div class="form-group has-error">
                             {% else %}
                             <div class="form-group">
                             {% endif %}
-                              <div class="input-group">
-                                <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_address" name="lot_2_address" placeholder="Street" />
-                                <span class="input-group-addon">Chicago, IL</span>
-                                {% for error in form.lot_2_address.errors %}
+                          </div>
+
+                          <h3>Upload your deed</h3>
+
+                          <p>To prove ownership, you'll have to upload a copy of your deed.</p>
+
+                          <ol>
+                            <li>If you <strong>do</strong> have a paper copy handy, scan it or take a picture.</li>
+                            <li>If you <strong>don't</strong> have a copy, download it from the <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> for <strong>$4.00</strong> or pick it up in person at <a href='https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z'>118 N Clark St.</a></li>
+                          </ol>
+
+                            <div class="panel-group" id="accordion">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                      <i class='fa fa-info-circle'></i> How do I download my deed from the Cook County Recorder of Deeds?
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                    <p>The <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> holds records of property ownership. If your deed was dated before 1985, you will need to pick up your deed in person at <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">118 N Clark St</a>. If your deed is from after 1985, you can download a scanned version of your property deed by following these steps:
+
+                                    <p><strong>1. Search records under your PIN</strong></p>
+
+                                    <p class="deed-explain">
+                                      Enter your current PIN <a href="http://12.218.239.81/i2/default.aspx" target="blank">here</a> and click Search. You will see a list of various records associated with your PIN.
+                                      <img class='img-responsive' src="{% static 'images/deed1.png' %}"/>
+                                    </p>
+
+                                    <p><strong>2. View your deed</strong></p>
+                                    <p class="deed-explain">
+                                    Click on the most recent deed - this will likely be in the first row. Document details will show up on the right side of the page, and a scanned image of your deed will show up in a new window. If you do not see the scanned image, click View Images (make sure pop-ups are allowed). [screenshot]</p>
+
+                                    <p><strong>3. Download your deed as a PDF (this costs $4.00)</strong></p>
+                                    <p class="deed-explain">
+                                    Within the pop-up, click Print Document and enter your payment information. Once you are done, you will have the scanned document as a PDF on your computer. [screenshot]</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                            {% if form.deed_image.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_deed_image"><i class='fa fa-cloud-upload'></i> Upload your deed</label><span class="red">*</span>
+                            <input type="file" value="{{deed_image}}" id="id_deed_image" name="deed_image">
+                            {% for error in form.deed_image.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            <p class="help-block">Your deed will need to be in PDF or image format.</p>
+                          </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class='col-md-8'>
+                      <div class="well" id="personal-info">
+                        <h2>3. Contact information</h2>
+                        <p><span class="red">*</span>Required</p>
+                        <div>
+                            {% if form.first_name.errors or form.last_name.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_first_name"><i class="fa fa-user"></i> Name<span class="red">*</span></label>
+                            <div class="row">
+                              <div class="col-xs-6">
+                                <input type="text" value="{{first_name}}" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
+                                {% for error in form.first_name.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                              </div>
+                              <div class="col-xs-6">
+                                <input type="text" value="{{last_name}}" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
+                                {% for error in form.last_name.errors %}
                                     <span class="help-block">{{ error }}</span>
                                 {% endfor %}
                               </div>
                             </div>
                           </div>
+                            {% if form.organization.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_organization"><i class="fa fa-group"></i> Organization</label>
+                            <input type="text" value="{{organization}}" class="form-control" id="id_organization" name="organization" />
+                            {% for error in form.organization.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                          </div>
+                            {% if form.phone.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_phone"><i class="fa fa-phone"></i> Phone<span class="red">*</span></label>
+                            <input type="tel" value="{{phone}}" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
+                            {% for error in form.phone.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                          </div>
+                            {% if form.email.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_email"><i class="fa fa-envelope"></i> Email</label>
+                            <input type="email" value="{{email}}" class="form-control" id="id_email" name="email" placeholder="name@email.com">
+                            {% for error in form.email.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            <p class="help-block">If provided, we'll send you a confirmation email and updates on your application status.</p>
+                          </div>
+                            {% if form.contact_street.errors or form.contact_city.errors or form.contact_state.errors or form.contact_zip_code.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_contact_street">
+                                <i class="fa fa-home"></i>
+                                Address<span class="red">*</span>
+                            </label>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <input type="text" value="{{contact_street}}" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
+                              </div>
+                              <div class="col-sm-2">
+                                <input type="text" class="form-control" value="{{contact_city}}" id="id_contact_city" name="contact_city" placeholder="City">
+                              </div>
+                              <div class="col-sm-2">
+                                <input type="text" class="form-control" value="{{contact_state}}" id="id_contact_state" name="contact_state" placeholder="State">
+                              </div>
+                              <div class="col-sm-2">
+                                <input type="text" class="form-control" value="{{contact_zip_code}}" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
+                              </div>
+                              {% for error in form.contact_street.errors %}
+                                  <div class="col-sm-12">
+                                    <span class="help-block">{{ error }}</span>
+                                  </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                            {% if form.email.errors %}
+                            <div class="form-group has-error">
+                            {% else %}
+                            <div class="form-group">
+                            {% endif %}
+                            <label for="id_how_heard">Did you receive assistance in completing this application? If so, from who?</label>
+                            <select class="form-control" id="id_how_heard" name="how_heard">
+                              <option>I did not receive assistance</option>
+                              <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
+                              <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
+                              <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
+                              <option value="Chicago Public Library" {% if how_heard == 'Chicago Public Library' %}selected=true{% endif %}>Chicago Public Library</option>
+                              <option value="Other" {% if how_heard == 'Other' %}selected=true{% endif %}>Other</option>
+                            </select>
+                          </div>
                         </div>
-                          {% if form.lot_2_pin.errors %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class='col-md-8'>
+                      <div id="terms">
+                        <h2>4. Eligibility and Terms</h2>
+
+                        <h3>Program Eligibility</h3>
+
+                        <ul>
+                          <li>You can't owe the City any money, including property taxes, water bills, parking tickets, and any other obligations.</li>
+                          <li>Churches are not eligible</li>
+                        </ul>
+
+                        <h3>Buyer responsibilities</h3>
+
+                        <ul>
+                          <li>You will have to pay property taxes. You should expect to pay $200-$600 per year in property taxes, based on the assessed value of your lot.</li>
+                          <li>You must own the lot for at least 5 years before selling it</li>
+                          <li>You can't use the lot for commercial purposes</li>
+                        </ul>
+
+                        <h3>Terms</h3>
+
+                        <p>This application is a Statement of Interest only, and does not guarantee that the City of Chicago will transfer ownership of the lots indicated. If this application gets approved, the City will work with the buyer to close the transaction - the property will be transferred "AS IS" via a Quit Claim Deed. The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer.</p>
+
+                        <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
+
+                        <div class='well'>
+                          {% if form.terms.errors %}
                           <div class="form-group has-error">
                           {% else %}
                           <div class="form-group">
                           {% endif %}
-                          <label for="lot_2_pin">PIN</label>
-                          <input type="text" value="{{lot_2_pin}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
-                          {% for error in form.lot_2_pin.errors %}
-                              <span class="help-block">{{ error }}</span>
-                          {% endfor %}
+                            <div class="checkbox">
+                              <label>
+                                <input id="id_terms" name="terms" type="checkbox" {% if terms %}checked=true{% endif %}/>
+                                  {% if form.terms.errors %}
+                                  {% for error in form.terms.errors %}
+                                      <span class="help-block">{{ error }}</span>
+                                  {% endfor %}
+                                  {% else %}
+                                  I understand and agree to the terms<span class="red">*</span>
+                                  {% endif %}
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                        {% if form.lot_2_use.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="lot_2_use">How do you plan on using this lot?</label>
-                        <input type="text" value="{{lot_2_use}}" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
-                        {% for error in form.lot_2_use.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                        </div>
-                        <button class="clear-lot-selection btn btn-default btn-block" data-lot="2">
-                            Clear selection <i class="fa fa-undo"></i>
-                        </button>
                       </div>
-
                     </div>
                   </div>
-                </div>
-              </div>
+
+                <p><button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button></p>
+
+                <p><strong>If you have any questions, please contact:</strong></p>
+                <p>
+                   Jeanne Chandler, Department of Planning and Developement<br />
+                   Phone: (312) 744-0605<br />
+                   Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
+                </p>
+              </form>
             </div>
-
-            <div id="application">
-
-              <div class='row'>
-                <div class='col-md-8'>
-                  <div class="well" id="ownership">
-                    <h2>2. Proof of ownership on the block</h2>
-                    <p><span class="red">*</span>Required</p>
-
-                      <p>You'll need to prove that you own property <strong>on the same block</strong> as the lot(s) you are applying to get.</p>
-
-                      {% if form.owned_address.errors %}
-                      <div class="form-group has-error">
-                      {% else %}
-                      <div class="form-group">
-                      {% endif %}
-                      <label for="id_owned_address"><i class="fa fa-home"></i> Block address<span class="red">*</span></label>
-                      <div class="row">
-                        <div class="col-sm-8">
-                          <div class='input-group'>
-                            <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
-                            <span class="input-group-addon">Chicago, IL</span>
-                          </div>
-                          {% for error in form.owned_address.errors %}
-                              <span class="help-block">{{ error }}</span>
-                          {% endfor %}
-                        </div>
-                      </div>
-
-                        {% if form.owned_pin.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                      </div>
-
-                      <h3>Upload your deed</h3>
-
-                      <p>To prove ownership, you'll have to upload a copy of your deed.</p>
-
-                      <ol>
-                        <li>If you <strong>do</strong> have a paper copy handy, scan it or take a picture.</li>
-                        <li>If you <strong>don't</strong> have a copy, download it from the <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> for <strong>$4.00</strong> or pick it up in person at <a href='https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z'>118 N Clark St.</a></li>
-                      </ol>
-
-                        <div class="panel-group" id="accordion">
-                          <div class="panel panel-default">
-                            <div class="panel-heading">
-                              <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                  <i class='fa fa-info-circle'></i> How do I download my deed from the Cook County Recorder of Deeds?
-                                </a>
-                              </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse">
-                              <div class="panel-body">
-                                <p>The <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> holds records of property ownership. If your deed was dated before 1985, you will need to pick up your deed in person at <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">118 N Clark St</a>. If your deed is from after 1985, you can download a scanned version of your property deed by following these steps:
-
-                                <p><strong>1. Search records under your PIN</strong></p>
-
-                                <p class="deed-explain">
-                                  Enter your current PIN <a href="http://12.218.239.81/i2/default.aspx" target="blank">here</a> and click Search. You will see a list of various records associated with your PIN.
-                                  <img class='img-responsive' src="{% static 'images/deed1.png' %}"/>
-                                </p>
-
-                                <p><strong>2. View your deed</strong></p>
-                                <p class="deed-explain">
-                                Click on the most recent deed - this will likely be in the first row. Document details will show up on the right side of the page, and a scanned image of your deed will show up in a new window. If you do not see the scanned image, click View Images (make sure pop-ups are allowed). [screenshot]</p>
-
-                                <p><strong>3. Download your deed as a PDF (this costs $4.00)</strong></p>
-                                <p class="deed-explain">
-                                Within the pop-up, click Print Document and enter your payment information. Once you are done, you will have the scanned document as a PDF on your computer. [screenshot]</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                        {% if form.deed_image.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_deed_image"><i class='fa fa-cloud-upload'></i> Upload your deed</label><span class="red">*</span>
-                        <input type="file" value="{{deed_image}}" id="id_deed_image" name="deed_image">
-                        {% for error in form.deed_image.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                        <p class="help-block">Your deed will need to be in PDF or image format.</p>
-                      </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class='row'>
-                <div class='col-md-8'>
-                  <div class="well" id="personal-info">
-                    <h2>3. Contact information</h2>
-                    <p><span class="red">*</span>Required</p>
-                    <div>
-                        {% if form.first_name.errors or form.last_name.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_first_name"><i class="fa fa-user"></i> Name<span class="red">*</span></label>
-                        <div class="row">
-                          <div class="col-xs-6">
-                            <input type="text" value="{{first_name}}" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
-                            {% for error in form.first_name.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                          </div>
-                          <div class="col-xs-6">
-                            <input type="text" value="{{last_name}}" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
-                            {% for error in form.last_name.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      </div>
-                        {% if form.organization.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_organization"><i class="fa fa-group"></i> Organization</label>
-                        <input type="text" value="{{organization}}" class="form-control" id="id_organization" name="organization" />
-                        {% for error in form.organization.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                      </div>
-                        {% if form.phone.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_phone"><i class="fa fa-phone"></i> Phone<span class="red">*</span></label>
-                        <input type="tel" value="{{phone}}" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
-                        {% for error in form.phone.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                      </div>
-                        {% if form.email.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_email"><i class="fa fa-envelope"></i> Email</label>
-                        <input type="email" value="{{email}}" class="form-control" id="id_email" name="email" placeholder="name@email.com">
-                        {% for error in form.email.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                        <p class="help-block">If provided, we'll send you a confirmation email and updates on your application status.</p>
-                      </div>
-                        {% if form.contact_street.errors or form.contact_city.errors or form.contact_state.errors or form.contact_zip_code.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_contact_street">
-                            <i class="fa fa-home"></i>
-                            Address<span class="red">*</span>
-                        </label>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <input type="text" value="{{contact_street}}" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
-                          </div>
-                          <div class="col-sm-2">
-                            <input type="text" class="form-control" value="{{contact_city}}" id="id_contact_city" name="contact_city" placeholder="City">
-                          </div>
-                          <div class="col-sm-2">
-                            <input type="text" class="form-control" value="{{contact_state}}" id="id_contact_state" name="contact_state" placeholder="State">
-                          </div>
-                          <div class="col-sm-2">
-                            <input type="text" class="form-control" value="{{contact_zip_code}}" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
-                          </div>
-                          {% for error in form.contact_street.errors %}
-                              <div class="col-sm-12">
-                                <span class="help-block">{{ error }}</span>
-                              </div>
-                          {% endfor %}
-                        </div>
-                      </div>
-                        {% if form.email.errors %}
-                        <div class="form-group has-error">
-                        {% else %}
-                        <div class="form-group">
-                        {% endif %}
-                        <label for="id_how_heard">Did you receive assistance in completing this application? If so, from who?</label>
-                        <select class="form-control" id="id_how_heard" name="how_heard">
-                          <option>I did not receive assistance</option>
-                          <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
-                          <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
-                          <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
-                          <option value="Chicago Public Library" {% if how_heard == 'Chicago Public Library' %}selected=true{% endif %}>Chicago Public Library</option>
-                          <option value="Other" {% if how_heard == 'Other' %}selected=true{% endif %}>Other</option>
-                        </select>
-                      </div>
+        {% else %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <h2>Application period is currently not open.</h2>
                     </div>
-                  </div>
                 </div>
-              </div>
-
-              <div class='row'>
-                <div class='col-md-8'>
-                  <div id="terms">
-                    <h2>4. Eligibility and Terms</h2>
-
-                    <h3>Program Eligibility</h3>
-
-                    <ul>
-                      <li>You can't owe the City any money, including property taxes, water bills, parking tickets, and any other obligations.</li>
-                      <li>Churches are not eligible</li>
-                    </ul>
-
-                    <h3>Buyer responsibilities</h3>
-
-                    <ul>
-                      <li>You will have to pay property taxes. You should expect to pay $200-$600 per year in property taxes, based on the assessed value of your lot.</li>
-                      <li>You must own the lot for at least 5 years before selling it</li>
-                      <li>You can't use the lot for commercial purposes</li>
-                    </ul>
-
-                    <h3>Terms</h3>
-
-                    <p>This application is a Statement of Interest only, and does not guarantee that the City of Chicago will transfer ownership of the lots indicated. If this application gets approved, the City will work with the buyer to close the transaction - the property will be transferred "AS IS" via a Quit Claim Deed. The City maintains the right to condition the transfer of the title on the buyer’s acceptance of certain deed restrictions. Restrictions may be included in the deed to ensure properties are maintained in an agreed upon way. If the buyer fails to maintain the property in an agreed upon way, the City may exercise its discretion and take title to the property back from the buyer.</p>
-
-                    <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
-
-                    <div class='well'>
-                      {% if form.terms.errors %}
-                      <div class="form-group has-error">
-                      {% else %}
-                      <div class="form-group">
-                      {% endif %}
-                        <div class="checkbox">
-                          <label>
-                            <input id="id_terms" name="terms" type="checkbox" {% if terms %}checked=true{% endif %}/>
-                              {% if form.terms.errors %}
-                              {% for error in form.terms.errors %}
-                                  <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                              {% else %}
-                              I understand and agree to the terms<span class="red">*</span>
-                              {% endif %}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            <p><button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button></p>
-
-            <p><strong>If you have any questions, please contact:</strong></p>
-            <p>
-               Jeanne Chandler, Department of Planning and Developement<br />
-               Phone: (312) 744-0605<br />
-               Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
-            </p>
-          </form>
-        </div>
+            </div>
+        {% endif %}
       </div>
 
       <!-- Modal -->

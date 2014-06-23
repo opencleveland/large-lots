@@ -29,6 +29,7 @@ class Application(models.Model):
     how_heard = models.CharField(max_length=255, null=True)
     tracking_id = models.CharField(max_length=40)
     status = models.CharField(max_length=50, null=True)
+    received_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         if self.first_name and self.last_name:
