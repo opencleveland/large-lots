@@ -49,6 +49,19 @@
         <br />
         <form role="form" id="application" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            {% if form.errors %}
+                <div id="form-errors" class="row">
+                    <div class="col-md-8">
+                        <div class="form-group has-error">
+                            <h3>There were some problems with your application: </h3>
+                            {% for label, message in error_messages.items %}
+                            <p class="help-block">
+                                <strong>{{label}}</strong> {{message}}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <div class='row'>
               <div class='col-md-8'>
                 <div class="panel panel-default">
@@ -68,11 +81,11 @@
                             {% endif %}
                               <div class="input-group">
                                 <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
-                                <span class="input-group-addon">Chicago, IL</span>
-                                {% for error in form.lot_1_address.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                <div class="input-group-addon">Chicago, IL</div>
                               </div>
+                              {% for error in form.lot_1_address.errors %}
+                                  <span class="help-block">{{ error }}</span>
+                              {% endfor %}
                             </div>
                           </div>
                         </div>
@@ -98,6 +111,7 @@
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
                         </div>
+
                       </div>
                       <div class="col-sm-6">
                         <div class="row">
@@ -169,11 +183,10 @@
                             <div class='input-group'>
                               <input type="text" value="{{owned_address}}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street">
                               <span class="input-group-addon">Chicago, IL</span>
-                              {% for error in form.owned_address.errors %}
-                                  <br />
-                                  <span class="help-block">{{ error }}</span>
-                              {% endfor %}
                             </div>
+                            {% for error in form.owned_address.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
                           </div>
                         </div>
                       </div>
@@ -464,23 +477,23 @@
 
       $("#search").on("click", LargeLots.addressSearch);
       $("#apply_another").on("click", function(){ $("#map").ScrollTo({offsetTop: "70px"}); });
+      $(document).on('keydown', function(e){
+          if(e.keyCode == 13){
+              e.preventDefault();
+          }
+      })
       $("#search_address").on("keydown", function(e){
         if(e.keyCode == 13){
           LargeLots.addressSearch(e);
         }
       });
-
       $("#print-page").on("click", function(){ window.print(); });
-      $('#application').on('submit', function(){
-          var valid = true;
-          if(!$('#id_lot_1_address').val()){
-              valid = false;
-          }
-          if(!('#id_lot_1_pin').val()){
-              valid = false;
-          }
-          return valid
-      })
+      if ($('#form-errors').length > 0){
+          window.location.hash = 'form-errors';
+          var menu_height = -Math.abs($('.navbar-header').height());
+          window.scrollBy(0, menu_height);
+      }
+
     </script>
 {% endblock %}
 

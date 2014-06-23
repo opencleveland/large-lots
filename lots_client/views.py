@@ -12,16 +12,16 @@ from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseRedirect
 import json
 from uuid import uuid4
-
-CARTODB = 'http://datamade.cartodb.com/api/v2/sql'
+from collections import OrderedDict
 
 class ApplicationForm(forms.Form):
     lot_1_address = forms.CharField(
-        error_messages={'required': 'Provide the lot’s address'})
+        error_messages={'required': 'Provide the lot’s address'},
+        label="Lot 1 Address")
     lot_1_pin = forms.CharField(
         error_messages={
             'required': 'Provide the lot’s Parcel Identification Number'
-        })
+        },label="Lot 1 PIN")
     lot_1_use = forms.CharField(required=False)
     lot_2_address = forms.CharField(required=False)
     lot_2_pin = forms.CharField(required=False)
@@ -29,21 +29,31 @@ class ApplicationForm(forms.Form):
     owned_address = forms.CharField(
         error_messages={
             'required': 'Provide the address of the building you own'
-        })
+        }, label="Owned property address")
     deed_image = forms.FileField(
         error_messages={'required': 'Provide an image of the deed of the building you own'
-        })
-    first_name = forms.CharField(error_messages={'required': 'Provide your first name'})
-    last_name = forms.CharField(error_messages={'required': 'Provide your last name'})
+        }, label="Electronic version of your deed")
+    first_name = forms.CharField(
+        error_messages={'required': 'Provide your first name'},
+        label="Your first name")
+    last_name = forms.CharField(
+        error_messages={'required': 'Provide your last name'},
+        label="Your last name")
     organization = forms.CharField(required=False)
-    phone = forms.CharField(error_messages={'required': 'Provide a contact phone number'})
+    phone = forms.CharField(
+        error_messages={'required': 'Provide a contact phone number'},
+        label="Your phone number")
     email = forms.CharField(required=False)
-    contact_street = forms.CharField(error_messages={'required': 'Provide a complete address'})
+    contact_street = forms.CharField(
+        error_messages={'required': 'Provide a complete address'},
+        label="Your contact address")
     contact_city = forms.CharField()
     contact_state = forms.CharField()
     contact_zip_code = forms.CharField()
     how_heard = forms.CharField(required=False)
-    terms = forms.BooleanField(error_messages={'required': 'Verify that you have read and agree to the terms'})
+    terms = forms.BooleanField(
+        error_messages={'required': 'Verify that you have read and agree to the terms'},
+        label="Application terms")
 
 def home(request):
     return render(request, 'index.html')
@@ -138,6 +148,13 @@ def apply(request):
             context['how_heard'] = form['how_heard'].value()
             context['terms'] = form['terms'].value()
             context['form'] = form
+            fields = [f for f in form.fields]
+            context['error_messages'] = OrderedDict()
+            for field in fields:
+                label = form.fields[field].label
+                error = form.errors.get(field)
+                if label and error:
+                    context['error_messages'][label] = form.errors[field][0]
             return render(request, 'apply.html', context)
     else:
         form = ApplicationForm()
