@@ -140,7 +140,8 @@ def apply(request):
                 context = Context({'app': app, 'lots': lots, 'host': request.get_host()})
                 html_content = html_template.render(context)
                 text_content = text_template.render(context)
-                subject, from_email, to = 'Large Lots Application', settings.EMAIL_HOST_USER, app.email
+                subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
+                from_email, to = settings.EMAIL_HOST_USER, app.email
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()

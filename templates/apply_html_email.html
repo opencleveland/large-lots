@@ -3,10 +3,10 @@
   <img src='http://largelots.org/images/large_lots.png' alt='Large Lots' />
 </a>
 <div class="row">
-    <h2>Thanks for Applying {{app.first_name}}!</h2>
+    <h1>Thanks for Applying {{app.first_name}}!</h1>
     <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on LargeLots.org</a></p>
 
-    <p>You applied for the following lots:</p>
+    <h3>Lot information:</h3>
     {% for lot in lots %}
         <div>
             <img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
@@ -28,7 +28,22 @@
     {% endfor %}
 </div>
 <div class="row">
-    <h4>Your contact info:</h4>
+    <h3>Ownership information:</h3>
+    <table class="table table-bordered table-condensed">
+        <tbody>
+            <tr>
+                <td>Address</td>
+                <td>
+                    {{app.owned_address.street}}
+                    {{app.owned_address.city}},
+                    {{app.owned_address.state}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <h3>Contact information:</h3>
     <table>
         <tbody>
             <tr>

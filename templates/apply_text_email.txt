@@ -2,19 +2,14 @@
 ** Thanks for Applying {{app.first_name}}!
 ------------------------------------------------------------
 
-{% if lots|length > 1 %}
-You applied for the following lots:
+Lot information:
 {% for lot in lots %}
     Address: {{lot.address.street}}
     PIN: {{lot.pin}}
 {% endfor %}
-{% else %}
-This is the lot you applied for: </p>
-{% for lot in lots %}
-    Address: {{lot.address.street}}
-    PIN: {{lot.pin}}
-{% endfor %}
-{% endif %}
+
+Ownership information:
+    Address: {{app.owned_address.street}} {{app.owned_address.city}}, {{app.owned_address.state}}
 
 Your contact info:
     {{app.first_name}} {{app.last_name}}
