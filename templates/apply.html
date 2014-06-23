@@ -111,7 +111,9 @@
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
                         </div>
-
+                        <button class="clear-lot-selection btn btn-default btn-block" data-lot="1">
+                            Clear selection <i class="fa fa-undo"></i>
+                        </button>
                       </div>
                       <div class="col-sm-6">
                         <div class="row">
@@ -154,6 +156,9 @@
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
                         </div>
+                        <button class="clear-lot-selection btn btn-default btn-block" data-lot="2">
+                            Clear selection <i class="fa fa-undo"></i>
+                        </button>
                       </div>
 
                     </div>
@@ -493,6 +498,13 @@
           var menu_height = -Math.abs($('.navbar-header').height());
           window.scrollBy(0, menu_height);
       }
+      $('.clear-lot-selection').on('click', function(e){
+          e.preventDefault();
+          var lot = $(e.target).data('lot');
+          $('#id_lot_' + lot + '_address').val('');
+          $('#id_lot_' + lot + '_pin').val('');
+          $('#id_lot_' + lot + '_use').val('');
+      })
 
     </script>
 {% endblock %}
