@@ -14,11 +14,17 @@
 {% block content %}
       <div class='col-md-12'>
 
-        <h1>East Garfield Park <span class='label label-success'>Open</span></h1>
+        <h1>East Garfield Park
+            {% if form %}
+            <span class='label label-success'>Open</span>
+            {% else %}
+            <span class='label label-applied'>Closed</span>
+            {% endif %}
+        </h1>
 
         <p>If you own land in East Garfield Park, you can <strong>buy up two vacant lots</strong> from the City of Chicago. The lots must be on the same block as land you already own. Individuals and organizations can apply, but churches are not eligible.</p>
 
-        <p>Applications will be accepted until <strong>August 4th, 2014 at 11:59pm</strong>. For more information, read the <a href='/faq/'>FAQ</a> and <a href='/about/'>about</a> pages.</p>
+        <p>Applications will be accepted between <strong>midnight on July 1st, 2014</strong> and <strong>August 4th, 2014 at 11:59pm</strong>. For more information, read the <a href='/faq/'>FAQ</a> and <a href='/about/'>about</a> pages.</p>
         {% if form %}
             <div class='row'>
               <div class='col-md-12'>
@@ -433,14 +439,6 @@
                    Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
                 </p>
               </form>
-            </div>
-        {% else %}
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <h2>Application period is currently not open.</h2>
-                    </div>
-                </div>
             </div>
         {% endif %}
       </div>
