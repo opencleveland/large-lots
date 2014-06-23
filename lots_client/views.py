@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*
 
+import string
+import re
 from django.shortcuts import render
 from django.conf import settings
 from django import forms
@@ -54,6 +56,22 @@ class ApplicationForm(forms.Form):
     terms = forms.BooleanField(
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
+    
+    def _clean_pin(self, key):
+        pin = self.cleaned_data[key]
+        pattern = re.compile('[^0-9]')
+        if len(pattern.sub('', pin)) != 14:
+            raise forms.ValidationError('Please provide a valid PIN')
+        else:
+            return pin
+
+    def clean_lot_1_pin(self):
+        return self._clean_pin('lot_1_pin')
+
+    def clean_lot_2_pin(self):
+        if self.cleaned_data['lot_2_pin']:
+            return self._clean_pin('lot_2_pin')
+        return self.cleaned_data['lot_2_pin']
 
 def home(request):
     return render(request, 'index.html')
