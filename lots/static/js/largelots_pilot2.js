@@ -167,7 +167,7 @@ var LargeLots = {
       var address = LargeLots.formatAddress(props);
       var pin_formatted = LargeLots.formatPin(props.pin14);
 
-      var info = "<img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />\
+      var info = "\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + pin_formatted + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
@@ -178,8 +178,9 @@ var LargeLots = {
           info += "<tr><td>Sq ft</td><td>" + LargeLots.addCommas(props.sq_ft) + "</td></tr>";
 
       }
-      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'><i class='fa fa-check'></i> Apply for this lot</button></td></tr>"
-      info += "</tbody></table>";
+      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'>Apply for this lot</button></td></tr>"
+      info += "</tbody></table>\
+      <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
 
@@ -207,7 +208,7 @@ var LargeLots = {
       searchAddress = searchAddress.replace(" s ", " south ");
       searchAddress = searchAddress.replace(" e ", " east ");
       searchAddress = searchAddress.replace(" w ", " west ");
-      
+
       $("#id_owned_address").val(searchAddress.replace((", " + LargeLots.locationScope), ""));
 
       if(LargeLots.locationScope && LargeLots.locationScope.length){
