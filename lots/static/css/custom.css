@@ -34,6 +34,8 @@ a, a:hover {
 
 #lot-form input[type=checkbox] { margin-left: 20px; }
 
+
+
 .btn {
     text-transform: none;
     font-size: 15px;
@@ -117,9 +119,8 @@ a, a:hover {
 
 /* Form Styling */
 
-.red{
-    color: red;
-}
+.red { color: red; }
+.green { color: #389250;}
 
 
 .btn-file {
