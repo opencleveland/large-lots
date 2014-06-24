@@ -216,7 +216,7 @@
 
                           <h3>Upload your deed</h3>
 
-                          <p>To prove ownership of your East Garfield Park property, you'll have to upload a copy of your deed.</p>
+                          <p>To prove ownership of your East Garfield Park property, you'll have to upload a copy or picture of your deed.</p>
 
                           <ol>
                             <li>If you <strong>do</strong> have a paper copy handy, scan it or take a picture.</li>
@@ -264,7 +264,7 @@
                             {% else %}
                             <div class="form-group">
                             {% endif %}
-                            <label for="id_deed_image"><i class='fa fa-upload'></i> Upload your deed</label><span class="red">*</span>
+                            <label for="id_deed_image"><i class='fa fa-upload'></i> Upload your deed picture or document</label><span class="red">*</span>
                             <input type="file" value="{{deed_image}}" id="id_deed_image" name="deed_image">
                             {% for error in form.deed_image.errors %}
                                 <span class="help-block">{{ error }}</span>
