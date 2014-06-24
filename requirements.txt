@@ -4,3 +4,4 @@ boto==2.29.1
 requests==2.3.0
 gunicorn==19.0.0
 raven==5.0.0
+python-dateutil==1.5

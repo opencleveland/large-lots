@@ -72,12 +72,15 @@
                 {% endif %}
                 <div class='row'>
                   <div class='col-md-8'>
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id='selected_lots'>
                       <div class='panel-heading'>
                         Your selected lots:
                       </div>
                       <div class="panel-body">
                         <p>Use the map above to search for and select the lot(s) you want to apply for or, enter the lot address and PIN manually. You may apply for <strong>up to two lots</strong>.</p>
+
+                        <p><span class="red">*</span>Required</p>
+
                         <div class="row" id="lot-display">
                           <div class="col-sm-6">
                             <div class="row">
@@ -370,7 +373,8 @@
                             {% endif %}
                             <label for="id_how_heard">Did you receive assistance in completing this application? If so, from whom?</label>
                             <select class="form-control" id="id_how_heard" name="how_heard">
-                              <option>I did not receive assistance</option>
+                              <option></option>
+                              <option value='I did not receive assistance'>I did not receive assistance</option>
                               <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
                               <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
                               <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>

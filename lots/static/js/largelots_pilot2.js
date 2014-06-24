@@ -178,7 +178,7 @@ var LargeLots = {
           info += "<tr><td>Sq ft</td><td>" + LargeLots.addCommas(props.sq_ft) + "</td></tr>";
 
       }
-      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'>Apply for this lot</button></td></tr>"
+      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'>Select this lot</button></td></tr>"
       info += "</tbody></table>\
       <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />";
       $.address.parameter('pin', props.pin14)
@@ -189,12 +189,13 @@ var LargeLots = {
           $("#id_lot_1_address").val($(this).data('address'));
           $("#id_lot_1_pin").val($(this).data('pin'));
         }
-        else {
+        else if ($("#id_lot_1_address").val() != $(this).data('address')){
           $("#id_lot_2_address").val($(this).data('address'));
           $("#id_lot_2_pin").val($(this).data('pin'));
         }
 
-        $(".panel-heading").ScrollTo({offsetTop: "70px"});
+        $(this).html("<i class='fa fa-check'></i> Selected");
+        $("#selected_lots").ScrollTo({offsetTop: "70px", 'axis':'y'});
       });
   },
 
