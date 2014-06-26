@@ -10,5 +10,5 @@
 *.pyc
 *.sqlite3
 .env
-static
+/static
 local_settings.py
