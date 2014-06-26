@@ -22,7 +22,7 @@ var LargeLots = {
           center: LargeLots.map_centroid,
           zoom: LargeLots.defaultZoom,
           scrollWheelZoom: false,
-          tapTolerance: 5
+          tapTolerance: 30
         });
       }
       // render a map!
