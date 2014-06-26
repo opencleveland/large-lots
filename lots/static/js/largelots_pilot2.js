@@ -21,7 +21,8 @@ var LargeLots = {
         LargeLots.map = L.map('map', {
           center: LargeLots.map_centroid,
           zoom: LargeLots.defaultZoom,
-          scrollWheelZoom: false
+          scrollWheelZoom: false,
+          tapTolerance: 30
         });
       }
       // render a map!
@@ -161,6 +162,7 @@ var LargeLots = {
             LargeLots.map.setView(LargeLots.lastClickedLayer.getBounds().getCenter(), 17);
             LargeLots.selectParcel(shape.properties);
         }).error(function(e){console.log(e)});
+      window.location.hash = 'browse';
   },
 
   selectParcel: function (props){
