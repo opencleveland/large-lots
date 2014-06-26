@@ -169,7 +169,7 @@ var LargeLots = {
       var address = LargeLots.formatAddress(props);
       var pin_formatted = LargeLots.formatPin(props.pin14);
 
-      var info = "\
+      var info = "<div class='row'><div class='col-xs-6 col-md-12'>\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>PIN</td><td>" + pin_formatted + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
@@ -181,8 +181,8 @@ var LargeLots = {
 
       }
       info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'>Select this lot</button></td></tr>"
-      info += "</tbody></table>\
-      <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' />";
+      info += "</tbody></table></div><div class='col-xs-6 col-md-12'>\
+      <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' /></div></div>";
       $.address.parameter('pin', props.pin14)
       $('#lot-info').html(info);
 
