@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block title %} | Application list {% endblock %}
 {% block content %}
 <h2>Applications Received</h2>
 <p><a href="{% url 'csv_dump' %}">Export as CSV</a></p>
