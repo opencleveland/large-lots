@@ -120,7 +120,8 @@ a, a:hover {
 /* Form Styling */
 
 .red { color: red; }
-.green { color: #389250;}
+.open { color: #389250;}
+.closed { color: #A1285D;}
 
 
 .btn-file {
