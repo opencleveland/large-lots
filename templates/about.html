@@ -4,13 +4,23 @@
   <div class='col-md-8'>
     <h2>About</h2>
 
-    <p><strong>LargeLots.org</strong> was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a> and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
+    <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. The program is being piloted in community areas where the City owns large amounts of vacant land. The goals core goals of the program are:</p>
+    <ul>
+      <li>Give local residents greater control over vacant land in their neighborhood</li>
+      <li>Dispose of some of the City-owned land in these neighborhoods efficiently, which returns the land to the tax rolls</li>
+      <li>Create wealth in the community by allowing owners to sell land after five years</li>
+      <li>Increase safety, build community, and raise home values by creating more neighborhood-level investment</li>
+    </ul>
 
+    <p><strong>LargeLots.org</strong> was built to make the process of purchasing City-owned land through this program easier for residents. It was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a>, and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
+
+    <h3>Built with open data</h3>
     <p>Our map was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
 
     <ul>
       <li><a href='https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp'>Chicago - City Owned Land Inventory</a></li>
-      <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf'>Chicago - Wards</a></li>
+      <li><a href='https://data.cityofchicago.org/browse?q=community%20areas&sortBy=relevance&utf8=%E2%9C%93'>Chicago - Community Areas</a></li>
+      <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Address-Point-Chicago/jev2-4wjs'>Cook County - Address Point Chicago</a></li>
       <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
     </ul>
 
@@ -22,11 +32,13 @@
         <li>Boundary of the Large Lot Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
     </ul>
 
+    <h3>Source code</h3>
     <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
 
     <ul>
       <li><a href='http://www.qgis.org/en/site/'>QGIS</a> - graphic information system (GIS) desktop application</li>
       <li><a href='http://postgis.net/'>PostGIS</a> - geospatial database</li>
+      <li><a href='https://www.djangoproject.com'>Django</a> - web framework</li>
       <li><a href='http://getbootstrap.com/'>Bootstrap</a> - Responsive HTML, CSS and Javascript framework</li>
       <li><a href='http://leafletjs.com/'>Leaflet</a> - javascript library interactive maps</li>
       <li><a href='http://cartodb.com'>CartoDB</a> - platform for rendering interactive map tiles</li>
