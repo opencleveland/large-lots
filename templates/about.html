@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} | Confirmation {% endblock %}
+{% block title %} | About {% endblock %}
 {% block content %}
   <div class='col-md-8'>
     <h2>About</h2>
@@ -15,24 +15,29 @@
     <p><strong>LargeLots.org</strong> was built to make the process of purchasing City-owned land through this program easier for residents. It was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a>, and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
 
     <h3>Built with open data</h3>
-    <p>Our map was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
+    <p>This site was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
 
     <ul>
       <li><a href='https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp'>Chicago - City Owned Land Inventory</a></li>
-      <li><a href='https://data.cityofchicago.org/browse?q=community%20areas&sortBy=relevance&utf8=%E2%9C%93'>Chicago - Community Areas</a></li>
+      <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6'>Chicago - Community Areas</a></li>
       <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Address-Point-Chicago/jev2-4wjs'>Cook County - Address Point Chicago</a></li>
       <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
     </ul>
 
     <p>We prepared some extracts of the above sources for this project. You can download those here:</p>
 
+    <strong>Pilot 1: Greater Englewood Area</strong>
     <ul>
-        <li>Complete listing of lots displayed in the map (<a href="data/build/large_lot_listing.csv">CSV</a>)</li>
-        <li>Geospatial definitions of the lots displayed above (<a href="data/build/large_lot_area_parcels.zip">Shapefile</a>)</li>
-        <li>Boundary of the Large Lot Program area (<a href="data/build/large_lot_area_boundary.zip">Shapefile</a>)</li>
+        <li>Available lots (<a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_listing.csv">CSV</a> | <a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_area_parcels.zip">Shapefile</a>)</li>
+        <li>Boundary of the Large Lot Program area (<a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_area_boundary.zip">Shapefile</a>)</li>
     </ul>
 
-    <h3>Source code</h3>
+    <strong>Pilot 2: East Garfield Park</strong>
+    <ul>
+        <li>Available lots (<a href="http://s3.amazonaws.com/large-lots-data/pilot_2/large_lot_listing.csv">CSV</a>)</li>
+    </ul>
+
+    <h3>Open source code</h3>
     <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
 
     <ul>
@@ -47,6 +52,7 @@
 
     <h3>Press</h3>
     <ul>
+      <li><a href="http://www.smartchicagocollaborative.org/largelots-org-a-working-app-for-the-englewood-neighborhood/">Largelots.org – A working app for the Englewood Neighborhood</a> - Christopher Whitaker, Smart Chicago Collaborative</li>
       <li><a href="http://www.smartchicagocollaborative.org/largelots-org-a-working-app-for-the-englewood-neighborhood/">Largelots.org – A working app for the Englewood Neighborhood</a> - Christopher Whitaker, Smart Chicago Collaborative</li>
       <li><a href="http://www.columbiachronicle.com/metro/article_93095606-cce1-11e3-a559-001a4bcf6878.html">Local hackers raise awareness through community-focused websites</a> - Jennifer Wolan, The Columbia Chronicle</li>
       <li><a href="http://wbezdata.tumblr.com/post/83103392730/how-largelots-org-became-a-reality">How LargeLots.org became a reality</a> - Chris Hagan, WBEZ Chicago Public Data</li>
