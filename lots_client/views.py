@@ -83,7 +83,23 @@ class ApplicationForm(forms.Form):
         return self.cleaned_data['deed_image']
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'application_active': application_active()})
+
+# the application is active between July 1st 12:00am and August 4th 11:59pm
+def application_active():
+    chicago_time = timezone.localtime(timezone.now())
+    start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
+        timezone.get_current_timezone())
+    end_date = timezone.make_aware(datetime(2014, 8, 4, 23, 59),
+        timezone.get_current_timezone())
+    
+    # override with configuration setting
+    if settings.APPLICATION_DISPLAY:
+        return True
+    elif start_date < chicago_time < end_date:
+        return True
+    else:
+        return False
 
 def get_lot_address(address):
     add_info = {
@@ -184,15 +200,8 @@ def apply(request):
                 if label and error:
                     context['error_messages'][label] = form.errors[field][0]
             return render(request, 'apply.html', context)
-    elif settings.APPLICATION_DISPLAY:
-        form = ApplicationForm()
     else:
-        chicago_time = timezone.localtime(timezone.now())
-        start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
-            timezone.get_current_timezone())
-        end_date = timezone.make_aware(datetime(2014, 8, 4, 23, 59),
-            timezone.get_current_timezone())
-        if start_date < chicago_time < end_date:
+        if application_active():
             form = ApplicationForm()
         else:
             form = None

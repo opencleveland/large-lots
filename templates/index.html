@@ -9,18 +9,33 @@
         <div class='row'>
           <div class='col-md-6'>
             <div class='well'>
-              <h3>East Garfield Park <small class='open'>Open</small></h3>
+              {% if application_active %}
+                <h3>East Garfield Park <small class='open'>Open</small></h3>
 
-              <p> The second Large Lot Program is open in <strong>East Garfield Park</strong>! Applications will be accepted until <strong>August 4th, 2014</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
-              </p>
+                <p> The second Large Lot Program is open in East Garfield Park! Applications will be accepted until <strong>August 4th, 2014</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
+                </p>
 
-              <div class='row'>
-                <div class='col-md-10 col-md-offset-1'>
-                  <p><a href='{% url "apply" %}'><img src='{% static "images/phase-2-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='East Garfield Park' /></a></p>
+                <div class='row'>
+                  <div class='col-md-10 col-md-offset-1'>
+                    <p><a href='{% url "apply" %}'><img src='{% static "images/phase-2-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='East Garfield Park' /></a></p>
+                  </div>
                 </div>
-              </div>
 
-              <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
+                <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
+              {% else %}
+                <h3>East Garfield Park <small class='open'>Coming soon</small></h3>
+
+                <p> The second Large Lot Program will open in East Garfield Park on <strong>July 1st at 12:00 a.m.</strong> Applications will be accepted until <strong>August 4th, 2014</strong>.
+                </p>
+
+                <div class='row'>
+                  <div class='col-md-10 col-md-offset-1'>
+                    <p><img src='{% static "images/phase-2-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='East Garfield Park' /></p>
+                  </div>
+                </div>
+
+                <p class='text-center'><strong>Check back on July 1st!</strong></p>
+              {% endif %}
             </div>
           </div>
 
