@@ -81,4 +81,4 @@ Report it here: https://github.com/datamade/englewood-large-lots/issues
 
 ## Copyright
 
-Copyright (c) 2014 DataMade and LISC-Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
+Copyright (c) 2014 DataMade and LISC Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
