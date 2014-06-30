@@ -158,18 +158,27 @@ def apply(request):
             if lot2:
                 app.lot_set.add(lot2)
             app.save()
+            
+            html_template = get_template('apply_html_email.html')
+            text_template = get_template('apply_text_email.txt')
+            lots = [l for l in app.lot_set.all()]
+            context = Context({'app': app, 'lots': lots, 'host': request.get_host()})
+            html_content = html_template.render(context)
+            text_content = text_template.render(context)
+            subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
+            
+            from_email = settings.EMAIL_HOST_USER
+            to_email = [from_email]
+
+            # if provided, send confirmation email to applicant
             if app.email:
-                html_template = get_template('apply_html_email.html')
-                text_template = get_template('apply_text_email.txt')
-                lots = [l for l in app.lot_set.all()]
-                context = Context({'app': app, 'lots': lots, 'host': request.get_host()})
-                html_content = html_template.render(context)
-                text_content = text_template.render(context)
-                subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
-                from_email, to = settings.EMAIL_HOST_USER, app.email
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                msg.attach_alternative(html_content, 'text/html')
-                msg.send()
+                to_email.append(app.email)
+
+            # send email confirmation to info@largelots.org
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            msg.attach_alternative(html_content, 'text/html')
+            msg.send()
+
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
