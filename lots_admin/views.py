@@ -43,13 +43,16 @@ def csv_dump(request):
         'Organization', 
         'Owned Address', 
         'Owned PIN', 
+        'Deed Image URL',
         'Contact Address',
         'Phone', 
         'Email', 
         'Lot 1 PIN',
         'Lot 1 Address',
+        'Lot 1 Image URL',
         'Lot 2 PIN',
         'Lot 2 Address',
+        'Lot 2 Image URL',
     ]
     rows = []
     for application in applications:
@@ -71,23 +74,27 @@ def csv_dump(request):
                  getattr(lot.address, 'state', ''),
                  getattr(lot.address, 'zip_code', ''))
             pin = lot.pin
-            lots.extend([pin, addr])
+            image_url = 'http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?%s=' % pin.replace('-', '')
+            lots.extend([pin, addr, image_url])
         if len(lots) < 4:
-            lots.extend(['',''])
-        lot_1_pin, lot_1_addr, lot_2_pin, lot_2_addr = lots
+            lots.extend(['', '', ''])
+        lot_1_pin, lot_1_addr, lot_1_image, lot_2_pin, lot_2_addr, lot_2_image = lots
         rows.append([
             application.id,
             '%s %s' % (application.first_name, application.last_name),
             application.organization,
             owned_address, 
             application.owned_pin,
+            application.deed_image.url,
             contact_address, 
             application.phone,
             application.email,
             lot_1_pin,
             lot_1_addr,
+            lot_1_image,
             lot_2_pin,
             lot_2_addr,
+            lot_2_image,
         ])
     writer = csv.writer(response)
     writer.writerow(header)
