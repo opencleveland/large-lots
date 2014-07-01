@@ -46,6 +46,10 @@ def csv_dump(request):
         'Contact Address',
         'Phone', 
         'Email', 
+        'Lot 1 PIN',
+        'Lot 1 Address',
+        'Lot 2 PIN',
+        'Lot 2 Address',
     ]
     rows = []
     for application in applications:
@@ -59,6 +63,18 @@ def csv_dump(request):
              getattr(application.contact_address, 'city', ''),
              getattr(application.contact_address, 'state', ''),
              getattr(application.contact_address, 'zip_code', ''))
+        lots = []
+        for lot in application.lot_set.all():
+            addr = '%s %s %s %s' % \
+                (getattr(lot.address, 'street', ''),
+                 getattr(lot.address, 'city', ''),
+                 getattr(lot.address, 'state', ''),
+                 getattr(lot.address, 'zip_code', ''))
+            pin = lot.pin
+            lots.extend([pin, addr])
+        if len(lots) < 4:
+            lots.extend(['',''])
+        lot_1_pin, lot_1_addr, lot_2_pin, lot_2_addr = lots
         rows.append([
             application.id,
             '%s %s' % (application.first_name, application.last_name),
@@ -67,7 +83,11 @@ def csv_dump(request):
             application.owned_pin,
             contact_address, 
             application.phone,
-            application.email
+            application.email,
+            lot_1_pin,
+            lot_1_addr,
+            lot_2_pin,
+            lot_2_addr,
         ])
     writer = csv.writer(response)
     writer.writerow(header)
