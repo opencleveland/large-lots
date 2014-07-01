@@ -122,7 +122,11 @@ def apply(request):
                 'address': l1_address,
                 'planned_use': form.cleaned_data.get('lot_1_use')
             }
-            lot1, created = Lot.objects.get_or_create(**lot1_info)
+            try:
+                lot1 = Lot.objects.get(pin=lot1_info['pin'])
+            except Lot.DoesNotExist:
+                lot1 = Lot(**lot1_info)
+                lot1.save()
             lot2 = None
             if form.cleaned_data.get('lot_2_pin'):
                 l2_address = get_lot_address(form.cleaned_data['lot_2_address'])
@@ -131,7 +135,11 @@ def apply(request):
                     'address': l2_address,
                     'planned_use': form.cleaned_data.get('lot_2_use')
                 }
-                lot2, created = Lot.objects.get_or_create(**lot2_info)
+                try:
+                    lot2 = Lot.objects.get(pin=lot2_info['pin'])
+                except Lot.DoesNotExist:
+                    lot2 = Lot(**lot2_info)
+                    lot2.save()
             c_address_info = {
                 'street': form.cleaned_data['contact_street'],
                 'city': form.cleaned_data['contact_city'],
