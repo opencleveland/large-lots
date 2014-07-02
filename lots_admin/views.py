@@ -39,6 +39,7 @@ def csv_dump(request):
     applications = Application.objects.all()
     header = [
         'ID', 
+        'Date received', 
         'Name', 
         'Organization', 
         'Owned Address', 
@@ -81,6 +82,7 @@ def csv_dump(request):
         lot_1_pin, lot_1_addr, lot_1_image, lot_2_pin, lot_2_addr, lot_2_image = lots
         rows.append([
             application.id,
+            application.received_date.strftime('%Y-%m-%d %H:%m %p'),
             '%s %s' % (application.first_name, application.last_name),
             application.organization,
             owned_address, 
