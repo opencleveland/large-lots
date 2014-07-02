@@ -9,25 +9,36 @@
         <th>ID</th>
         <th>Date received</th>
         <th>Name/Organization</th>
-        <th>Owned address</th>
+        <th>Applied lots</th>
         <th>Contact info</th>
-        <th>Deed</th>
-        <th>Detail page</th>
+        <th>Owned property</th>
+        <th></th>
     </thead>
     <tbody>
     {% for application in applications %}
         <tr>
             <td>{{application.id}}</td>
-            <td>{{application.received_date}}</td>
+            <td>{{application.received_date|date:'Y-m-d g:i a'}}</td>
             <td>
                 {{application.first_name}} {{application.last_name}}
                 {% if application.organization %}
-                  • {{application.organization}}
+                <br />
+                  {{application.organization}}
                 {% endif %}
             </td>
-            <td>{{application.owned_address.street}}</td>
+            <td>
+                {% for lot in application.lot_set.all %}
+                    <p>
+                        {{lot.address.street}}<br />
+                        {{lot.pin}}
+                    </p>
+                {% endfor %}
+            </td>
             <td>{{application.contact_address.street}} <br /> {{application.phone}} <br /> {{application.email}}</td>
-            <td><a href="{{application.deed_image.url}}" target="_blank">Download</a></td>
+            <td>
+                {{application.owned_address.street}}<br />
+                <a href="{{application.deed_image.url}}" target="_blank">Download deed</a>
+            </td>
             <td><a href="{% url 'apply_confirm' application.tracking_id %}" target="_blank">Detail page</a></td>
         </tr>
     {% endfor %}
