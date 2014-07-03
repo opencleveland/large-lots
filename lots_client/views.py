@@ -59,13 +59,30 @@ class ApplicationForm(forms.Form):
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
     
+    def _check_pin(self, pin):
+        carto = 'http://datamade.cartodb.com/api/v2/sql'
+        params = {
+            'api_key': settings.CARTODB_API_KEY,
+            'q':  "select pin14 from egp_parcels where pin14 = '%s'" % pin.replace('-', ''),
+        }
+        r = requests.get(carto, params=params)
+        if r.status_code == 200:
+            if r.json()['total_rows'] == 1:
+                return pin
+            else:
+                message = 'PIN %s you entered is not available for purchase. \
+                    Please select one from the map above' % pin
+                raise forms.ValidationError(message)
+        else:
+            return pin
+
     def _clean_pin(self, key):
         pin = self.cleaned_data[key]
         pattern = re.compile('[^0-9]')
         if len(pattern.sub('', pin)) != 14:
             raise forms.ValidationError('Please provide a valid PIN')
         else:
-            return pin
+            return self._check_pin(pin)
 
     def clean_lot_1_pin(self):
         return self._clean_pin('lot_1_pin')
