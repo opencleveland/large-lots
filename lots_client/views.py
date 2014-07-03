@@ -63,14 +63,14 @@ class ApplicationForm(forms.Form):
         carto = 'http://datamade.cartodb.com/api/v2/sql'
         params = {
             'api_key': settings.CARTODB_API_KEY,
-            'q':  "select pin14 from egp_parcels where pin14 = '%s'" % pin.replace('-', ''),
+            'q':  "SELECT pin14 FROM egp_parcels WHERE pin14 = '%s' AND city_owned='T' AND residential='T' AND alderman_hold != 'T'" % pin.replace('-', ''),
         }
         r = requests.get(carto, params=params)
         if r.status_code == 200:
             if r.json()['total_rows'] == 1:
                 return pin
             else:
-                message = 'PIN %s you entered is not available for purchase. \
+                message = '%s is not available for purchase. \
                     Please select one from the map above' % pin
                 raise forms.ValidationError(message)
         else:
