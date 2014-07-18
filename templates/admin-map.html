@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} | Lots applied for {% endblock %}
+{% block extra_css %}
+    <style id="egp-styles">
+      #egp_parcels {
+        polygon-fill: #41ab5d;
+        polygon-opacity: 0.7;
+        line-color: #006d2c;
+        line-width: 0.5;
+        line-opacity: 1;
+      }
+    </style>
+    <style id="egp-styles-applied">
+        #egp_parcels {
+          polygon-fill: #A1285D;
+          polygon-opacity: 0.7;
+          line-color: #680D35;
+          line-width: 0.5;
+          line-opacity: 1;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<p><a href='/lots-admin/'>&laquo; back to the list</a></p>
+<h2>Lots applied for</h2>
+
+<p>
+    <span class='label label-available'>Available</span>
+    <span class='label label-applied'>Applied</span>
+</p>
+
+<div id='map-admin'></div>
+
+{% endblock %}
+{% block extra_js %}
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+    <script src="{% static 'js/leaflet.label.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/largelots_admin.js' %}"></script>
+    <script>
+
+      var applied_pins = "{{applied_pins|safe}}";
+      $(function() {
+        LargeLotsAdmin.initialize();
+      });
+    </script>
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block title %} | Application list {% endblock %}
 {% block content %}
 <h2>Applications Received</h2>
-<p><a href="{% url 'csv_dump' %}">Export as CSV</a></p>
+<p><a href="/lots-admin-map/"><i class='fa fa-map-marker'></i> Map view</a> &nbsp;&nbsp;&nbsp; <a href="{% url 'csv_dump' %}"><i class='fa fa-file-excel-o'></i> Export as CSV</a></p>
 <table id="received" class="table table-striped">
     <thead>
         <th>ID</th>

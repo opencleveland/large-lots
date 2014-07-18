@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from lots_admin.models import Application
+from lots_admin.models import Application, Lot
 from datetime import datetime
 import csv
+import json
 
 def lots_login(request):
     if request.method == 'POST':
@@ -25,6 +26,15 @@ def lots_login(request):
 def lots_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+@login_required(login_url='/lots-login/')
+def lots_admin_map(request):
+    applied_pins = set()
+    for lot in Lot.objects.all():
+        applied_pins.add(lot.pin)
+
+    pins_str = ",".join(["'%s'" % a.replace('-','') for a in applied_pins])
+    return render(request, 'admin-map.html', {'applied_pins': pins_str})
 
 @login_required(login_url='/lots-login/')
 def lots_admin(request):
