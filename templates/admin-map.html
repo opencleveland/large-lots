@@ -23,7 +23,7 @@
 {% endblock %}
 {% block content %}
 <p><a href='/lots-admin/'>&laquo; back to the list</a></p>
-<h2>Lots applied for</h2>
+<h2><span id='pin_count'></span> lots applied for </h2>
 
 <p>
     <span class='label label-available'>Available</span>
@@ -41,6 +41,10 @@
     <script>
 
       var applied_pins = "{{applied_pins|safe}}";
+      var num_pins = applied_pins.split(",").length;
+      var applied_percent = (100 * num_pins / 413.0).toFixed(1);
+
+      $('#pin_count').html(num_pins + " out of 413 (" + applied_percent + "%)")
       $(function() {
         LargeLotsAdmin.initialize();
       });
