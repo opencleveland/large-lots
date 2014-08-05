@@ -41,7 +41,7 @@
     <script>
 
       var applied_pins = "{{applied_pins|safe}}";
-      var num_pins = applied_pins.split(",").length;
+      var num_pins = $.unique(applied_pins.split(",")).length;
       var applied_percent = (100 * num_pins / 417.0).toFixed(1);
 
       $('#pin_count').html(num_pins + " out of 417 (" + applied_percent + "%)")
