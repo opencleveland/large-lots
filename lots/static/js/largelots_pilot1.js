@@ -128,7 +128,7 @@ var LargeLots = {
       var sql = 'select * from lots_with_status where ';
       var clauses = []
       if(checks.indexOf('applied') >= 0){
-          clauses.push('status = 1')
+          clauses.push('status = 2')
       }
       if(checks.indexOf('available') >= 0){
           clauses.push('status = 0')
@@ -137,7 +137,7 @@ var LargeLots = {
           clauses = clauses.join(' or ');
           sql += clauses;
       } else {
-          sql = 'select * from lots_with_status where status not in (0,1)'
+          sql = 'select * from lots_with_status where status not in (0,1,2)'
       }
       LargeLots.lotsLayer.setSQL(sql);
   },
