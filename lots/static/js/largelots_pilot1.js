@@ -72,7 +72,7 @@ var LargeLots = {
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [{
-                  sql: "SELECT * FROM lots_with_status where status = 1",
+                  sql: "SELECT * FROM lots_with_status where status = 2",
                   cartocss: LargeLots.parcelsCartocss,
                   interactivity: fields
               },
