@@ -107,13 +107,14 @@ def application_active():
     chicago_time = timezone.localtime(timezone.now())
     start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
         timezone.get_current_timezone())
-    end_date = timezone.make_aware(datetime(2014, 8, 4, 23, 59),
+    end_date = timezone.make_aware(datetime(2015, 11, 4, 23, 59),
         timezone.get_current_timezone())
     
+    # print settings.APPLICATION_DISPLAY
+
+
     # override with configuration setting
-    if settings.APPLICATION_DISPLAY:
-        return True
-    elif start_date < chicago_time < end_date:
+    if start_date < chicago_time < end_date:
         return True
     else:
         return False
@@ -133,6 +134,7 @@ def apply(request):
         form = ApplicationForm(request.POST, request.FILES)
         context = {}
         if form.is_valid():
+            print form.cleaned_data['lot_1_address']
             l1_address = get_lot_address(form.cleaned_data['lot_1_address'])
             lot1_info = {
                 'pin': form.cleaned_data['lot_1_pin'],

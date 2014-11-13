@@ -4,15 +4,17 @@
       <div class='col-md-12'>
 
         <br />
-        <p class='lead'>The City of Chicago is selling vacant residential lots for <strong>$1</strong>. Here's how you get one.</p>
+        <p class='lead'>The City of Cleveland is selling vacant residential lots for <strong>$1</strong>. Here's how you get one.</p>
 
         <div class='row'>
-          <div class='col-md-6'>
+          <div class='col-md-8 col-md-offset-2'>
             <div class='well'>
-              {% if application_active %}
-                <h3>East Garfield Park <small class='open'>Open</small></h3>
+              
+               {% if application_active %}
+               
+                <h3>Mount Pleasant <small class='open'>Open</small></h3>
 
-                <p> The second Large Lot Program is open in East Garfield Park! Applications will be accepted until <strong>August 4th, 2014</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
+                <p> The first Large Lot Program is open in East Garfield Park! Applications will be accepted until <strong>August 4th, 2015</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
                 </p>
 
                 <div class='row'>
@@ -22,10 +24,12 @@
                 </div>
 
                 <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
-              {% else %}
-                <h3>East Garfield Park <small class='closed'>Closed</small></h3>
+              
+               {% else %}
+               
+                 <h3>Mount Pleasant <small class='closed'>Closed</small></h3>
 
-                <p> The second Large Lot Program ended in East Garfield Park on <strong>August 4th at 11:59 p.m.</strong> Applicants will be contacted via a letter regarding the status of their application sometime after the 1st week of October.
+                <p> The Large Lot Program ended in Mount Pleasant on <strong>August 4th at 11:59 p.m.</strong> Applicants will be contacted via a letter regarding the status of their application sometime after the 1st week of October.
                 </p>
 
                 <div class='row'>
@@ -34,30 +38,14 @@
                   </div>
                 </div>
 
-                <p class='text-center'><strong>Closed on Aug 4th, 2014</strong></p>
+                <p class='text-center'><strong>Closed on Aug 4th, 2015</strong></p>
               {% endif %}
+              
             </div>
           </div>
 
-          <div class='col-md-6'>
-            <div class='well'>
-              <h3>Greater Englewood Area <small class='closed'>Closed</small></h3>
 
-              <p>The first Large Lot pilot program ended on <strong>April 21st, 2014</strong> and <strong>414 applications</strong> for lots were received. <a href='{% url "status" %}'>Check the status</a> of each lot application. Closings are anticipated for late fall, pending City Council approval.</p>
-
-              <div class='row'>
-                <div class='col-md-10 col-md-offset-1'>
-                  <p>
-                  <a href='{% url "status" %}'><img src='{% static "images/phase-1-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='Englewood, Washington Park and Woodlawn' /></a>
-                  </p>
-                </div>
-              </div>
-
-              <p class='text-center'><a href='{% url "status" %}' class="btn btn-danger btn-lg">Check application status</a></p>
-
-            </div>
-          </div>
-        </div>
+ 
         <div class='row'>
           <div class='col-md-8'>
             <h3>About</h3>
@@ -65,4 +53,5 @@
           </div>
         </div>
       </div>
+      
 {% endblock %}
