@@ -2,17 +2,17 @@ var LargeLots = LargeLots || {};
 var LargeLots = {
 
   map: null,
-  map_centroid: [41.8787248907554, -87.7055433591891],
-  defaultZoom: 14,
+  map_centroid: [41.493, -81.681],
+  defaultZoom: 12,
   lastClickedLayer: null,
   geojson: null,
   marker: null,
-  locationScope: 'chicago',
+  locationScope: 'cleveland',
   boundingBox: {
-    'bottom': 41.868506217235485,
-    'top': 41.891607773180716,
-    'right': -87.68617630004883,
-    'left': -87.7223539352417
+    'bottom': 41.386,
+    'top': 41.572,
+    'right': -81.508,
+    'left': -81.818
   },
 
   initialize: function() {
@@ -28,7 +28,7 @@ var LargeLots = {
       // render a map!
       L.Icon.Default.imagePath = '/static/images/'
 
-      L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
+      L.tileLayer('https://{s}.tiles.mapbox.com/v3/cwang912.kdf41n23/{z}/{x}/{y}.png', {
           attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
       }).addTo(LargeLots.map);
 
@@ -65,21 +65,21 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
+      var fields = "ppn,parcel,address,build,ward,spa,sqft" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
       var layerOpts = {
-          user_name: 'datamade',
+          user_name: 'opencleveland',
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: "select * from egp_parcels where city_owned='T' and residential='T' and alderman_hold != 'T'",
+                  sql: "select * from joined",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
-              },
-              {
-                  sql: 'select * from east_garfield_park',
-                  cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
               }
+              // {
+              //     sql: 'select * from east_garfield_park',
+              //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
+              // }
           ]
       }
       cartodb.createLayer(LargeLots.map, layerOpts)
@@ -96,7 +96,7 @@ var LargeLots = {
               LargeLots.info.clear();
             });
             LargeLots.lotsLayer.on('featureClick', function(e, pos, latlng, data){
-                LargeLots.getOneParcel(data['pin14']);
+                LargeLots.getOneParcel(data['ppn']);
             });
             window.setTimeout(function(){
                 if($.address.parameter('pin')){

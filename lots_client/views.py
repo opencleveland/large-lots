@@ -21,11 +21,11 @@ from dateutil import parser
 class ApplicationForm(forms.Form):
     lot_1_address = forms.CharField(
         error_messages={'required': 'Provide the lot’s address'},
-        label="Lot 1 Address")
+        label="Lot address")
     lot_1_pin = forms.CharField(
         error_messages={
             'required': 'Provide the lot’s Parcel Identification Number'
-        },label="Lot 1 PIN")
+        },label="Lot PIN")
     lot_1_use = forms.CharField(required=False)
     lot_2_address = forms.CharField(required=False)
     lot_2_pin = forms.CharField(required=False)
@@ -35,8 +35,8 @@ class ApplicationForm(forms.Form):
             'required': 'Provide the address of the building you own'
         }, label="Owned property address")
     deed_image = forms.FileField(
-        error_messages={'required': 'Provide an image of the deed of the building you own'
-        }, label="Electronic version of your deed")
+        error_messages={'required': 'Provide an image of the proposed site plan'
+        }, label="Proposed site plan")
     first_name = forms.CharField(
         error_messages={'required': 'Provide your first name'},
         label="Your first name")
@@ -58,7 +58,7 @@ class ApplicationForm(forms.Form):
     terms = forms.BooleanField(
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
-    
+
     def _check_pin(self, pin):
         carto = 'http://datamade.cartodb.com/api/v2/sql'
         params = {
@@ -109,7 +109,7 @@ def application_active():
         timezone.get_current_timezone())
     end_date = timezone.make_aware(datetime(2015, 11, 4, 23, 59),
         timezone.get_current_timezone())
-    
+
     # print settings.APPLICATION_DISPLAY
 
 
@@ -122,8 +122,8 @@ def application_active():
 def get_lot_address(address):
     add_info = {
         'street': address,
-        'city': 'Chicago',
-        'state': 'IL',
+        'city': 'Cleveland',
+        'state': 'OH',
         'zip_code': '',
     }
     add_obj, created = Address.objects.get_or_create(**add_info)
@@ -185,7 +185,7 @@ def apply(request):
             if lot2:
                 app.lot_set.add(lot2)
             app.save()
-            
+
             html_template = get_template('apply_html_email.html')
             text_template = get_template('apply_text_email.txt')
             lots = [l for l in app.lot_set.all()]
@@ -193,7 +193,7 @@ def apply(request):
             html_content = html_template.render(context)
             text_content = text_template.render(context)
             subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
-            
+
             from_email = settings.EMAIL_HOST_USER
             to_email = [from_email]
 
