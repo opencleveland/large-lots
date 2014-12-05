@@ -4,17 +4,17 @@
       <div class='col-md-12'>
 
         <br />
-        <p class='lead'>The City of Cleveland is selling vacant residential lots for <strong>$1</strong>. Here's how you get one.</p>
+        <p class='lead'>The City of Cleveland is selling vacant residential lots for side yard expansion <strong>$200</strong>. Here's how you get one.</p>
 
         <div class='row'>
           <div class='col-md-8 col-md-offset-2'>
             <div class='well'>
-              
-               {% if application_active %}
-               
-                <h3>Mount Pleasant <small class='open'>Open</small></h3>
 
-                <p> The first Large Lot Program is open in East Garfield Park! Applications will be accepted until <strong>August 4th, 2015</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
+               <!-- {% if application_active %} -->
+
+                <h3>Mount Pleasant</h3>  <!-- <small class='open'>Open</small> -->
+
+                <p> The first Large Lot Program is open in Mount Pleasant! Applications will be accepted until <strong>August 4th, 2015</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>
                 </p>
 
                 <div class='row'>
@@ -24,9 +24,9 @@
                 </div>
 
                 <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
-              
-               {% else %}
-               
+<!--  We don't seem to ever close it, so no need to keep track of dates! -->
+               <!-- {% else %}
+
                  <h3>Mount Pleasant <small class='closed'>Closed</small></h3>
 
                 <p> The Large Lot Program ended in Mount Pleasant on <strong>August 4th at 11:59 p.m.</strong> Applicants will be contacted via a letter regarding the status of their application sometime after the 1st week of October.
@@ -39,19 +39,20 @@
                 </div>
 
                 <p class='text-center'><strong>Closed on Aug 4th, 2015</strong></p>
-              {% endif %}
-              
+              {% endif %} -->
+
             </div>
           </div>
 
 
- 
+
         <div class='row'>
           <div class='col-md-8'>
             <h3>About</h3>
-            <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. This website was built to make the process of purchasing City-owned land through this program easier for residents. <a href='/about'>Read more &raquo;</a>
+            <p><strong>Large Lots: Cleveland</strong> is an online application for side yard expansion in Cleveland and was developed by Open Cleveland with the City of Cleveland Land Bank.</p>
+            <!-- <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. This website was built to make the process of purchasing City-owned land through this program easier for residents. <a href='/about'>Read more &raquo;</a> -->
           </div>
         </div>
       </div>
-      
+
 {% endblock %}
