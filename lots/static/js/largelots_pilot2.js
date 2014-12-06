@@ -153,7 +153,8 @@ var LargeLots = {
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
       var sql = new cartodb.SQL({user: 'opencleveland', format: 'geojson'});
-      sql.execute('SELECT * from joined WHERE ppn = cast({{num}} as text)', {num:ppn_current}) //cast({{ppn}} as text)', {ppn:ppn})
+	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014
+      sql.execute('SELECT * from joined WHERE ppn = \'{{num}}\'', {num:ppn_current})
         .done(function(data){
             var shape = data.features[0];
             console.log(ppn_current);
