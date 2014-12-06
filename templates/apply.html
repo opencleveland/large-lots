@@ -80,7 +80,7 @@
                         Your selected lot:
                       </div>
                       <div class="panel-body">
-                        <p>Use the map above to search for and select the lot you want to apply for or, enter the lot address and PPN if you know it already.</p>
+                        <p>Use the map above to search for and select the lot you want to apply for or, enter the lot address and parcel number if you know it already.</p>
 
                         <p><span class="red">*</span>Required</p>
 
@@ -109,7 +109,7 @@
                             {% else %}
                             <div class="form-group">
                             {% endif %}
-                              <label for="lot_1_pin">PPN<span class="red">*</span></label>
+                              <label for="lot_1_pin">Parcel Number<span class="red">*</span></label>
                               <input type="text" value="{{lot_1_pin}}" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="###-##-###">
                               {% for error in form.lot_1_pin.errors %}
                                   <span class="help-block">{{ error }}</span>
