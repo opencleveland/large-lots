@@ -24,12 +24,12 @@ class ApplicationForm(forms.Form):
         label="Lot address")
     lot_1_pin = forms.CharField(
         error_messages={
-            'required': 'Provide the lot’s Parcel Identification Number'
-        },label="Lot PIN")
+            'required': 'Provide the lot’s Permanent Parcel Number'
+        },label="Lot PPN")
     lot_1_use = forms.CharField(required=False)
-    lot_2_address = forms.CharField(required=False)
-    lot_2_pin = forms.CharField(required=False)
-    lot_2_use = forms.CharField(required=False)
+    # lot_2_address = forms.CharField(required=False)
+    # lot_2_pin = forms.CharField(required=False)
+    # lot_2_use = forms.CharField(required=False)
     owned_address = forms.CharField(
         error_messages={
             'required': 'Provide the address of the building you own'
@@ -87,10 +87,10 @@ class ApplicationForm(forms.Form):
     def clean_lot_1_pin(self):
         return self._clean_pin('lot_1_pin')
 
-    def clean_lot_2_pin(self):
-        if self.cleaned_data['lot_2_pin']:
-            return self._clean_pin('lot_2_pin')
-        return self.cleaned_data['lot_2_pin']
+    # def clean_lot_2_pin(self):
+    #     if self.cleaned_data['lot_2_pin']:
+    #         return self._clean_pin('lot_2_pin')
+    #     return self.cleaned_data['lot_2_pin']
 
     def clean_deed_image(self):
         image = self.cleaned_data['deed_image']._get_name()
@@ -146,25 +146,25 @@ def apply(request):
             except Lot.DoesNotExist:
                 lot1 = Lot(**lot1_info)
                 lot1.save()
-            lot2 = None
-            if form.cleaned_data.get('lot_2_pin'):
-                l2_address = get_lot_address(form.cleaned_data['lot_2_address'])
-                lot2_info = {
-                    'pin': form.cleaned_data['lot_2_pin'],
-                    'address': l2_address,
-                    'planned_use': form.cleaned_data.get('lot_2_use')
-                }
-                try:
-                    lot2 = Lot.objects.get(pin=lot2_info['pin'])
-                except Lot.DoesNotExist:
-                    lot2 = Lot(**lot2_info)
-                    lot2.save()
-            c_address_info = {
-                'street': form.cleaned_data['contact_street'],
-                'city': form.cleaned_data['contact_city'],
-                'state': form.cleaned_data['contact_state'],
-                'zip_code': form.cleaned_data['contact_zip_code']
-            }
+            # lot2 = None
+            # if form.cleaned_data.get('lot_2_pin'):
+            #     l2_address = get_lot_address(form.cleaned_data['lot_2_address'])
+            #     lot2_info = {
+            #         'pin': form.cleaned_data['lot_2_pin'],
+            #         'address': l2_address,
+            #         'planned_use': form.cleaned_data.get('lot_2_use')
+            #     }
+            #     try:
+            #         lot2 = Lot.objects.get(pin=lot2_info['pin'])
+            #     except Lot.DoesNotExist:
+            #         lot2 = Lot(**lot2_info)
+            #         lot2.save()
+            # c_address_info = {
+            #     'street': form.cleaned_data['contact_street'],
+            #     'city': form.cleaned_data['contact_city'],
+            #     'state': form.cleaned_data['contact_state'],
+            #     'zip_code': form.cleaned_data['contact_zip_code']
+            # }
             c_address, created = Address.objects.get_or_create(**c_address_info)
             owned_address = get_lot_address(form.cleaned_data['owned_address'])
             app_info = {
@@ -182,8 +182,8 @@ def apply(request):
             app = Application(**app_info)
             app.save()
             app.lot_set.add(lot1)
-            if lot2:
-                app.lot_set.add(lot2)
+            # if lot2:
+            #     app.lot_set.add(lot2)
             app.save()
 
             html_template = get_template('apply_html_email.html')
@@ -201,7 +201,7 @@ def apply(request):
             if app.email:
                 to_email.append(app.email)
 
-            # send email confirmation to info@largelots.org
+            # send email confirmation to settings.EMAIL_HOST_USER
             msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
@@ -211,9 +211,9 @@ def apply(request):
             context['lot_1_address'] = form['lot_1_address'].value()
             context['lot_1_pin'] = form['lot_1_pin'].value()
             context['lot_1_use'] = form['lot_1_use'].value()
-            context['lot_2_address'] = form['lot_2_address'].value()
-            context['lot_2_pin'] = form['lot_2_pin'].value()
-            context['lot_2_use'] = form['lot_2_use'].value()
+            # context['lot_2_address'] = form['lot_2_address'].value()
+            # context['lot_2_pin'] = form['lot_2_pin'].value()
+            # context['lot_2_use'] = form['lot_2_use'].value()
             context['owned_address'] = form['owned_address'].value()
             context['deed_image'] = form['deed_image'].value()
             context['first_name'] = form['first_name'].value()

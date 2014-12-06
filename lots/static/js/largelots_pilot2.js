@@ -10,9 +10,9 @@ var LargeLots = {
   locationScope: 'cleveland',
   boundingBox: {
     'bottom': 41.386,
-    'top': 41.572,
-    'right': -81.508,
-    'left': -81.818
+    'top': 41.872,
+    'right': -81.208,
+    'left': -81.968
   },
 
   initialize: function() {
@@ -45,15 +45,15 @@ var LargeLots = {
         var date_formatted = '';
         if (props) {
           var info = '';
-          if(props.street_number){
+          if(props.number2){
               info += "<h4>" + LargeLots.formatAddress(props) + "</h4>";
-              info += "<p>PIN: " + props.pin14 + "<br />";
+              info += "<p>PPN: " + props.parcel + "<br />";
           }
-          if (props.zoning_classification){
-              info += "Zoned: " + props.zoning_classification + "<br />";
+          if (props.build){
+              info += "Zoned: " + props.build + "<br />";
           }
-          if (props.sq_ft){
-              info += "Sq Ft: " + props.sq_ft + "<br />";
+          if (props.sqft){
+              info += "Sq Ft: " + props.sqft + "<br />";
           }
           this._div.innerHTML  = info;
         }
@@ -65,14 +65,14 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "ppn,parcel,address,build,ward,spa,sqft" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
+      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
       var layerOpts = {
           user_name: 'opencleveland',
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: "select * from joined",
+                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               }
@@ -96,11 +96,12 @@ var LargeLots = {
               LargeLots.info.clear();
             });
             LargeLots.lotsLayer.on('featureClick', function(e, pos, latlng, data){
+                console.log(data);
                 LargeLots.getOneParcel(data['ppn']);
             });
             window.setTimeout(function(){
-                if($.address.parameter('pin')){
-                    LargeLots.getOneParcel($.address.parameter('pin'))
+                if($.address.parameter('ppn')){
+                    LargeLots.getOneParcel($.address.parameter('ppn'))
                 }
             }, 1000)
         }).error(function(e) {
@@ -144,18 +145,20 @@ var LargeLots = {
   },
 
   formatAddress: function (prop) {
-    if (prop.street_type == null) prop.street_type = "";
-    return prop.street_number + " " + prop.street_dir + " " + prop.street_name + " " + prop.street_type;
+    return prop.number2 + " " + " " + prop.street2;
   },
 
-  getOneParcel: function(pin14){
+  getOneParcel: function(ppn_current){
       if (LargeLots.lastClickedLayer){
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
-      var sql = new cartodb.SQL({user: 'datamade', format: 'geojson'});
-      sql.execute('select * from egp_parcels where pin14 = cast({{pin14}} as text)', {pin14:pin14})
+      var sql = new cartodb.SQL({user: 'opencleveland', format: 'geojson'});
+      sql.execute('SELECT * from joined WHERE ppn = cast({{num}} as text)', {num:ppn_current}) //cast({{ppn}} as text)', {ppn:ppn})
         .done(function(data){
             var shape = data.features[0];
+            console.log(ppn_current);
+            console.log(data);
+            console.log(shape);
             LargeLots.lastClickedLayer = L.geoJson(shape);
             LargeLots.lastClickedLayer.addTo(LargeLots.map);
             LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
@@ -166,35 +169,34 @@ var LargeLots = {
   },
 
   selectParcel: function (props){
+      console.log(props);
       var address = LargeLots.formatAddress(props);
-      var pin_formatted = LargeLots.formatPin(props.pin14);
 
       var info = "<div class='row'><div class='col-xs-6 col-md-12'>\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
-          <tr><td>PIN</td><td>" + pin_formatted + " (<a target='_blank' href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=" + props.pin14 + "'>info</a>)</td></tr>";
-      if (props.zoning_classification){
-          info += "<tr><td>Zoned</td><td> Residential (<a href='http://secondcityzoning.org/zone/" + props.zoning_classification + "' target='_blank'>" + props.zoning_classification + "</a>)</td></tr>";
+          <tr><td>PPN</td><td>" + props.parcel + " (<a target='_blank' href='http://treasurer.cuyahogacounty.us/payments/real_prop/ShowTaxBill.asp?txtParcel=" + props.ppn + "'>info</a>)</td></tr>";
+      if (props.build){
+          info += "<tr><td>Zoned</td><td>" + props.build + "</td></tr>";
       }
-      if (props.sq_ft){
-          info += "<tr><td>Sq ft</td><td>" + LargeLots.addCommas(props.sq_ft) + "</td></tr>";
-
+      if (props.sqft){
+          info += "<tr><td>Square feet</td><td>" + LargeLots.addCommas(props.sqft) + "</td></tr>";
       }
-      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-pin='" + pin_formatted + "' data-address='" + address + "' href='#' class='btn btn-success'>Select this lot</button></td></tr>"
-      info += "</tbody></table></div><div class='col-xs-6 col-md-12'>\
-      <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' /></div></div>";
-      $.address.parameter('pin', props.pin14)
+      info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-ppn='" + props.parcel + "' data-address='" + address + "' href='#' class='btn btn-success'>Select this lot</button></td></tr>"
+      // info += "</tbody></table></div><div class='col-xs-6 col-md-12'>\
+      // <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' /></div></div>";
+      $.address.parameter('ppn', props.ppn)
       $('#lot-info').html(info);
 
       $("#lot_apply").on("click", function(){
         if ($("#id_lot_1_address").val() == "") {
           $("#id_lot_1_address").val($(this).data('address'));
-          $("#id_lot_1_pin").val($(this).data('pin'));
+          $("#id_lot_1_ppn").val($(this).data('ppn'));
         }
-        else if ($("#id_lot_1_address").val() != $(this).data('address')){
-          $("#id_lot_2_address").val($(this).data('address'));
-          $("#id_lot_2_pin").val($(this).data('pin'));
-        }
+        // else if ($("#id_lot_1_address").val() != $(this).data('address')){
+        //   $("#id_lot_2_address").val($(this).data('address'));
+        //   $("#id_lot_2_pin").val($(this).data('pin'));
+        // }
 
         $(this).html("<i class='fa fa-check'></i> Selected");
         $("#selected_lots").ScrollTo({offsetTop: "70px", 'axis':'y'});
@@ -254,9 +256,9 @@ var LargeLots = {
     LargeLots.marker = L.marker([first.lat, first.lon]).addTo(LargeLots.map);
   },
 
-  formatPin: function(pin) {
-    return pin.replace(/(\d{2})(\d{2})(\d{3})(\d{3})(\d{4})/, '$1-$2-$3-$4-$5');
-  },
+  // formatPin: function(pin) {
+  //   return pin.replace(/(\d{2})(\d{2})(\d{3})(\d{3})(\d{4})/, '$1-$2-$3-$4-$5');
+  // },
 
   //converts a slug or query string in to readable text
   convertToPlainString: function (text) {
