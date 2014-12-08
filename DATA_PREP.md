@@ -11,7 +11,7 @@ See the [City Land Bank page](http://www.city.cleveland.oh.us/CityofCleveland/Ho
 Mapbox and Google Maps use the EPSG:3857 projection. `ogr2ogr` converts the shapefile to a GeoJSON format.
 
 ```bash
-$ ogr2ogr -t_srs EPSG:3857 parcelpoly_simple.shp > parcels3857.json -f geojson (or -k features)
+$ ogr2ogr -t_srs EPSG:3857 parcels3857.json  parcelpoly_simple.shp -f geojson
 ```
 
 Convert GeoJSON to CSV using `in2csv` from `csvkit`.
