@@ -78,8 +78,10 @@ class ApplicationForm(forms.Form):
 
     def _clean_pin(self, key):
         pin = self.cleaned_data[key]
-        pattern = re.compile('[^0-9]')
-        if len(pattern.sub('', pin)) != 14:
+        pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
+		## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
+        PinLength = len(pattern.sub('', pin))
+        if PinLength != 8 & PinLength != 9 :
             raise forms.ValidationError('Please provide a valid PIN')
         else:
             return self._check_pin(pin)
