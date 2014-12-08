@@ -8,21 +8,22 @@ See the [City Land Bank page](http://www.city.cleveland.oh.us/CityofCleveland/Ho
 
 *Transform coordinates from shapefile*
 
-Mapbox and Google Maps use the EPSG:3857 projection. `ogr2ogr` converts the shapefile to a GeoJSON format.
+`ogr2ogr` reprojects and converts the shapefile to a GeoJSON format.
 
 ```bash
-$ ogr2ogr -t_srs EPSG:3857 parcels3857.json parcelpoly_simple.shp -f geojson
+$ ogr2ogr -t_srs EPSG:4326 parcels4326.shp parcelpoly_simple.shp 
+$ ogr2ogr -f GeoJSON parcels4326.json parcels4326.shp
 ```
 
 Convert GeoJSON to CSV using `in2csv` from `csvkit`.
 
 ```bash
-$ in2csv parcels3857.json > parcels3857.csv
+$ in2csv parcels4326.json > parcels4326.csv
 ```
 
 Perform an inner join on the the parcel and land bank data, using the Permanent Parcel Number field (PPN), using `csvjoin` from `csvkit`.
 ```bash
-csvjoin -c "ppn,ppn" parcels3857.csv cleveland-land-bank.csv > joined.csv
+csvjoin -c "ppn,ppn" parcels4326.csv cleveland-land-bank.csv > joined.csv
 ```
 This `joined.csv` file can be uploaded to CartoDB and accessed via API. Future versions of this may store all the parcel data online instead of just the parcels that are available, however this will require more storage space, as that file is ~300 MB and the free CartoDB limit is 50 MB. The `joined.csv` file is about 2 or 3 MB.
 
