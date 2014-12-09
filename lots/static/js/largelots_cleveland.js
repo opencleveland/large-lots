@@ -127,7 +127,7 @@ var LargeLots = {
               checks.push($(box).attr('id'))
           }
       });
-      var sql = 'select * from egp_parcels where ';
+      var sql = 'select * from joined where ';
       var clauses = []
       if(checks.indexOf('applied') >= 0){
           clauses.push('status = 1')
@@ -139,7 +139,7 @@ var LargeLots = {
           clauses = clauses.join(' or ');
           sql += clauses;
       } else {
-          sql = 'select * from egp_parcels where status not in (0,1)'
+          sql = 'select * from joined where status not in (0,1)'
       }
       LargeLots.lotsLayer.setSQL(sql);
   },
