@@ -22,11 +22,11 @@ class ApplicationForm(forms.Form):
     lot_1_address = forms.CharField(
         error_messages={'required': 'Provide the lot’s address'},
         label="Lot address")
-    lot_1_pin = forms.CharField(
+    lot_1_ppn = forms.CharField(
         error_messages={
             'required': 'Provide the lot’s Permanent Parcel Number'
         },label="Lot PPN")
-    lot_1_use = forms.CharField(required=False)
+    # lot_1_use = forms.CharField(required=False)
     # lot_2_address = forms.CharField(required=False)
     # lot_2_pin = forms.CharField(required=False)
     # lot_2_use = forms.CharField(required=False)
@@ -34,7 +34,7 @@ class ApplicationForm(forms.Form):
         error_messages={
             'required': 'Provide the address of the building you own'
         }, label="Owned property address")
-    deed_image = forms.FileField(
+    plan_image = forms.FileField(
         error_messages={'required': 'Provide an image of the proposed site plan'
         }, label="Proposed site plan")
     first_name = forms.CharField(
@@ -43,7 +43,7 @@ class ApplicationForm(forms.Form):
     last_name = forms.CharField(
         error_messages={'required': 'Provide your last name'},
         label="Your last name")
-    organization = forms.CharField(required=False)
+    # organization = forms.CharField(required=False)
     phone = forms.CharField(
         error_messages={'required': 'Provide a contact phone number'},
         label="Your phone number")
@@ -59,52 +59,55 @@ class ApplicationForm(forms.Form):
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
 
-    def _check_pin(self, pin):
-        carto = 'http://datamade.cartodb.com/api/v2/sql'
+    def _check_ppn(self, ppn):
+        carto = 'http://opencleveland.cartodb.com/api/v2/sql'
         params = {
             'api_key': settings.CARTODB_API_KEY,
-            'q':  "SELECT pin14 FROM egp_parcels WHERE pin14 = '%s' AND city_owned='T' AND residential='T' AND alderman_hold != 'T'" % pin.replace('-', ''),
+            'q':  "SELECT ppn FROM joined WHERE ppn = '%s'" % ppn.replace('-', ''),
         }
         r = requests.get(carto, params=params)
         if r.status_code == 200:
             if r.json()['total_rows'] == 1:
-                return pin
+                return ppn
             else:
                 message = '%s is not available for purchase. \
-                    Please select one from the map above' % pin
+                    Please select one from the map above' % ppn
                 raise forms.ValidationError(message)
         else:
-            return pin
+            return ppn
 
-    def _clean_pin(self, key):
-        pin = self.cleaned_data[key]
+    def _clean_ppn(self, key):
+        ppn = self.cleaned_data[key]
         pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
 		## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
-        PinLength = len(pattern.sub('', pin))
-        if PinLength != 8 & PinLength != 9 :
-            raise forms.ValidationError('Please provide a valid PIN')
+        PpnLength = len(pattern.sub('', ppn))
+        if PpnLength != 8 & PpnLength != 9 :
+            raise forms.ValidationError('Please provide a valid PPN')
         else:
-            return self._check_pin(pin)
+            return self._check_ppn(ppn)
 
-    def clean_lot_1_pin(self):
-        return self._clean_pin('lot_1_pin')
+    def clean_lot_1_ppn(self):
+        return self._clean_ppn('lot_1_ppn')
 
     # def clean_lot_2_pin(self):
     #     if self.cleaned_data['lot_2_pin']:
-    #         return self._clean_pin('lot_2_pin')
+    #         return self._clean_ppn('lot_2_pin')
     #     return self.cleaned_data['lot_2_pin']
 
-    def clean_deed_image(self):
-        image = self.cleaned_data['deed_image']._get_name()
+    def clean_plan_image(self):
+        image = self.cleaned_data['plan_image']._get_name()
         ftype = image.split('.')[-1]
         if ftype not in ['pdf', 'png', 'jpg', 'jpeg']:
             raise forms.ValidationError('File type not supported. Please choose an image or PDF.')
-        return self.cleaned_data['deed_image']
+        return self.cleaned_data['plan_image']
 
 def home(request):
     return render(request, 'index.html', {'application_active': application_active()})
 
-# the application is active between July 1st 12:00am and August 4th 11:59pm
+#
+# CLEVELAND DOESN'T HAVE AN APPLICATION TIME PERIOD
+#
+
 def application_active():
     chicago_time = timezone.localtime(timezone.now())
     start_date = timezone.make_aware(datetime(2014, 7, 1, 0, 0),
@@ -113,8 +116,6 @@ def application_active():
         timezone.get_current_timezone())
 
     # print settings.APPLICATION_DISPLAY
-
-
     # override with configuration setting
     if start_date < chicago_time < end_date:
         return True
@@ -139,12 +140,12 @@ def apply(request):
             print form.cleaned_data['lot_1_address']
             l1_address = get_lot_address(form.cleaned_data['lot_1_address'])
             lot1_info = {
-                'pin': form.cleaned_data['lot_1_pin'],
+                'ppn': form.cleaned_data['lot_1_ppn'],
                 'address': l1_address,
-                'planned_use': form.cleaned_data.get('lot_1_use')
+                # 'planned_use': form.cleaned_data.get('lot_1_use')
             }
             try:
-                lot1 = Lot.objects.get(pin=lot1_info['pin'])
+                lot1 = Lot.objects.get(ppn=lot1_info['ppn'])
             except Lot.DoesNotExist:
                 lot1 = Lot(**lot1_info)
                 lot1.save()
@@ -172,9 +173,9 @@ def apply(request):
             app_info = {
                 'first_name': form.cleaned_data['first_name'],
                 'last_name': form.cleaned_data['last_name'],
-                'organization': form.cleaned_data.get('organization'),
+                # 'organization': form.cleaned_data.get('organization'),
                 'owned_address': owned_address,
-                'deed_image': form.cleaned_data['deed_image'],
+                'plan_image': form.cleaned_data['plan_image'],
                 'contact_address': c_address,
                 'phone': form.cleaned_data['phone'],
                 'email': form.cleaned_data.get('email'),
@@ -194,7 +195,7 @@ def apply(request):
             context = Context({'app': app, 'lots': lots, 'host': request.get_host()})
             html_content = html_template.render(context)
             text_content = text_template.render(context)
-            subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
+            subject = 'Side Yard Application for %s %s' % (app.first_name, app.last_name)
 
             from_email = settings.EMAIL_HOST_USER
             to_email = [from_email]
@@ -211,16 +212,16 @@ def apply(request):
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
-            context['lot_1_pin'] = form['lot_1_pin'].value()
-            context['lot_1_use'] = form['lot_1_use'].value()
+            context['lot_1_ppn'] = form['lot_1_ppn'].value()
+            # context['lot_1_use'] = form['lot_1_use'].value()
             # context['lot_2_address'] = form['lot_2_address'].value()
             # context['lot_2_pin'] = form['lot_2_pin'].value()
             # context['lot_2_use'] = form['lot_2_use'].value()
             context['owned_address'] = form['owned_address'].value()
-            context['deed_image'] = form['deed_image'].value()
+            context['plan_image'] = form['plan_image'].value()
             context['first_name'] = form['first_name'].value()
             context['last_name'] = form['last_name'].value()
-            context['organization'] = form['organization'].value()
+            # context['organization'] = form['organization'].value()
             context['phone'] = form['phone'].value()
             context['email'] = form['email'].value()
             context['contact_street'] = form['contact_street'].value()

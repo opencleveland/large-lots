@@ -9,7 +9,7 @@
         <th>ID</th>
         <th>Date received</th>
         <th>Name/Organization</th>
-        <th>Applied lots</th>
+        <th>Applied lot</th>
         <th>Contact info</th>
         <th>Owned property</th>
         <th></th>
@@ -21,10 +21,10 @@
             <td>{{application.received_date|date:'Y-m-d g:i a'}}</td>
             <td>
                 {{application.first_name}} {{application.last_name}}
-                {% if application.organization %}
+                <!-- {% if application.organization %}
                 <br />
                   {{application.organization}}
-                {% endif %}
+                {% endif %} -->
             </td>
             <td>
                 {% for lot in application.lot_set.all %}
@@ -37,7 +37,7 @@
             <td>{{application.contact_address.street}} <br /> {{application.phone}} <br /> {{application.email}}</td>
             <td>
                 {{application.owned_address.street}}<br />
-                <a href="{{application.deed_image.url}}" target="_blank">Download deed</a>
+                <a href="{{application.plan_image.url}}" target="_blank">Download plan</a>
             </td>
             <td><a href="{% url 'apply_confirm' application.tracking_id %}" target="_blank">Detail page</a></td>
         </tr>
