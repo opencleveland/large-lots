@@ -9,7 +9,6 @@
     <h3>Lot information:</h3>
     {% for lot in lots %}
         <div>
-            <img src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
             <table>
                 <tbody>
                     <tr>
@@ -17,8 +16,8 @@
                         <td>{{lot.address.street}}</td>
                     </tr>
                     <tr>
-                        <td>PIN</td>
-                        <td>{{lot.pin}}</td>
+                        <td>PPN</td>
+                        <td>{{lot.ppn}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -50,10 +49,10 @@
                 <td>Name</td>
                 <td>{{app.first_name}} {{app.last_name}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>Organization</td>
                 <td>{{app.organization}}</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td>Address</td>
                 <td>
