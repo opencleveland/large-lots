@@ -5,7 +5,7 @@
 Lot information:
 {% for lot in lots %}
     Address: {{lot.address.street}}
-    PIN: {{lot.pin}}
+    PPN: {{lot.ppn}}
 {% endfor %}
 
 Ownership information:
@@ -13,7 +13,6 @@ Ownership information:
 
 Your contact info:
     {{app.first_name}} {{app.last_name}}
-    {{app.organization}}
     Address: {{app.contact_address.street}} {{app.contact_address.city}}, {{app.contact_address.state}} {{app.contact_address.zip_code}}
     Phone:  {{app.phone}}
     Email:  {{app.email}}

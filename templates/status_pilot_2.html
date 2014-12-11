@@ -2,17 +2,13 @@
 {% load staticfiles %}
 {% block title %} | Application status {% endblock %}
 {% block extra_css %}
-    <style id="englewood-styles">
-      #full_area_lots {
+    <style id="egp-styles">
+      #egp_parcels {
         polygon-fill: #6ac682;
         polygon-opacity: 0.7;
         line-color: #389250;
         line-width: 0.5;
         line-opacity: 1;
-      }
-      #full_area_lots[status=2]{
-        polygon-fill: #A1285D;
-        line-color: #680D35;
       }
     </style>
 {% endblock %}
@@ -21,12 +17,10 @@
 
         <div class='row'>
           <div class='col-md-12'>
-            <h1>Greater Englewood Area <small class='closed'>Closed</small></h1>
+            <h1>East Garfield Park <small class='closed'>Closed</small></h1>
             <div class='row'>
               <div class='col-md-9'>
-                <p>The Englewood pilot ended on <strong>April 21st, 2014</strong> and <strong>414 applications</strong> for lots were received.</p>
-
-                <p>On August 21st, 2014, the sale of <strong>317 properties</strong> was approved by the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/chicago_plan_commission.html'>Chicago Plan Commission</a>. Closings are anticipated for late fall,  pending City Council approval.</p>
+                <p> The second Large Lot Program ended in East Garfield Park on <strong>August 4th at 11:59 p.m.</strong> Applicants will be contacted via a letter regarding the status of their application sometime after the 1st week of October.</p>
 
                 <p>Browse the map or enter your address below to see what lots have been <strong class='closed'>applied for and approved</strong> by the Chicago Plan Commission.</p>
               </div>
@@ -70,16 +64,16 @@
     <script type="infowindow/html" id="infowindow_template">
     <div class="cartodb-popup">
       <a href="#close" class="cartodb-popup-close-button close">x</a>
-      // <div class="cartodb-popup-content-wrapper">
-      //   <div class="cartodb-popup-content">
-      //     <h4>{{content.data.street_number}} {{content.data.dir}} {{content.data.street_name}} {{content.data.type}}</h4>
-      //       <p>PIN: {{content.data.pin14}}<br />
-      //       Zoned: {{content.data.zoning_classification}}<br />
-      //       Sq Ft: {{content.data.sq_ft}}<br />
-      //       Alderman: (Ward {{content.data.ward}})</p>
-      //   </div>
-      // </div>
-      // <div class="cartodb-popup-tip-container"></div>
+      <div class="cartodb-popup-content-wrapper">
+        <div class="cartodb-popup-content">
+          <h4>{{content.data.street_number}} {{content.data.dir}} {{content.data.street_name}} {{content.data.type}}</h4>
+            <p>PIN: {{content.data.pin14}}<br />
+            Zoned: {{content.data.zoning_classification}}<br />
+            Sq Ft: {{content.data.sq_ft}}<br />
+            Alderman: (Ward {{content.data.ward}})</p>
+        </div>
+      </div>
+      <div class="cartodb-popup-tip-container"></div>
     </div>
     </script>
     <script src="{% static 'js/jquery.address.js' %}"></script>
@@ -87,11 +81,27 @@
 
     <!--<script src="js/leaflet.js" type="text/javascript"></script> -->
     <script src="{% static 'js/leaflet.label.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/largelots_pilot1.js' %}"></script>
+    <script src="{% static 'js/largelots_status.js' %}"></script>
 
     <script>
       $(function() {
-        LargeLots.initialize();
+        var init_params = {
+            map_centroid: [41.8787248907554, -87.7055433591891],
+            boundaryCartocss: '#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}',
+            parcelsCartocss: $('#egp-styles').html().trim(),
+            boundingBox: {
+              'bottom': 41.868506217235485,
+              'top': 41.891607773180716,
+              'right': -87.68617630004883,
+              'left': -87.7223539352417
+            },
+            defaultZoom: 14,
+            tableName: 'egp_parcels',
+            mainWhere: " where city_owned='T' and residential='T' and alderman_hold != 'T'",
+            overlayName: "chicago_community_areas WHERE community = 'EAST GARFIELD PARK'",
+            fields: "pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type"
+        }
+        LargeLots.initialize(init_params);
       });
 
       $("#search").on("click", LargeLots.addressSearch);
@@ -104,3 +114,4 @@
       $("#print-page").on("click", function(){ window.print(); });
     </script>
 {% endblock %}
+

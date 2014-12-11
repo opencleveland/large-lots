@@ -23,7 +23,7 @@
 {% endblock %}
 {% block content %}
 <p><a href='/lots-admin/'>&laquo; back to the list</a></p>
-<h2><span id='pin_count'></span> Lots applied for </h2>
+<h2><span id='ppn_count'></span> Lots applied for </h2>
 
 <p>
     <span class='label label-available'>Available</span>
@@ -40,11 +40,12 @@
     <script src="{% static 'js/largelots_admin.js' %}"></script>
     <script>
 
-      var applied_pins = "{{applied_pins|safe}}";
-      var num_pins = $.unique(applied_pins.split(",")).length;
-      var applied_percent = (100 * num_pins / 417.0).toFixed(1);
+      var applied_ppns = "{{applied_ppns|safe}}";
+      var num_ppns = $.unique(applied_ppns.split(",")).length;
+      var num_parcels = 8000.0 // estimate!
+      var applied_percent = (100 * num_ppns / num_parcels).toFixed(1);
 
-      //$('#pin_count').html(num_pins + " out of 417 (" + applied_percent + "%)")
+      $('#ppn_count').html(num_ppns + " out of 8000 (" + applied_percent + "%)")
       $(function() {
         LargeLotsAdmin.initialize();
       });

@@ -29,12 +29,12 @@ def lots_logout(request):
 
 @login_required(login_url='/lots-login/')
 def lots_admin_map(request):
-    applied_pins = set()
+    applied_ppns = set()
     for lot in Lot.objects.all():
-        applied_pins.add(lot.pin)
+        applied_ppns.add(lot.ppn)
 
-    pins_str = ",".join(["'%s'" % a.replace('-','').replace(' ','') for a in applied_pins])
-    return render(request, 'admin-map.html', {'applied_pins': pins_str})
+    ppns_str = ",".join(["'%s'" % a.replace('-','').replace(' ','') for a in applied_ppns])
+    return render(request, 'admin-map.html', {'applied_ppns': ppns_str})
 
 @login_required(login_url='/lots-login/')
 def lots_admin(request):
@@ -48,23 +48,23 @@ def csv_dump(request):
     response['Content-Disposition'] = 'attachment; filename=Large_Lots_Applications_%s.csv' % now
     applications = Application.objects.all()
     header = [
-        'ID', 
-        'Date received', 
-        'Name', 
-        'Organization', 
-        'Owned Address', 
-        'Owned PIN', 
-        'Deed Image URL',
+        'ID',
+        'Date received',
+        'Name',
+        # 'Organization',
+        'Owned Address',
+        'Owned PPN',
+        'Plan Image URL',
         'Contact Address',
-        'Phone', 
-        'Email', 
+        'Phone',
+        'Email',
         'Received assistance',
-        'Lot 1 PIN',
+        'Lot 1 PPN',
         'Lot 1 Address',
-        'Lot 1 Image URL',
-        'Lot 2 PIN',
-        'Lot 2 Address',
-        'Lot 2 Image URL',
+        # 'Lot 1 Plan URL',
+        # 'Lot 2 PIN',
+        # 'Lot 2 Address',
+        # 'Lot 2 Image URL',
     ]
     rows = []
     for application in applications:
@@ -86,29 +86,29 @@ def csv_dump(request):
                  getattr(lot.address, 'state', ''),
                  getattr(lot.address, 'zip_code', ''))
             pin = lot.pin
-            image_url = 'http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?%s=' % pin.replace('-', '')
-            lots.extend([pin, addr, image_url])
+            # image_url = 'http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?%s=' % pin.replace('-', '')
+            # lots.extend([pin, addr, image_url])
         if len(lots) < 4:
             lots.extend(['', '', ''])
-        lot_1_pin, lot_1_addr, lot_1_image, lot_2_pin, lot_2_addr, lot_2_image = lots
+        lot_1_pin, lot_1_addr, lot_1_image = lots
         rows.append([
             application.id,
             application.received_date.strftime('%Y-%m-%d %H:%m %p'),
             '%s %s' % (application.first_name, application.last_name),
-            application.organization,
-            owned_address, 
-            application.owned_pin,
-            application.deed_image.url,
-            contact_address, 
+            # application.organization,
+            owned_address,
+            application.owned_ppn,
+            application.plan_image.url,
+            contact_address,
             application.phone,
             application.email,
             application.how_heard,
-            lot_1_pin,
+            lot_1_ppn,
             lot_1_addr,
             lot_1_image,
-            lot_2_pin,
-            lot_2_addr,
-            lot_2_image,
+            # lot_2_pin,
+            # lot_2_addr,
+            # lot_2_image,
         ])
     writer = csv.writer(response)
     writer.writerow(header)

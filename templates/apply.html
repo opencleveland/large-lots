@@ -13,428 +13,386 @@
     </style>
 {% endblock %}
 {% block content %}
-      <div class='col-md-12'>
 
-        <h1>Side Yard Expansion
-            <!-- {% if form %}
-            <small class='open'>Open</small>
-            {% else %}
-            <small class='closed'>Closed</small>
-            {% endif %} -->
-        </h1>
+<div class='col-md-12'>
+  <h1>Side Yard Expansion
+      <!-- {% if form %}
+      <small class='open'>Open</small>
+      {% else %}
+      <small class='closed'>Closed</small>
+      {% endif %} -->
+  </h1>
 
-        <p>If you own land in Cleveland, you can <strong>buy neighboring vacant lots</strong> from the City of Cleveland for <strong>$200</strong> a lot. The lot must be <strong>adjacent</strong> to land you already own. Individuals and organizations can apply but churches are not eligible.</p>
+  <p>If you own land in Cleveland, you can <strong>buy neighboring vacant lots</strong> from the City of Cleveland for <strong>$200</strong> a lot. The lot must be <strong>adjacent</strong> to land you already own. Individuals and organizations can apply but churches are not eligible.</p>
+  <p>For more information, read the <a target='_blank' href='/faq/'>frequently asked questions (FAQ) page</a>.</p>
 
-        <!-- <p>Applications will be accepted between <strong>July 1st, 2014 at 12:00 a.m.</strong> and <strong>August 4th, 2014 11:59 p.m.</strong></p> -->
-
-        <p>For more information, read the <a target='_blank' href='/faq/'>frequently asked questions (FAQ) page</a>.</p>
-        {% if form %}
-            <div class='row'>
-              <div class='col-md-12'>
-                <p>
-                  <h2 id='browse'>1. Browse for and select a lot</h2>
-                  <form class='form-inline hidden-print' id='lot-form'>
-                    <div class="form-group">
-                      <input style="margin-right:10px" class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
-                      <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
-                    </div>
-                  </form>
-                </p>
+  {% if form %}
+      <!-- SEARCH & PARCEL SELECTION -->
+      <div class='row'>
+        <div class='col-md-12'>
+          <p>
+            <h2 id='browse'>1. Browse for and select a lot</h2>
+            <form class='form-inline hidden-print' id='lot-form'>
+              <div class="form-group">
+                <input style="margin-right:10px" class='form-control input-lg' id='search_address' placeholder='Enter your address' type='text' />
+                <input class='btn btn-primary btn-lg' id='search' type='button' value='Search' />
               </div>
+            </form>
+          </p>
+        </div>
+        <!-- SEARCH BOX -->
+        <div class='col-md-4'>
+          <div class='well' id='lot-info'>
+            <p>To get started:</p>
 
-              <div class='col-md-4'>
-                <div class='well' id='lot-info'>
-                  <p>To get started:</p>
-
-                  <ol>
-                    <li>Enter your address above or browse the map to view available lots
-                    <li>Click on a lot on a green lot for details</li>
-                    <!-- <li>Select up to two lots for your application</li> -->
-                  </ol>
-                </div>
-              </div>
-              <div class='col-md-8'>
-                <div id='map'></div>
+            <ol>
+              <li>Enter your address above or browse the map to view available lots
+              <li>Click on a lot on a green lot for details</li>
+            </ol>
+          </div>
+        </div>
+        <!-- SEARCH MAP -->
+        <div class='col-md-8'>
+          <div id='map'></div>
+        </div>
+      </div>
+      <br />
+      <!-- PPN, ADDRESS, and OWNER ADDRESS INPUT -->
+      <form role="form" id="application" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if form.errors %}
+          <div id="form-errors" class="row">
+            <div class="col-md-8">
+              <div class="form-group has-error">
+                <h3>There were some problems with your application: </h3>
+                {% for label, message in error_messages.items %}
+                  <p class="help-block">
+                    <strong>{{label}}</strong> {{message}}
+                  </p>
+                {% endfor %}
               </div>
             </div>
-            <br />
-            <form role="form" id="application" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% if form.errors %}
-                    <div id="form-errors" class="row">
-                        <div class="col-md-8">
-                            <div class="form-group has-error">
-                                <h3>There were some problems with your application: </h3>
-                                {% for label, message in error_messages.items %}
-                                <p class="help-block">
-                                    <strong>{{label}}</strong> {{message}}</p>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                <div class='row'>
-                  <div class='col-md-8'>
-                    <div class="panel panel-default" id='selected_lots'>
-                      <div class='panel-heading'>
-                        Your selected lot:
-                      </div>
-                      <div class="panel-body">
-                        <p>Use the map above to search for and select the lot you want to apply for or, enter the lot address and parcel number if you know it already.</p>
+          </div>
+        {% endif %}
 
-                        <p><span class="red">*</span>Required</p>
+        <div class='row'>
+          <div class='col-md-8'>
+            <div class="panel panel-default" id='selected_lots'>
+              <div class='panel-heading'>
+                Your selected lot:
+              </div>
+              <div class="panel-body">
+                <p>Use the map above and select the lot you want to apply for or enter the lot address and parcel number if you know it already</p>
+                <p><span class="red">*</span>Required</p>
+                <div class="row" id="lot-display">
+                  <div class="col-sm-8">
+                    <!-- LOT ADDRESS -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <br />
+                        <i class="fa fa-home"></i>
+                        Lot address<span class="red">*</span>
 
-                        <div class="row" id="lot-display">
-                          <div class="col-sm-8">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <h3>Lot address<span class="red">*</span></h3>
-                                {% if form.lot_1_address.errors %}
-                                <div class="form-group has-error">
-                                {% else %}
-                                <div class="form-group">
-                                {% endif %}
-                                  <div class="input-group">
-                                    <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
-                                    <div class="input-group-addon">Cleveland, OH</div>
-                                  </div>
-                                  {% for error in form.lot_1_address.errors %}
-                                      <span class="help-block">{{ error }}</span>
-                                  {% endfor %}
-                                </div>
-                              </div>
-                            </div>
-                            {% if form.lot_1_pin.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                              <label for="lot_1_pin">Parcel Number<span class="red">*</span></label>
-                              <input type="text" value="{{lot_1_pin}}" class="form-control" id="id_lot_1_pin" name="lot_1_pin" placeholder="###-##-###">
-                              {% for error in form.lot_1_pin.errors %}
-                                  <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                            </div>
-                            <!-- {% if form.lot_1_use.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="lot_1_use">How do you plan on using this lot?</label>
-                            <input type="text" value="{{lot_1_use}}" class="form-control" id="id_lot_1_use" name="lot_1_use" placeholder="Community garden, side lot or yard, etc.">
-                            {% for error in form.lot_1_use.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                            </div>
-                            <button class="clear-lot-selection btn btn-default" data-lot="1">
-                                <i class="fa fa-times"></i> Clear
-                            </button> -->
+                        {% if form.lot_1_address.errors %}
+                        <div class="form-group has-error">
+                        {% else %}
+                        <div class="form-group">
+                        {% endif %}
+                          <div class="input-group">
+                            <input type="text" value="{{ lot_1_address }}" class="form-control" id="id_lot_1_address" name="lot_1_address" placeholder="Street" />
+                            <div class="input-group-addon">Cleveland, OH</div>
                           </div>
-                          <!-- <div class="col-sm-6">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <h3>Lot #2 <small>(optional)</small></h3>
-                                {% if form.lot_2_address.errors %}
-                                <div class="form-group has-error">
-                                {% else %}
-                                <div class="form-group">
-                                {% endif %}
-                                  <div class="input-group">
-                                    <input type="text" value="{{lot_2_address}}" class="form-control" id="id_lot_2_address" name="lot_2_address" placeholder="Street" />
-                                    <span class="input-group-addon">Chicago, IL</span>
-                                    {% for error in form.lot_2_address.errors %}
-                                        <span class="help-block">{{ error }}</span>
-                                    {% endfor %}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                              {% if form.lot_2_pin.errors %}
-                              <div class="form-group has-error">
-                              {% else %}
-                              <div class="form-group">
-                              {% endif %}
-                              <label for="lot_2_pin">PIN</label>
-                              <input type="text" value="{{lot_2_pin}}" class="form-control" id="id_lot_2_pin" name="lot_2_pin" placeholder="##-##-###-###-####">
-                              {% for error in form.lot_2_pin.errors %}
-                                  <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                            </div>
-                            {% if form.lot_2_use.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="lot_2_use">How do you plan on using this lot?</label>
-                            <input type="text" value="{{lot_2_use}}" class="form-control" id="id_lot_2_use" name="lot_2_use" placeholder="Community garden, side lot or yard, etc.">
-                            {% for error in form.lot_2_use.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                            </div> -->
-                            <!-- <button class="clear-lot-selection btn btn-default" data-lot="2">
-                                <i class="fa fa-times"></i> Clear
-                            </button>
-                          </div> -->
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="application">
-
-                  <div class='row'>
-                    <div class='col-md-8'>
-                      <div class="well" id="ownership">
-                        <h2>2. Upload a picture of your proposed site plan</h2>
-                        <p><span class="red">*</span>Required</p>
-
-                          <h3>Instructions</h3>
-                          <ol>
-                            <li>Draw and label existing conditions on <strong>your</strong> property and Land Bank property</li>
-                            <li>Draw and label your existing house, driveway, garage, fencing, landscaping, etc. in relation to the Land Bank property</li>
-                            <li>Label your street name and your house number</li>
-                            <li>Draw an arrow to point <strong>north</strong></li>
-                            <li>If you plan to put up a new fence, show where, what material type, the height (note that fences in residential front yards cannot be over 4 feet high and must
-                              be at least 50% see-through; other fences cannot be taller than 6 feet) </li>
-                            <li> If your plans include new landscaping or a garden, indicate: <ul>
-                              <li>Proposed location of any new grass, trees, shrubs or gardens (label each) </li>
-                              <li> Proposed size of vegetation/gardens </li>
-                              <li> Type of plants (native area plantings are highly encouraged). Refer to <a href="http://www.npi-cle.org/files/2012/07/IdeastoActionResourceBook.pdf">Re-Imagining Cleveland: Ideas to Action</a></li>
-                              </ul>
-                            </li>
-                            <li>Show any other improvements you plan to make such as patios, walkways, play sets, gazebo, etc. </li>
-                          </ol>
-
-                          <h3>Sample site plan</h3>
-                          <p>
-                            <img style="margin-left:auto;margin-right:auto" class='img-responsive' src="{% static 'images/SampleSitePlan.png' %}"/>
-                          </p>
-                          {% if form.deed_image.errors %}
-                          <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                              {% endif %}
-                              <label for="id_deed_image"><i class='fa fa-upload'></i> Upload your proposed site plan</label><span class="red">*</span>
-                              <input type="file" value="{{deed_image}}" id="id_deed_image" name="deed_image">
-                              {% for error in form.deed_image.errors %}
+                          {% for error in form.lot_1_address.errors %}
                               <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                              <p class="help-block">Your deed must be in PDF or image (JPG, PNG) format. Max size 5mb.</p>
-                            </div>
-                          </div>
-                       </div>
-                    </div>
-                  </div>
-
-
-                  <div class='row'>
-                    <div class='col-md-8'>
-                      <div class="well" id="personal-info">
-                        <h2>3. Contact information</h2>
-                        <p><span class="red">*</span>Required</p>
-                        <div>
-                            {% if form.first_name.errors or form.last_name.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_first_name"><i class="fa fa-user"></i> Name<span class="red">*</span></label>
-                            <div class="row">
-                              <div class="col-xs-6">
-                                <input type="text" value="{{first_name}}" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
-                                {% for error in form.first_name.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
-                              </div>
-                              <div class="col-xs-6">
-                                <input type="text" value="{{last_name}}" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
-                                {% for error in form.last_name.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
-                              </div>
-                            </div>
-                          </div>
-                            {% if form.organization.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_organization"><i class="fa fa-group"></i> Organization</label>
-                            <input type="text" value="{{organization}}" class="form-control" id="id_organization" name="organization" />
-                            {% for error in form.organization.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                          </div>
-                            {% if form.phone.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_phone"><i class="fa fa-phone"></i> Phone<span class="red">*</span></label>
-                            <input type="tel" value="{{phone}}" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
-                            {% for error in form.phone.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                          </div>
-                            {% if form.email.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_email"><i class="fa fa-envelope"></i> Email</label>
-                            <input type="email" value="{{email}}" class="form-control" id="id_email" name="email" placeholder="name@email.com">
-                            {% for error in form.email.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                            <p class="help-block">If provided, we'll send you a confirmation email and updates on your application status.</p>
-                          </div>
-                            {% if form.contact_street.errors or form.contact_city.errors or form.contact_state.errors or form.contact_zip_code.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_contact_street">
-                                <i class="fa fa-home"></i>
-                                Address<span class="red">*</span>
-                            </label>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <input type="text" value="{{contact_street}}" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
-                              </div>
-                              <div class="col-sm-2">
-                                <input type="text" class="form-control" value="{{contact_city}}" id="id_contact_city" name="contact_city" placeholder="City">
-                              </div>
-                              <div class="col-sm-2">
-                                <input type="text" class="form-control" value="{{contact_state}}" id="id_contact_state" name="contact_state" placeholder="State">
-                              </div>
-                              <div class="col-sm-2">
-                                <input type="text" class="form-control" value="{{contact_zip_code}}" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
-                              </div>
-                              {% for error in form.contact_street.errors %}
-                                  <div class="col-sm-12">
-                                    <span class="help-block">{{ error }}</span>
-                                  </div>
-                              {% endfor %}
-                            </div>
-                          </div>
-                            {% if form.email.errors %}
-                            <div class="form-group has-error">
-                            {% else %}
-                            <div class="form-group">
-                            {% endif %}
-                            <label for="id_how_heard">Did you receive assistance in completing this application? If so, from whom?</label>
-                            <select class="form-control" id="id_how_heard" name="how_heard">
-                              <option></option>
-                              <option value='I did not receive assistance'>I did not receive assistance</option>
-                              <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
-                              <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
-                              <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
-                              <option value="Chicago Public Library" {% if how_heard == 'Chicago Public Library' %}selected=true{% endif %}>Chicago Public Library</option>
-                              <option value="Other" {% if how_heard == 'Other' %}selected=true{% endif %}>Other</option>
-                            </select>
-                          </div>
+                          {% endfor %}
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class='row'>
-                    <div class='col-md-8'>
-                      <div id="terms">
-                        <h2>4. Eligibility and Terms</h2>
+                    <!-- PPN -->
+                    {% if form.lot_1_ppn.errors %}
+                    <div class="form-group has-error">
+                    {% else %}
+                    <div class="form-group">
+                    {% endif %}
+                      <label for="lot_1_ppn">Parcel Number<span class="red">*</span></label>
+                      <input type="text" value="{{lot_1_ppn}}" class="form-control" id="id_lot_1_ppn" name="lot_1_ppn" placeholder="###-##-###">
+                      {% for error in form.lot_1_ppn.errors %}
+                        <span class="help-block">{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    <button class="clear-lot-selection btn btn-default" data-lot="1">
+                      <i class="fa fa-times"></i> Clear
+                    </button>
+                    <br />
 
-                        <h3>Program Eligibility</h3>
-
-                        <ul>
-                          <li>You can't owe the City any money, including property taxes, water bills, parking tickets, and any other obligations.</li>
-                          <li>Churches are not eligible</li>
-                          <li>If other adjacent home owners want to acquire the same lot, <strong>the lot can be split</strong> and transferred to the respective property owners. When lots are split, residents are required to administer and pay for lot surveys as well as the recording of a lot consolidation plan. The cost varies and may exceed $1,000</li>
-                        </ul>
-
-                        <h3>Buyer responsibilities</h3>
-
-                        <ul>
-                          <li>Parcels are sold for $200 each. Recording fees typically range from $70-$100</li>
-                          <li>You will have to pay property taxes. For a future property tax estimate, contact the Cuyahoga County Fiscal Office at 216-443-7010 or check the <a href="http://fiscalofficer.cuyahogacounty.us/en-US/property-tax-calculator.aspx">property tax calculator</a></li>
-                          <li>The City is not responsible for cleanup or improvement</li>
-                          <li>Applicant must obtain all necessary approvals and permits from the City prior to making any improvements or commencing construction. Detailed information can be found on the City’s <a href="http://portal.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/BuildingHousing/PermitGuide">website</a></li>
-                          <li>You can't use the lot for commercial purposes</li>
-                        </ul>
-
-                        <h3>Terms</h3>
-                        <p>The City reserves the right to accept or reject any and all land use proposals. Land use criteria are largely based on the City’s 2020 Citywide Plan, its Sustainable Development Pattern initiative, and input from community development corporations and City Council members. Additionally, side yard requests may not be approved in neighborhoods where there is a demand for new housing.</p>
-
-                        <p>The City may place conditions on the sale and incorporate them as deed restrictions. If the buyer fails to make proposed improvements or properly maintain the property, the City may exercise its discretion and take back title to the property. Typical deed restrictions may include but are not limited to:</p>
-                        <ol>
-                          <li>At the end of the Lease/License term, title to improvements shall vest with the Lessor/Licensor</li>
-                          <li>Removal of driveway apron (curb cut), reinstatement of curb and tree lawn</li>
-                          <li>Installation of new fencing to code regarding setback, height restrictions and materials. In some cases, all
-                        existing fencing may be required to be brought up to code</li>
-                          <li>Completion of new landscaping to code</li>
-                          <li>The combined properties must be maintained properties in a decent, safe and sanitary manner. This
-                        ￼￼￼includes keeping the properties free and clear of debris and weeds</li>
-                        </ol>
-
-                        <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
-
-                        <div class='well'>
-                          {% if form.terms.errors %}
-                          <div class="form-group has-error">
+                    <!-- ADJACENT ADDRESS -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <br />
+                        <i class="fa fa-home"></i>
+                        Address of owned, adjacent lot<span class="red">*</span>
+                        {% if form.owned_address.errors %}
+                        <div class="form-group has-error">
                           {% else %}
                           <div class="form-group">
-                          {% endif %}
-                            <div class="checkbox">
-                              <label>
-                                <input id="id_terms" name="terms" type="checkbox" {% if terms %}checked=true{% endif %}/>
-                                  {% if form.terms.errors %}
-                                  {% for error in form.terms.errors %}
-                                      <span class="help-block">{{ error }}</span>
-                                  {% endfor %}
-                                  {% else %}
-                                  I understand and agree to the terms<span class="red">*</span>
-                                  {% endif %}
-                              </label>
+                            {% endif %}
+                            <div class="input-group">
+                              <input type="text" value="{{ owned_address }}" class="form-control" id="id_owned_address" name="owned_address" placeholder="Street" />
+                              <div class="input-group-addon">Cleveland, OH</div>
                             </div>
+                            {% for error in form.owned_address.errors %}
+                            <span class="help-block">{{ error }}</span>
+                            {% endfor %}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                <p><button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button></p>
+        <!-- MAIN APPLICATION PART -->
+        <div id="application">
+          <!-- UPLOAD A PICTURE -->
+          <div class='row'>
+            <div class='col-md-8'>
+              <div class="well" id="plan">
+                <h2>2. Upload a picture of your proposed site plan</h2>
+                <p><span class="red">*</span>Required</p>
+                <h3>Instructions</h3>
+                <ol>
+                  <li>Draw and label existing conditions on <strong>your</strong> property and Land Bank property</li>
+                  <li>Draw and label your existing house, driveway, garage, fencing, landscaping, etc. in relation to the Land Bank property</li>
+                  <li>Label your street name and your house number</li>
+                  <li>Draw an arrow to point <strong>north</strong></li>
+                  <li>If you plan to put up a new fence, show where, what material type, the height (note that fences in residential front yards cannot be over 4 feet high and must
+                    be at least 50% see-through; other fences cannot be taller than 6 feet) </li>
+                  <li> If your plans include new landscaping or a garden, indicate: <ul>
+                    <li>Proposed location of any new grass, trees, shrubs or gardens (label each) </li>
+                    <li> Proposed size of vegetation/gardens </li>
+                    <li> Type of plants (native area plantings are highly encouraged). Refer to <a href="http://www.npi-cle.org/files/2012/07/IdeastoActionResourceBook.pdf">Re-Imagining Cleveland: Ideas to Action</a></li>
+                    </ul>
+                  </li>
+                  <li>Show any other improvements you plan to make such as patios, walkways, play sets, gazebo, etc. </li>
+                </ol>
 
-                <p><strong>If you have any questions, please contact:</strong></p>
+                <h3>Sample site plan</h3>
                 <p>
-                   Jeanne Chandler, Department of Planning and Development<br />
-                   Phone: (312) 744-0605<br />
-                   Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
+                  <img style="margin-left:auto;margin-right:auto" class='img-responsive' src="{% static 'images/SampleSitePlan.png' %}"/>
                 </p>
-              </form>
+                {% if form.plan_image.errors %}
+                <div class="form-group has-error">
+                {% else %}
+                <div class="form-group">
+                  {% endif %}
+                  <label for="id_plan_image"><i class='fa fa-upload'></i> Upload your proposed site plan</label><span class="red">*</span>
+                  <input type="file" value="{{plan_image}}" id="id_plan_image" name="plan_image">
+                  {% for error in form.plan_image.errors %}
+                  <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+                  <p class="help-block">Your plan must be in PDF or image (JPG, PNG) format. Max size 5mb.</p>
+                </div>
+              </div>
             </div>
-        {% endif %}
-      </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="modalGeocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="myModalLabel"><strong id='addr_search_modal'></strong> is not in East Garfield Park.</h4>
-            </div>
-            <div class="modal-body">
-              <p>Only residents of East Garfield Park can purchase lots for this pilot.</p>
-
-              <p>If you think this is a mistake, try to include the street direction (N,S,E,W) or suffix (Ave, Dr, St, etc), or browse the map instead.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">OK, thanks</button>
+          </div>
+          <!-- CONTACT INFORMATION -->
+          <div class='row'>
+            <div class='col-md-8'>
+              <div class="well" id="personal-info">
+                <h2>3. Contact information</h2>
+                <p><span class="red">*</span>Required</p>
+                <!-- FIRST/LAST NAME -->
+                <div>
+                  {% if form.first_name.errors or form.last_name.errors %}
+                  <div class="form-group has-error">
+                  {% else %}
+                  <div class="form-group">
+                  {% endif %}
+                  <label for="id_first_name"><i class="fa fa-user"></i> Name<span class="red">*</span></label>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <input type="text" value="{{first_name}}" class="form-control" id="id_first_name" name="first_name" placeholder="First name">
+                      {% for error in form.first_name.errors %}
+                        <span class="help-block">{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    <div class="col-xs-6">
+                      <input type="text" value="{{last_name}}" class="form-control" id="id_last_name" name="last_name" placeholder="Last name">
+                      {% for error in form.last_name.errors %}
+                        <span class="help-block">{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <!-- PHONE NUMBER -->
+                {% if form.phone.errors %}
+                <div class="form-group has-error">
+                {% else %}
+                <div class="form-group">
+                {% endif %}
+                  <label for="id_phone"><i class="fa fa-phone"></i> Phone<span class="red">*</span></label>
+                  <input type="tel" value="{{phone}}" class="form-control" id="id_phone" name="phone" placeholder="###-###-####">
+                  {% for error in form.phone.errors %}
+                    <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+                </div>
+                <!-- EMAIL -->
+                {% if form.email.errors %}
+                <div class="form-group has-error">
+                {% else %}
+                <div class="form-group">
+                {% endif %}
+                  <label for="id_email"><i class="fa fa-envelope"></i> Email</label>
+                  <input type="email" value="{{email}}" class="form-control" id="id_email" name="email" placeholder="name@email.com">
+                  {% for error in form.email.errors %}
+                    <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+                  <p class="help-block">If provided, we'll send you a confirmation email and updates on your application status.</p>
+                </div>
+                <!-- ADDRESS -->
+                {% if form.contact_street.errors or form.contact_city.errors or form.contact_state.errors or form.contact_zip_code.errors %}
+                <div class="form-group has-error">
+                {% else %}
+                <div class="form-group">
+                {% endif %}
+                  <label for="id_contact_street">
+                    <i class="fa fa-home"></i>
+                    Mailing address<span class="red">*</span>
+                  </label>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <input type="text" value="{{contact_street}}" class="form-control" id="id_contact_street" name="contact_street" placeholder="Street">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" value="{{contact_city}}" id="id_contact_city" name="contact_city" placeholder="City">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" value="{{contact_state}}" id="id_contact_state" name="contact_state" placeholder="State">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" value="{{contact_zip_code}}" id="id_contact_zip_code" name="contact_zip_code" placeholder="Zip">
+                    </div>
+                    {% for error in form.contact_street.errors %}
+                      <div class="col-sm-12">
+                        <span class="help-block">{{ error }}</span>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <!-- DROPDOWN OF HOW YOU HEARD ABOUT THIS -->
+                {% if form.email.errors %}
+                <div class="form-group has-error">
+                {% else %}
+                <div class="form-group">
+                {% endif %}
+                  <label for="id_how_heard">Did you receive assistance in completing this application? If so, from whom?</label>
+                  <select class="form-control" id="id_how_heard" name="how_heard">
+                    <option></option>
+                    <option value='I did not receive assistance'>I did not receive assistance</option>
+                    <option value="Friend or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
+                    <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
+                    <option value="City of Chicago" {% if how_heard == 'City of Chicago' %}selected=true{% endif %}>City of Chicago</option>
+                    <option value="Chicago Public Library" {% if how_heard == 'Chicago Public Library' %}selected=true{% endif %}>Chicago Public Library</option>
+                    <option value="Other" {% if how_heard == 'Other' %}selected=true{% endif %}>Other</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+          <!-- TERMS -->
+          <div class='row'>
+            <div class='col-md-8'>
+              <div id="terms">
+                <h2>4. Eligibility and Terms</h2>
+                <h3>Program Eligibility</h3>
+                <ul>
+                  <li>You can't owe the City any money, including property taxes, water bills, parking tickets, and any other obligations.</li>
+                  <li>Churches are not eligible</li>
+                  <li>If other adjacent home owners want to acquire the same lot, <strong>the lot can be split</strong> and transferred to the respective property owners. When lots are split, residents are required to administer and pay for lot surveys as well as the recording of a lot consolidation plan. The cost varies and may exceed $1,000</li>
+                </ul>
+                <h3>Buyer responsibilities</h3>
+
+                <ul>
+                  <li>Parcels are sold for $200 each. Recording fees typically range from $70-$100</li>
+                  <li>You will have to pay property taxes. For a future property tax estimate, contact the Cuyahoga County Fiscal Office at 216-443-7010 or check the <a href="http://fiscalofficer.cuyahogacounty.us/en-US/property-tax-calculator.aspx">property tax calculator</a></li>
+                  <li>The City is not responsible for cleanup or improvement</li>
+                  <li>Applicant must obtain all necessary approvals and permits from the City prior to making any improvements or commencing construction. Detailed information can be found on the City’s <a href="http://portal.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/BuildingHousing/PermitGuide">website</a></li>
+                  <li>You can't use the lot for commercial purposes</li>
+                </ul>
+                <h3>Terms</h3>
+                <p>The City reserves the right to accept or reject any and all land use proposals. Land use criteria are largely based on the City’s 2020 Citywide Plan, its Sustainable Development Pattern initiative, and input from community development corporations and City Council members. Additionally, side yard requests may not be approved in neighborhoods where there is a demand for new housing.</p>
+                <p>The City may place conditions on the sale and incorporate them as deed restrictions. If the buyer fails to make proposed improvements or properly maintain the property, the City may exercise its discretion and take back title to the property. Typical deed restrictions may include but are not limited to:</p>
+                <ol>
+                  <li>At the end of the Lease/License term, title to improvements shall vest with the Lessor/Licensor</li>
+                  <li>Removal of driveway apron (curb cut), reinstatement of curb and tree lawn</li>
+                  <li>Installation of new fencing to code regarding setback, height restrictions and materials. In some cases, all existing fencing may be required to be brought up to code</li>
+                  <li>Completion of new landscaping to code</li>
+                  <li>The combined properties must be maintained properties in a decent, safe and sanitary manner. This includes keeping the properties free and clear of debris and weeds</li>
+                </ol>
+                <p>By checking the box below, I certify that the information provided is correct and true to the best of my knowledge. Falsifying or deliberately omitting any information regarding this application will result in immediate termination from the program and/or the City of Chicago seeking remedies available under law.</p>
+
+                <div class='well'>
+                  {% if form.terms.errors %}
+                  <div class="form-group has-error">
+                  {% else %}
+                  <div class="form-group">
+                  {% endif %}
+                    <div class="checkbox">
+                      <label>
+                        <input id="id_terms" name="terms" type="checkbox" {% if terms %}checked=true{% endif %}/>
+                          {% if form.terms.errors %}
+                          {% for error in form.terms.errors %}
+                            <span class="help-block">{{ error }}</span>
+                          {% endfor %}
+                          {% else %}
+                          I understand and agree to the terms<span class="red">*</span>
+                          {% endif %}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- SUBMIT BUTTON -->
+        <p><button type="submit" class="btn btn-success btn-lg">Submit application &raquo;</button></p>
+
+        <p><strong>If you have any questions, please contact:</strong></p>
+        <p>
+           Jeanne Chandler, Department of Planning and Development<br />
+           Phone: (312) 744-0605<br />
+           Email: <a href='mailto:Jeanne.Chandler@cityofchicago.org'>Jeanne.Chandler@cityofchicago.org</a>
+        </p>
+      </form>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalGeocode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><strong id='addr_search_modal'></strong> is not in East Garfield Park.</h4>
       </div>
+      <div class="modal-body">
+        <p>Only residents of East Garfield Park can purchase lots for this pilot.</p>
+
+        <p>If you think this is a mistake, try to include the street direction (N,S,E,W) or suffix (Ave, Dr, St, etc), or browse the map instead.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK, thanks</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 {% block extra_js %}
     <script type="infowindow/html" id="infowindow_template">
@@ -442,11 +400,12 @@
       <a href="#close" class="cartodb-popup-close-button close">x</a>
       <div class="cartodb-popup-content-wrapper">
         <div class="cartodb-popup-content">
-          <h4>{{content.data.street_number}} {{content.data.dir}} {{content.data.street_name}} {{content.data.type}}</h4>
-            <p>PIN: {{content.data.pin14}}<br />
-            Zoned: {{content.data.zoning_classification}}<br />
-            Sq Ft: {{content.data.sq_ft}}<br />
-            Alderman: (Ward {{content.data.ward}})</p>
+          // <h4>{{content.data.street_number}} {{content.data.dir}} {{content.data.street_name}} {{content.data.type}}</h4>
+          //   <p>PPN: {{content.data.ppn}}<br />
+          //   Zoned: {{content.data.zoning_classification}}<br />
+          //   Sq Ft: {{content.data.sq_ft}}<br />
+          //   // Alderman: (Ward {{content.data.ward}})
+          //   </p>
         </div>
       </div>
       <div class="cartodb-popup-tip-container"></div>
@@ -457,7 +416,7 @@
     <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
 
     <script src="{% static 'js/leaflet.label.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/largelots_pilot2.js' %}"></script>
+    <script src="{% static 'js/largelots_cleveland.js' %}"></script>
 
     <script>
       $(function() {
@@ -486,8 +445,7 @@
           e.preventDefault();
           var lot = $(e.target).data('lot');
           $('#id_lot_' + lot + '_address').val('');
-          $('#id_lot_' + lot + '_pin').val('');
-          $('#id_lot_' + lot + '_use').val('');
+          $('#id_lot_' + lot + '_ppn').val('');
       })
 
     </script>
