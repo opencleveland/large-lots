@@ -64,7 +64,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates')
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

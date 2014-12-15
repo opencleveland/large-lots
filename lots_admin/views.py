@@ -90,7 +90,7 @@ def csv_dump(request):
             # lots.extend([pin, addr, image_url])
         if len(lots) < 4:
             lots.extend(['', '', ''])
-        lot_1_pin, lot_1_addr, lot_1_image = lots
+        lot_1_ppn, lot_1_addr, lot_1_image = lots
         rows.append([
             application.id,
             application.received_date.strftime('%Y-%m-%d %H:%m %p'),

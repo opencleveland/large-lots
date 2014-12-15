@@ -42,7 +42,7 @@ class Lot(models.Model):
     ppn = models.CharField(max_length=14, primary_key=True)
     address = models.ForeignKey(Address)
     application = models.ManyToManyField(Application)
-    # planned_use = models.CharField(max_length=20, default=None, null=True)
+    #planned_use = models.CharField(max_length=20, default=None, null=True)
 
     def __unicode__(self):
         return self.ppn

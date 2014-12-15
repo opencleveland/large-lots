@@ -76,15 +76,6 @@ class ApplicationForm(forms.Form):
         else:
             return ppn
 
-<<<<<<< HEAD
-    def _clean_pin(self, key):
-        pin = self.cleaned_data[key]
-        pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
-		## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
-        PinLength = len(pattern.sub('', pin))
-        if PinLength != 8 & PinLength != 9 :
-            raise forms.ValidationError('Please provide a valid PIN')
-=======
     def _clean_ppn(self, key):
         ppn = self.cleaned_data[key]
         pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
@@ -92,12 +83,15 @@ class ApplicationForm(forms.Form):
         PpnLength = len(pattern.sub('', ppn))
         if PpnLength != 8 & PpnLength != 9 :
             raise forms.ValidationError('Please provide a valid PPN')
->>>>>>> 99d15c6a982434ef64e9165e125906cc16a53bc7
         else:
-            return self._check_ppn(ppn)
+			#TODO: Fix _check_ppn - ASKoiman 12/15/2014
+			return ppn
+            #return self._check_ppn(ppn)
 
     def clean_lot_1_ppn(self):
         return self._clean_ppn('lot_1_ppn')
+            #TODO: Correct pin check for Cleveland - ASKoiman 12/14/2014
+            #return self._check_pin(pin)
 
     # def clean_lot_2_pin(self):
     #     if self.cleaned_data['lot_2_pin']:
@@ -152,7 +146,7 @@ def apply(request):
             lot1_info = {
                 'ppn': form.cleaned_data['lot_1_ppn'],
                 'address': l1_address,
-                # 'planned_use': form.cleaned_data.get('lot_1_use')
+              #  'planned_use': form.cleaned_data.get('lot_1_use')
             }
             try:
                 lot1 = Lot.objects.get(ppn=lot1_info['ppn'])
@@ -172,25 +166,28 @@ def apply(request):
             #     except Lot.DoesNotExist:
             #         lot2 = Lot(**lot2_info)
             #         lot2.save()
-            # c_address_info = {
-            #     'street': form.cleaned_data['contact_street'],
-            #     'city': form.cleaned_data['contact_city'],
-            #     'state': form.cleaned_data['contact_state'],
-            #     'zip_code': form.cleaned_data['contact_zip_code']
-            # }
+            c_address_info = {
+                 'street': form.cleaned_data['contact_street'],
+                 'city': form.cleaned_data['contact_city'],
+                 'state': form.cleaned_data['contact_state'],
+                 'zip_code': form.cleaned_data['contact_zip_code']
+             }
+            #TODO: Why is c_address_info commented? Resolve this - ASKoiman 12/14/2014
             c_address, created = Address.objects.get_or_create(**c_address_info)
             owned_address = get_lot_address(form.cleaned_data['owned_address'])
             app_info = {
                 'first_name': form.cleaned_data['first_name'],
                 'last_name': form.cleaned_data['last_name'],
-                # 'organization': form.cleaned_data.get('organization'),
+                #TODO: add organization - ASKoiman 12/14/14
+            #    'organization': form.cleaned_data.get('organization'),
                 'owned_address': owned_address,
-                'plan_image': form.cleaned_data['plan_image'],
+                #TODO: add plan_image to the model - ASKoiman 12/14/2014
+#                'plan_image': form.cleaned_data['deed_image'],
                 'contact_address': c_address,
                 'phone': form.cleaned_data['phone'],
                 'email': form.cleaned_data.get('email'),
                 'how_heard': form.cleaned_data.get('how_heard'),
-                'tracking_id': unicode(uuid4()),
+                'tracking_id': unicode(uuid4())
             }
             app = Application(**app_info)
             app.save()
@@ -223,7 +220,7 @@ def apply(request):
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
             context['lot_1_ppn'] = form['lot_1_ppn'].value()
-            # context['lot_1_use'] = form['lot_1_use'].value()
+            context['lot_1_use'] = form['lot_1_use'].value()
             # context['lot_2_address'] = form['lot_2_address'].value()
             # context['lot_2_pin'] = form['lot_2_pin'].value()
             # context['lot_2_use'] = form['lot_2_use'].value()
@@ -243,9 +240,11 @@ def apply(request):
             context['form'] = form
             fields = [f for f in form.fields]
             context['error_messages'] = OrderedDict()
+            
             for field in fields:
                 label = form.fields[field].label
                 error = form.errors.get(field)
+                #TODO: fix site plan upload - ASKoiman 12/14/2014
                 if label and error:
                     context['error_messages'][label] = form.errors[field][0]
             return render(request, 'apply.html', context)
