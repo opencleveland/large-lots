@@ -9,6 +9,8 @@
 *.zip
 *.pyc
 *.sqlite3
+*.sln
+*.suo
 .env
 /static
 local_settings.py

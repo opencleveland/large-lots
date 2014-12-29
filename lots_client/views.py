@@ -26,7 +26,8 @@ class ApplicationForm(forms.Form):
         error_messages={
             'required': 'Provide the lot’s Permanent Parcel Number'
         },label="Lot PPN")
-    # lot_1_use = forms.CharField(required=False)
+    #Uncommented - ASKoiman
+    lot_1_use = forms.CharField(required=False)
     # lot_2_address = forms.CharField(required=False)
     # lot_2_pin = forms.CharField(required=False)
     # lot_2_use = forms.CharField(required=False)
@@ -101,7 +102,8 @@ class ApplicationForm(forms.Form):
     def clean_plan_image(self):
         image = self.cleaned_data['plan_image']._get_name()
         ftype = image.split('.')[-1]
-        if ftype not in ['pdf', 'png', 'jpg', 'jpeg']:
+        #Added .lower() for string comparison - ASKoiman 12/26/2014
+        if ftype.lower() not in ['pdf', 'png', 'jpg', 'jpeg']:
             raise forms.ValidationError('File type not supported. Please choose an image or PDF.')
         return self.cleaned_data['plan_image']
 
