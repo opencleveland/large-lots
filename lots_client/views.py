@@ -19,6 +19,8 @@ from datetime import datetime
 from dateutil import parser
 
 class ApplicationForm(forms.Form):
+
+    # LOT INFORMATION
     lot_1_address = forms.CharField(
         error_messages={'required': 'Provide the lot’s address'},
         label="Lot address")
@@ -26,35 +28,70 @@ class ApplicationForm(forms.Form):
         error_messages={
             'required': 'Provide the lot’s Permanent Parcel Number'
         },label="Lot PPN")
-    # lot_1_use = forms.CharField(required=False)
-    # lot_2_address = forms.CharField(required=False)
-    # lot_2_pin = forms.CharField(required=False)
-    # lot_2_use = forms.CharField(required=False)
+    lot_1_use = forms.CharField(
+        error_messages={'required': 'Verify whether or not you are currently using the lot'},
+        label="Lot use"
+    )
+    lot_1_improvements = forms.CharField(
+        error_messages={'required': 'Verify whether or not you have made improvements to the lot'},
+        label="Lot improvements"
+    )
+    lot_1_descr = forms.CharField(required=False)
+
+    # OWNER PROPERTY INFORMATION
     owned_address = forms.CharField(
         error_messages={
             'required': 'Provide the address of the building you own'
         }, label="Owned property address")
+
+    owned_live = forms.CharField(
+        error_messages={
+            'required': 'Provide information on the current residents of the property'
+        }, label="Owned property status")
+
+    owned_properties = forms.CharField(
+        error_messages={
+            'required': 'Provide information on whether or not you own multiple properties in Cleveland'
+        }, label="Owned properties")
+
+    owned_properties_info = forms.CharField(required=False)
+
+    # PLANS
     plan_image = forms.FileField(
         error_messages={'required': 'Provide an image of the proposed site plan'
         }, label="Proposed site plan")
+
+    fencing_decsr = forms.CharField(required=False)
+    fencing_cost = forms.CharField(required=False)
+
+    landscaping_decsr = forms.CharField(required=False)
+    landscaping_cost = forms.CharField(required=False)
+
+    apron_descr = forms.CharField(required=False)
+    apron_cost = forms.CharField(required=False)
+
+    other_descr = forms.CharField(required=False)
+    other_cost = forms.CharField(required=False)
+
+
+    # CONTACT INFORMATION
     first_name = forms.CharField(
         error_messages={'required': 'Provide your first name'},
         label="Your first name")
     last_name = forms.CharField(
         error_messages={'required': 'Provide your last name'},
         label="Your last name")
-    # organization = forms.CharField(required=False)
     phone = forms.CharField(
         error_messages={'required': 'Provide a contact phone number'},
         label="Your phone number")
     email = forms.CharField(required=False)
-    contact_street = forms.CharField(
-        error_messages={'required': 'Provide a complete address'},
-        label="Your contact address")
-    contact_city = forms.CharField()
-    contact_state = forms.CharField()
-    contact_zip_code = forms.CharField()
+    contact_street = forms.CharField(required=False)
+    contact_city = forms.CharField(required=False)
+    contact_state = forms.CharField(required=False)
+    contact_zip_code = forms.CharField(required=False)
     how_heard = forms.CharField(required=False)
+
+    # TERMS
     terms = forms.BooleanField(
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
