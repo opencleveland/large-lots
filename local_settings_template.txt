@@ -1,0 +1,5 @@
+#Copy into local_settings.py
+DEBUG="TRUE"
+CARTODB_API_KEY="" #get from someone
+SECRET_KEY="" #fill something in
+DJANGO_SECRET_KEY="" #fill something in

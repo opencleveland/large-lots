@@ -22,10 +22,15 @@ class Application(models.Model):
     # organization = models.CharField(max_length=255, null=True)
     # owned_ppn = models.CharField(max_length=14)
 
+
     owned_address = models.ForeignKey(Address, related_name='owned_address')
     owned_live = models.CharField(max_length=40)
     owned_properties = models.CharField(max_length=40)
     owned_properties_info = models.CharField(max_length=255, null=True)
+
+    lot_1_use = models.CharField(max_length=5)
+    lot_1_improvements = models.CharField(max_length=5)
+    lot_1_descr = models.CharField(max_length=255, null=True)
 
     plan_image = models.FileField(upload_to=upload_name)
     fencing_decsr = models.CharField(max_length=255, null=True)
@@ -58,9 +63,6 @@ class Application(models.Model):
 class Lot(models.Model):
     ppn = models.CharField(max_length=14, primary_key=True)
     address = models.ForeignKey(Address)
-    use = models.CharField(max_length=5)
-    improvements = models.CharField(max_length=5)
-    descr = models.CharField(max_length=255, null=True)
     application = models.ManyToManyField(Application)
 
     # planned_use = models.CharField(max_length=20, default=None, null=True)
