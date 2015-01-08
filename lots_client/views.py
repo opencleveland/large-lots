@@ -96,23 +96,22 @@ class ApplicationForm(forms.Form):
         error_messages={'required': 'Verify that you have read and agree to the terms'},
         label="Application terms")
 
-    # THIS HASN'T BEEN ALTERED YET
-    def _check_pin(self, pin):
-        carto = 'http://datamade.cartodb.com/api/v2/sql'
+    def _check_ppn(self, ppn):
+        carto = 'http://opencleveland.cartodb.com/api/v2/sql'
         params = {
             'api_key': settings.CARTODB_API_KEY,
-            'q':  "SELECT pin14 FROM egp_parcels WHERE pin14 = '%s' AND city_owned='T' AND residential='T' AND alderman_hold != 'T'" % pin.replace('-', ''),
+            'q':  "SELECT ppn FROM joined WHERE ppn = '%s'" % ppn.replace('-', ''),
         }
         r = requests.get(carto, params=params)
         if r.status_code == 200:
             if r.json()['total_rows'] == 1:
-                return pin
+                return ppn
             else:
                 message = '%s is not available for purchase. \
-                    Please select one from the map above' % pin
+                    Please select one from the map above' % ppn
                 raise forms.ValidationError(message)
         else:
-            return pin
+            return ppn
 
     def _clean_pin(self, key):
         pin = self.cleaned_data[key]
