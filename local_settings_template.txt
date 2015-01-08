@@ -3,3 +3,5 @@ DEBUG="TRUE"
 CARTODB_API_KEY="" #get from someone
 SECRET_KEY="" #fill something in
 DJANGO_SECRET_KEY="" #fill something in
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""

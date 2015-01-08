@@ -184,7 +184,8 @@ def apply(request):
             #    'organization': form.cleaned_data.get('organization'),
                 'owned_address': owned_address,
                 #TODO: add plan_image to the model - ASKoiman 12/14/2014
-#                'plan_image': form.cleaned_data['deed_image'],
+                #'plan_image': form.cleaned_data['deed_image'],
+                'plan_image': form.cleaned_data['plan_image'],
                 'contact_address': c_address,
                 'phone': form.cleaned_data['phone'],
                 'email': form.cleaned_data.get('email'),
