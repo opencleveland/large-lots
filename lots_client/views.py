@@ -24,7 +24,7 @@ class ApplicationForm(forms.Form):
     lot_1_address = forms.CharField(
         error_messages={'required': 'Provide the lot’s address'},
         label="Lot address")
-    lot_1_pin = forms.CharField(
+    lot_1_ppn = forms.CharField(
         error_messages={
             'required': 'Provide the lot’s Permanent Parcel Number'
         },label="Lot PPN")
@@ -64,8 +64,8 @@ class ApplicationForm(forms.Form):
     fencing_decsr = forms.CharField(required=False)
     fencing_cost = forms.CharField(required=False)
 
-    landscaping_decsr = forms.CharField(required=False)
-    landscaping_cost = forms.CharField(required=False)
+    landscappng_decsr = forms.CharField(required=False)
+    landscappng_cost = forms.CharField(required=False)
 
     apron_descr = forms.CharField(required=False)
     apron_cost = forms.CharField(required=False)
@@ -113,18 +113,18 @@ class ApplicationForm(forms.Form):
         else:
             return ppn
 
-    def _clean_pin(self, key):
-        pin = self.cleaned_data[key]
+    def _clean_ppn(self, key):
+        ppn = self.cleaned_data[key]
         pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
 		## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
-        PinLength = len(pattern.sub('', pin))
-        if PinLength != 8 & PinLength != 9 :
-            raise forms.ValidationError('Please provide a valid PIN')
+        ppnLength = len(pattern.sub('', ppn))
+        if ppnLength != 8 & ppnLength != 9 :
+            raise forms.ValidationError('Please provide a valid ppn')
         else:
-            return self._check_pin(pin)
+            return self._check_ppn(ppn)
 
-    def clean_lot_1_pin(self):
-        return self._clean_pin('lot_1_pin')
+    def clean_lot_1_ppn(self):
+        return self._clean_ppn('lot_1_ppn')
 
 
     def clean_plan_image(self):
@@ -132,7 +132,7 @@ class ApplicationForm(forms.Form):
         ftype = image.split('.')[-1]
         if ftype not in ['pdf', 'png', 'jpg', 'jpeg']:
             raise forms.ValidationError('File type not supported. Please choose an image or PDF.')
-        return self.cleaned_data['deed_image']
+        return self.cleaned_data['plan_image']
 
 def home(request):
     return render(request, 'index.html', {'application_active': application_active()})
@@ -169,18 +169,24 @@ def apply(request):
         form = ApplicationForm(request.POST, request.FILES)
         context = {}
         if form.is_valid():
-            print form.cleaned_data['lot_1_address']
             l1_address = get_lot_address(form.cleaned_data['lot_1_address'])
             lot1_info = {
-                'pin': form.cleaned_data['lot_1_pin'],
+                'ppn': form.cleaned_data['lot_1_ppn'],
                 'address': l1_address,
                 # 'planned_use': form.cleaned_data.get('lot_1_use')
             }
             try:
-                lot1 = Lot.objects.get(pin=lot1_info['pin'])
+                lot1 = Lot.objects.get(ppn=lot1_info['ppn'])
             except Lot.DoesNotExist:
                 lot1 = Lot(**lot1_info)
                 lot1.save()
+
+            c_address_info = {
+                'street': form.cleaned_data['contact_street'],
+                'city': form.cleaned_data['contact_city'],
+                'state': form.cleaned_data['contact_state'],
+                'zip_code': form.cleaned_data['contact_zip_code']
+            }
 
             c_address, created = Address.objects.get_or_create(**c_address_info)
             owned_address = get_lot_address(form.cleaned_data['owned_address'])
@@ -196,8 +202,12 @@ def apply(request):
                 'tracking_id': unicode(uuid4()),
             }
             app = Application(**app_info)
+            print app
             app.save()
             app.lot_set.add(lot1)
+
+            print app
+
             app.save()
 
             html_template = get_template('apply_html_email.html')
@@ -223,13 +233,13 @@ def apply(request):
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
             context['lot_1_address'] = form['lot_1_address'].value()
-            context['lot_1_pin'] = form['lot_1_pin'].value()
+            context['lot_1_ppn'] = form['lot_1_ppn'].value()
             context['lot_1_use'] = form['lot_1_use'].value()
             context['owned_address'] = form['owned_address'].value()
             context['plan_image'] = form['plan_image'].value()
             context['first_name'] = form['first_name'].value()
             context['last_name'] = form['last_name'].value()
-            context['organization'] = form['organization'].value()
+            # context['organization'] = form['organization'].value()
             context['phone'] = form['phone'].value()
             context['email'] = form['email'].value()
             context['contact_street'] = form['contact_street'].value()

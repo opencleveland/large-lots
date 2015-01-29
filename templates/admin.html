@@ -30,7 +30,7 @@
                 {% for lot in application.lot_set.all %}
                     <p>
                         {{lot.address.street}}<br />
-                        {{lot.pin}}
+                        {{lot.ppn}}
                     </p>
                 {% endfor %}
             </td>

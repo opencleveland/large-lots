@@ -85,12 +85,12 @@ def csv_dump(request):
                  getattr(lot.address, 'city', ''),
                  getattr(lot.address, 'state', ''),
                  getattr(lot.address, 'zip_code', ''))
-            pin = lot.pin
+            ppn = lot.ppn
             # image_url = 'http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?%s=' % pin.replace('-', '')
             # lots.extend([pin, addr, image_url])
         if len(lots) < 4:
             lots.extend(['', '', ''])
-        lot_1_pin, lot_1_addr, lot_1_image = lots
+        lot_1_ppn, lot_1_addr, lot_1_image = lots
         rows.append([
             application.id,
             application.received_date.strftime('%Y-%m-%d %H:%m %p'),
