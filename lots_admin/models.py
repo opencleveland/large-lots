@@ -13,8 +13,7 @@ class Address(models.Model):
 
 def upload_name(instance, filename):
     now = int(time.time())
-    return 'plans/%s-%s-%s_%s' % \
-        (instance.first_name, instance.last_name, now, filename)
+    return 'plans/%s-%s-%s_%s' % (instance.first_name, instance.last_name, now, filename)
 
 class Application(models.Model):
     first_name = models.CharField(max_length=255, null=True)

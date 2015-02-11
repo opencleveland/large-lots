@@ -80,13 +80,13 @@ class ApplicationForm(forms.Form):
     def _clean_ppn(self, key):
         ppn = self.cleaned_data[key]
         pattern = re.compile('[0-9]{3}-?[0-9]{2}-?[0-9]{3}[a-zA-Z]?') #Props to Eamon for the new regex - ASKoiman #pattern = re.compile('[^0-9]')
-		## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
+        ## Issue 8: Cleveland PPNs are 8 digits long, as opposed to Chicago's 14. - ASKoiman 12/6/2014
         PpnLength = len(pattern.sub('', ppn))
         if PpnLength != 8 & PpnLength != 9 :
             raise forms.ValidationError('Please provide a valid PPN')
         else:
-			#TODO: Fix _check_ppn - ASKoiman 12/15/2014
-			return ppn
+            #TODO: Fix _check_ppn - ASKoiman 12/15/2014
+            return ppn
             #return self._check_ppn(ppn)
 
     def clean_lot_1_ppn(self):
@@ -210,14 +210,15 @@ def apply(request):
             from_email = settings.EMAIL_HOST_USER
             to_email = [from_email]
 
+            #TODO: Get mailserver configured and running - ASKoiman 2/10/2015
             # if provided, send confirmation email to applicant
-            if app.email:
-                to_email.append(app.email)
+            #if app.email:
+             #   to_email.append(app.email)
 
             # send email confirmation to settings.EMAIL_HOST_USER
-            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
-            msg.attach_alternative(html_content, 'text/html')
-            msg.send()
+            #msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            #msg.attach_alternative(html_content, 'text/html')
+            #msg.send()
 
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
