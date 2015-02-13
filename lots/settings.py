@@ -65,7 +65,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates')
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -81,5 +81,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_QUERYSTRING_AUTH = False

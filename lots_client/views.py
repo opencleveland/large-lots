@@ -130,7 +130,9 @@ class ApplicationForm(forms.Form):
     def clean_plan_image(self):
         image = self.cleaned_data['plan_image']._get_name()
         ftype = image.split('.')[-1]
-        if ftype not in ['pdf', 'png', 'jpg', 'jpeg']:
+        #Added .lower() for string comparison - ASKoiman 12/26/2014
+        if ftype.lower() not in ['pdf', 'png', 'jpg', 'jpeg']:
+
             raise forms.ValidationError('File type not supported. Please choose an image or PDF.')
         return self.cleaned_data['plan_image']
 
@@ -202,11 +204,9 @@ def apply(request):
                 'tracking_id': unicode(uuid4()),
             }
             app = Application(**app_info)
-            print app
+            
             app.save()
-            app.lot_set.add(lot1)
-
-            print app
+            app.lot_set.add(lot1)            
 
             app.save()
 
@@ -221,14 +221,15 @@ def apply(request):
             from_email = settings.EMAIL_HOST_USER
             to_email = [from_email]
 
-            # if provided, send confirmation email to applicant
-            if app.email:
-                to_email.append(app.email)
+            #TODO: Get mailserver configured and running - ASKoiman 2/10/2015
+            ## if provided, send confirmation email to applicant
+            #if app.email:
+            #    to_email.append(app.email)
 
-            # send email confirmation to settings.EMAIL_HOST_USER
-            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
-            msg.attach_alternative(html_content, 'text/html')
-            msg.send()
+            ## send email confirmation to settings.EMAIL_HOST_USER
+            #msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            #msg.attach_alternative(html_content, 'text/html')
+            #msg.send()
 
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
