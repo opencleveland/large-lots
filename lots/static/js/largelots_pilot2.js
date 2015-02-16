@@ -194,7 +194,7 @@ var LargeLots = {
           $("#id_lot_1_address").val($(this).data('address'));
           $("#id_lot_1_ppn").val($(this).data('ppn'));
         }
-		
+
         // else if ($("#id_lot_1_address").val() != $(this).data('address')){
         //   $("#id_lot_2_address").val($(this).data('address'));
         //   $("#id_lot_2_pin").val($(this).data('pin'));
