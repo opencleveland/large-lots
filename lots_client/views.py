@@ -61,11 +61,11 @@ class ApplicationForm(forms.Form):
         error_messages={'required': 'Provide an image of the proposed site plan'
         }, label="Proposed site plan")
 
-    fencing_decsr = forms.CharField(required=False)
+    fencing_descr = forms.CharField(required=False)
     fencing_cost = forms.CharField(required=False)
 
-    landscappng_decsr = forms.CharField(required=False)
-    landscappng_cost = forms.CharField(required=False)
+    landscaping_descr = forms.CharField(required=False)
+    landscaping_cost = forms.CharField(required=False)
 
     apron_descr = forms.CharField(required=False)
     apron_cost = forms.CharField(required=False)
@@ -202,6 +202,20 @@ def apply(request):
                 'email': form.cleaned_data.get('email'),
                 'how_heard': form.cleaned_data.get('how_heard'),
                 'tracking_id': unicode(uuid4()),
+		'owned_live': form.cleaned_data.get('owned_live'),
+		'owned_properties': form.cleaned_data.get('owned_properties'),
+		'owned_properties_info': form.cleaned_data.get('owned_properties_info'),
+		'lot_1_use' : form.cleaned_data.get('lot_1_use'),
+		'lot_1_improvements' : form.cleaned_data.get('lot_1_improvements'),
+		'lot_1_descr' : form.cleaned_data.get('lot_1_descr'),
+		'fencing_descr': form.cleaned_data.get('fencing_descr'),
+		'fencing_cost': form.cleaned_data.get('fencing_cost'),
+		'landscaping_descr': form.cleaned_data.get('landscaping_descr'),
+                'landscaping_cost': form.cleaned_data.get('landscaping_cost'),
+		'apron_descr': form.cleaned_data.get('apron_descr'),
+                'apron_cost': form.cleaned_data.get('apron_cost'),
+		'other_descr': form.cleaned_data.get('other_descr'),
+                'other_cost': form.cleaned_data.get('other_cost'),
             }
             app = Application(**app_info)
             
@@ -233,6 +247,7 @@ def apply(request):
 
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
+	#TODO: Update this section pursuant to above one - ASKoiman
             context['lot_1_address'] = form['lot_1_address'].value()
             context['lot_1_ppn'] = form['lot_1_ppn'].value()
             context['lot_1_use'] = form['lot_1_use'].value()

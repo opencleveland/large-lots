@@ -375,11 +375,11 @@
                 {% else %}
                 <div class="form-group">
                   {% endif %}
-                  <label for="id_fencing_decsr">Fencing (note that chain link does not meet code)</label>
+                  <label for="id_fencing_descr">Fencing (note that chain link does not meet code)</label>
                   <div class="row">
                     <div class="col-xs-6">
-                      <input type="text" value="{{fencing_decsr}}" class="form-control" id="id_fencing_decsr" name="fencing_decsr" placeholder="Description">
-                      {% for error in form.fencing_decsr.errors %}
+                      <input type="text" value="{{fencing_descr}}" class="form-control" id="id_fencing_descr" name="fencing_descr" placeholder="Description">
+                      {% for error in form.fencing_descr.errors %}
                       <span class="help-block">{{ error }}</span>
                       {% endfor %}
                     </div>
@@ -393,16 +393,16 @@
                 </div>
 
                 <!-- LANDSCAPING -->
-                {% if form.landscaping_desrc.errors or form.landscaping_cost.errors %}
+                {% if form.landscaping_descr.errors or form.landscaping_cost.errors %}
                 <div class="form-group has-error">
                 {% else %}
                 <div class="form-group">
                   {% endif %}
-                  <label for="id_landscaping_desrc">Landscaping</label>
+                  <label for="id_landscaping_descr">Landscaping</label>
                   <div class="row">
                     <div class="col-xs-6">
-                      <input type="text" value="{{landscaping_desrc}}" class="form-control" id="id_landscaping_desrc" name="landscaping_desrc" placeholder="Description">
-                      {% for error in form.landscaping_desrc.errors %}
+                      <input type="text" value="{{landscaping_descr}}" class="form-control" id="id_landscaping_descr" name="landscaping_descr" placeholder="Description">
+                      {% for error in form.landscaping_descr.errors %}
                       <span class="help-block">{{ error }}</span>
                       {% endfor %}
                     </div>
