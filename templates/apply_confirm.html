@@ -14,6 +14,23 @@
             {% if app.email %}
             <p>You should receive confirmation email shortly.</p>
             {% endif %}
+
+ <div class="row">
+        <div class="col-sm-12">
+            <h3>Application information: </h3>
+            <table class="table table-bordered table-condensed">
+                <tbody>
+                    <tr>
+                        <td>Application ID</td>
+                        <td>
+                            {{app.tracking_id}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+ </div>
+
             <h3>Lot information:</h3>
             {% if lots|length > 1 %}
         </div>
@@ -27,9 +44,10 @@
                             <td>{{lot.address.street}}</td>
                         </tr>
                         <tr>
-                            <td>PIN</td>
+                            <td>PPN</td>
                             <td>
-                                {{lot.pin}} (<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)
+			      <!-- TODO: Replace the hyperlink below -- Issue 17 -- ASKoiman 2/19/2015 -->
+                                {{lot.ppn}} <!--(<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)-->
                             </td>
                         </tr>
                     </tbody>
@@ -48,8 +66,11 @@
                         <td>{{lot.address.street}}</td>
                     </tr>
                     <tr>
-                        <td>PIN</td>
-                        <td>{{lot.pin}}</td>
+		      <td>PPN</td>
+                            <td>
+                              <!-- TODO: Replace the hyperlink below -- Issue 17 -- ASKoiman 2/19/2015 -->
+                                {{lot.ppn}} <!--(<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)-->
+                            </td>
                     </tr>
                 </tbody>
             </table>
