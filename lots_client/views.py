@@ -237,13 +237,13 @@ def apply(request):
 
             #TODO: Get mailserver configured and running - ASKoiman 2/10/2015
             ## if provided, send confirmation email to applicant
-            #if app.email:
-            #    to_email.append(app.email)
+            if app.email:
+                to_email.append(app.email)
 
             ## send email confirmation to settings.EMAIL_HOST_USER
-            #msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
-            #msg.attach_alternative(html_content, 'text/html')
-            #msg.send()
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            msg.attach_alternative(html_content, 'text/html')
+            msg.send()
 
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:

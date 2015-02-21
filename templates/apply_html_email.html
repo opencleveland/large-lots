@@ -3,8 +3,22 @@
   <img src='http://largelots.org/static/images/large_lots.png' alt='Large Lots' />
 </a>
 <div class="row">
-    <h1>Thanks for Applying {{app.first_name}}!</h1>
+    <h1>Thanks for Applying, {{app.first_name}}!</h1>
     <p><a href="http://{{host}}/apply-confirm/{{app.tracking_id}}/">View this confirmation on LargeLots.org</a></p>
+
+<div class="row">
+    <h3>Application information:</h3>
+    <table class="table table-bordered table-condensed">
+        <tbody>
+            <tr>
+                <td>Application ID:</td>
+                <td>
+                    {{app.tracking_id}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
     <h3>Lot information:</h3>
     {% for lot in lots %}
@@ -12,11 +26,11 @@
             <table>
                 <tbody>
                     <tr>
-                        <td>Address</td>
+                        <td>Address:</td>
                         <td>{{lot.address.street}}</td>
                     </tr>
                     <tr>
-                        <td>PPN</td>
+                        <td>PPN:</td>
                         <td>{{lot.ppn}}</td>
                     </tr>
                 </tbody>
@@ -31,7 +45,7 @@
     <table class="table table-bordered table-condensed">
         <tbody>
             <tr>
-                <td>Address</td>
+                <td>Address:</td>
                 <td>
                     {{app.owned_address.street}}
                     {{app.owned_address.city}},
@@ -46,7 +60,7 @@
     <table>
         <tbody>
             <tr>
-                <td>Name</td>
+                <td>Name:</td>
                 <td>{{app.first_name}} {{app.last_name}}</td>
             </tr>
             <!-- <tr>
@@ -54,7 +68,7 @@
                 <td>{{app.organization}}</td>
             </tr> -->
             <tr>
-                <td>Address</td>
+                <td>Address:</td>
                 <td>
                     {{app.contact_address.street}}
                     {{app.contact_address.city}},
@@ -63,11 +77,11 @@
                 </td>
             </tr>
             <tr>
-                <td>Phone</td>
+                <td>Phone:</td>
                 <td>{{app.phone}}</td>
             </tr>
             <tr>
-                <td>Email</td>
+                <td>Email:</td>
                 <td>{{app.email}}</td>
             </tr>
         </tbody>
