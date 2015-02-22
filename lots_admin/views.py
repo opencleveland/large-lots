@@ -53,7 +53,21 @@ def csv_dump(request):
         'Name',
         # 'Organization',
         'Owned Address',
-        'Owned PPN',
+	'Owned Live',
+	'Owned Properties',
+	'Owned Properties Info',
+	'Lot 1 Use',
+	'Lot 1 Improvements',
+	'Lot 1 Description',
+	'Fencing Description',
+	'Fencing Cost',
+	'Landscaping Description',
+	'Landscaping Cost',
+	'Apron Description',
+	'Apron Cost',
+	'Other Description',
+	'Other Cost',
+        # 'Owned PPN',
         'Plan Image URL',
         'Contact Address',
         'Phone',
@@ -61,6 +75,7 @@ def csv_dump(request):
         'Received assistance',
         'Lot 1 PPN',
         'Lot 1 Address',
+	'Tracking ID',
         # 'Lot 1 Plan URL',
         # 'Lot 2 PIN',
         # 'Lot 2 Address',
@@ -86,18 +101,38 @@ def csv_dump(request):
                  getattr(lot.address, 'state', ''),
                  getattr(lot.address, 'zip_code', ''))
             ppn = lot.ppn
+       	    ## TODO: Replace this - Issue 18 - ASKoiman
             # image_url = 'http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?%s=' % pin.replace('-', '')
             # lots.extend([pin, addr, image_url])
-        if len(lots) < 4:
-            lots.extend(['', '', ''])
-        lot_1_ppn, lot_1_addr, lot_1_image = lots
+	    lots.extend([ppn, addr])
+# Issue 18--replace this - ASKoiman
+#        if len(lots) < 4:
+ #           lots.extend(['', '', ''])
+	## TODO: Get lot_1_image working - Issue 18 - ASKoiman
+        #lot_1_ppn, lot_1_addr, lot_1_image = lots
+	lot_1_ppn, lot_1_addr = lots
         rows.append([
             application.id,
             application.received_date.strftime('%Y-%m-%d %H:%m %p'),
             '%s %s' % (application.first_name, application.last_name),
             # application.organization,
             owned_address,
-            application.owned_ppn,
+            # application.owned_ppn, --Commented out for now
+	application.owned_live,
+	application.owned_properties,
+	application.owned_properties_info,
+	application.lot_1_use,
+			application.lot_1_improvements,
+			application.lot_1_descr,
+			application.fencing_descr,
+			application.fencing_cost,
+			application.landscaping_descr,
+			application.landscaping_cost,
+			application.apron_descr,
+			application.apron_cost,
+			application.other_descr,
+			application.other_cost,
+		
             application.plan_image.url,
             contact_address,
             application.phone,
@@ -105,7 +140,9 @@ def csv_dump(request):
             application.how_heard,
             lot_1_ppn,
             lot_1_addr,
-            lot_1_image,
+## TODO: Replace this - Issue 18 - ASKoiman
+#            lot_1_image,
+			application.tracking_id,
             # lot_2_pin,
             # lot_2_addr,
             # lot_2_image,
