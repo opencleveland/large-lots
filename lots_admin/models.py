@@ -33,10 +33,10 @@ class Application(models.Model):
     lot_1_descr = models.CharField(max_length=255, null=True)
 
     plan_image = models.FileField(upload_to=upload_name)
-    fencing_decsr = models.CharField(max_length=255, null=True)
+    fencing_descr = models.CharField(max_length=255, null=True)
     fencing_cost = models.CharField(max_length=255, null=True)
 
-    landscaping_decsr = models.CharField(max_length=255, null=True)
+    landscaping_descr = models.CharField(max_length=255, null=True)
     landscaping_cost = models.CharField(max_length=255, null=True)
 
     apron_descr = models.CharField(max_length=255, null=True)
