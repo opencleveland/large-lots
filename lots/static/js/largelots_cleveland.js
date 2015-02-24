@@ -49,8 +49,8 @@ var LargeLots = {
               info += "<h4>" + LargeLots.formatAddress(props) + "</h4>";
               info += "<p>PPN: " + props.parcel + "<br />";
           }
-          if (props.build){
-              info += "Zoned: " + props.build + "<br />";
+          // if (props.build){
+          //     info += "Zoned: " + props.build + "<br />";
           }
           if (props.sqft){
               info += "Sq Ft: " + props.sqft + "<br />";
@@ -157,9 +157,9 @@ var LargeLots = {
       sql.execute('SELECT * from joined WHERE ppn = \'{{num}}\'', {num:ppn_current})
         .done(function(data){
             var shape = data.features[0];
-            console.log(ppn_current);
-            console.log(data);
-            console.log(shape);
+            // console.log(ppn_current);
+            // console.log(data);
+            // console.log(shape);
             LargeLots.lastClickedLayer = L.geoJson(shape);
             LargeLots.lastClickedLayer.addTo(LargeLots.map);
             LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
@@ -170,15 +170,15 @@ var LargeLots = {
   },
 
   selectParcel: function (props){
-      console.log(props);
+      // console.log(props);
       var address = LargeLots.formatAddress(props);
 
       var info = "<div class='row'><div class='col-xs-6 col-md-12'>\
         <table class='table table-bordered table-condensed'><tbody>\
           <tr><td>Address</td><td>" + address + "</td></tr>\
           <tr><td>Parcel Number</td><td>" + props.parcel + " (<a target='_blank' href='http://treasurer.cuyahogacounty.us/payments/real_prop/ShowTaxBill.asp?txtParcel=" + props.ppn + "'>info</a>)</td></tr>";
-      if (props.build){
-          info += "<tr><td>Zoned</td><td>" + props.build + "</td></tr>";
+      // if (props.build){
+      //     info += "<tr><td>Zoned</td><td>" + props.build + "</td></tr>";
       }
       if (props.sqft){
           info += "<tr><td>Square feet</td><td>" + LargeLots.addCommas(props.sqft) + "</td></tr>";
