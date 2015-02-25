@@ -51,7 +51,7 @@ var LargeLots = {
           }
           // if (props.build){
           //     info += "Zoned: " + props.build + "<br />";
-          }
+          // }
           if (props.sqft){
               info += "Sq Ft: " + props.sqft + "<br />";
           }
@@ -105,8 +105,8 @@ var LargeLots = {
                 }
             }, 1000)
         }).error(function(e) {
-        //console.log('ERROR')
-        //console.log(e)
+        console.log('ERROR')
+        console.log(e)
       });
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
@@ -179,7 +179,7 @@ var LargeLots = {
           <tr><td>Parcel Number</td><td>" + props.parcel + " (<a target='_blank' href='http://treasurer.cuyahogacounty.us/payments/real_prop/ShowTaxBill.asp?txtParcel=" + props.ppn + "'>info</a>)</td></tr>";
       // if (props.build){
       //     info += "<tr><td>Zoned</td><td>" + props.build + "</td></tr>";
-      }
+      // }
       if (props.sqft){
           info += "<tr><td>Square feet</td><td>" + LargeLots.addCommas(props.sqft) + "</td></tr>";
       }

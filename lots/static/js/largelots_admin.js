@@ -52,7 +52,7 @@ var LargeLotsAdmin = {
           }
           // if (props.zoning_classification){
           //     info += "Zoned: " + props.zoning_classification + "<br />";
-          }
+          // }
           if (props.sq_ft){
               info += "Sq Ft: " + props.sq_ft + "<br />";
           }
@@ -126,8 +126,8 @@ var LargeLotsAdmin = {
                 LargeLotsAdmin.getOneParcel(data['ppn']);
             });
         }).error(function(e) {
-        //console.log('ERROR')
-        //console.log(e)
+        console.log('ERROR')
+        console.log(e)
       });
   },
 
