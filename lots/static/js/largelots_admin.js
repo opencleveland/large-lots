@@ -65,24 +65,24 @@ var LargeLotsAdmin = {
       }
 
       LargeLotsAdmin.info.addTo(LargeLotsAdmin.map);
-
-      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
-      var layerOpts = {
-          user_name: 'opencleveland',
-          type: 'cartodb',
-          cartodb_logo: false,
-          sublayers: [
-              {
-                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
-                  cartocss: $('#egp-styles').html().trim(),
-                  interactivity: fields
-              }
-              // {
-              //     sql: 'select * from east_garfield_park',
-              //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
-              // }
-          ]
-      }
+      //
+      // var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
+      // var layerOpts = {
+      //     user_name: 'opencleveland',
+      //     type: 'cartodb',
+      //     cartodb_logo: false,
+      //     sublayers: [
+      //         {
+      //             sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
+      //             cartocss: $('#egp-styles').html().trim(),
+      //             interactivity: fields
+      //         }
+      //         // {
+      //         //     sql: 'select * from east_garfield_park',
+      //         //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
+      //         // }
+      //     ]
+      // }
 
       var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2"
       var layerOpts = {
@@ -97,7 +97,7 @@ var LargeLotsAdmin = {
                   interactivity: fields
               },
               {
-                  sql: "SELECT * FROM joined WHERE ppn in (" + applied_pins + ")",
+                  sql: "SELECT * FROM joined WHERE ppn in (" + applied_ppns + ")",
                   cartocss: $('#egp-styles-applied').html().trim(),
                   interactivity: fields
               }

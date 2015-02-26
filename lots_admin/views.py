@@ -132,7 +132,7 @@ def csv_dump(request):
 			application.apron_cost,
 			application.other_descr,
 			application.other_cost,
-		
+
             application.plan_image.url,
             contact_address,
             application.phone,
