@@ -84,29 +84,30 @@ var LargeLotsAdmin = {
           ]
       }
 
-      // var fields = "pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
-      // var layerOpts = {
-      //     user_name: 'datamade',
-      //     type: 'cartodb',
-      //     cartodb_logo: false,
-      //     sublayers: [
-      //
-      //         {
-      //             sql: "select * from egp_parcels where city_owned='T' and residential='T' and alderman_hold != 'T'",
-      //             cartocss: $('#egp-styles').html().trim(),
-      //             interactivity: fields
-      //         },
-      //         {
-      //             sql: "select * from egp_parcels where pin14 in (" + applied_pins + ")",
-      //             cartocss: $('#egp-styles-applied').html().trim(),
-      //             interactivity: fields
-      //         },
-      //         {
-      //             sql: 'select * from east_garfield_park',
-      //             cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
-      //         }
-      //     ]
-      // }
+      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2"
+      var layerOpts = {
+          user_name: 'opencleveland',
+          type: 'cartodb',
+          cartodb_logo: false,
+          sublayers: [
+
+              {
+                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
+                  cartocss: $('#egp-styles').html().trim(),
+                  interactivity: fields
+              },
+              {
+                  sql: "SELECT * FROM joined WHERE ppn in (" + applied_pins + ")",
+                  cartocss: $('#egp-styles-applied').html().trim(),
+                  interactivity: fields
+              }
+              // },
+              // {
+              //     sql: 'select * from east_garfield_park',
+              //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
+              // }
+          ]
+      }
 
       cartodb.createLayer(LargeLotsAdmin.map, layerOpts)
         .addTo(LargeLotsAdmin.map)
