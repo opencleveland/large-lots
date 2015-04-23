@@ -48,11 +48,8 @@ var LargeLotsAdmin = {
           var info = '';
           if(props.street_number){
               info += "<h4>" + LargeLotsAdmin.formatAddress(props) + "</h4>";
-              info += "<p>PPN: " + props.parcel + "<br />";
           }
-          // if (props.zoning_classification){
-          //     info += "Zoned: " + props.zoning_classification + "<br />";
-          // }
+          info += "<p>PPN: " + props.parcel + "<br />";
           if (props.sq_ft){
               info += "Sq Ft: " + props.sq_ft + "<br />";
           }
@@ -65,26 +62,8 @@ var LargeLotsAdmin = {
       }
 
       LargeLotsAdmin.info.addTo(LargeLotsAdmin.map);
-      //
-      // var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
-      // var layerOpts = {
-      //     user_name: 'opencleveland',
-      //     type: 'cartodb',
-      //     cartodb_logo: false,
-      //     sublayers: [
-      //         {
-      //             sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
-      //             cartocss: $('#egp-styles').html().trim(),
-      //             interactivity: fields
-      //         }
-      //         // {
-      //         //     sql: 'select * from east_garfield_park',
-      //         //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
-      //         // }
-      //     ]
-      // }
 
-      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2"
+      var fields = "ppn,parcel,address,sqft,street,number"
       var layerOpts = {
           user_name: 'opencleveland',
           type: 'cartodb',
@@ -92,7 +71,7 @@ var LargeLotsAdmin = {
           sublayers: [
 
               {
-                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
+                  sql: "SELECT * FROM joined WHERE (street != '') AND (number != '')",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               },
@@ -101,11 +80,6 @@ var LargeLotsAdmin = {
                   cartocss: $('#egp-styles-applied').html().trim(),
                   interactivity: fields
               }
-              // },
-              // {
-              //     sql: 'select * from east_garfield_park',
-              //     cartocss: "#east_garfield_park{polygon-fill: #ffffcc;polygon-opacity: 0.2;line-color: #FFF;line-width: 3;line-opacity: 1;}"
-              // }
           ]
       }
 
@@ -133,7 +107,7 @@ var LargeLotsAdmin = {
   },
 
   formatAddress: function (prop) {
-    return prop.number2 + " " + " " + prop.street2;
+    return prop.number + " " + " " + prop.street;
   },
 
 
@@ -150,7 +124,7 @@ var LargeLotsAdmin = {
             LargeLots.lastClickedLayer.addTo(LargeLots.map);
             LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
             LargeLots.map.setView(LargeLots.lastClickedLayer.getBounds().getCenter(), 17);
-            LargeLots.selectParcel(shape.properties);
+            // LargeLots.selectParcel(shape.properties);
         }).error(function(e){console.log(e)});
       window.location.hash = 'browse';
   },

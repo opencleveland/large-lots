@@ -45,15 +45,15 @@ var LargeLots = {
         var date_formatted = '';
         if (props) {
           var info = '';
-          if(props.number2){
-              info += "<h4>" + LargeLots.formatAddress(props) + "</h4>";
-              info += "<p>PPN: " + props.parcel + "<br />";
+          if(props.number){
+              info += "<p>Address: " + LargeLots.formatAddress(props) + "</p>";
           }
+          info += "<p>PPN: " + props.parcel + "<br />";
           // if (props.build){
           //     info += "Zoned: " + props.build + "<br />";
           // }
           if (props.sqft){
-              info += "Sq Ft: " + props.sqft + "<br />";
+              info += "<p>Sq Ft: " + props.sqft + "<br />";
           }
           this._div.innerHTML  = info;
         }
@@ -65,14 +65,14 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
+      var fields = "ppn,parcel,address,sqft,street,number" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
       var layerOpts = {
           user_name: 'opencleveland',
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
+                  sql: "SELECT * FROM joined WHERE (street != '') AND (number != '')",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               }
@@ -96,18 +96,19 @@ var LargeLots = {
               LargeLots.info.clear();
             });
             LargeLots.lotsLayer.on('featureClick', function(e, pos, latlng, data){
-                console.log(data);
-                LargeLots.getOneParcel(data['ppn']);
+                // console.log(data['parcel']);
+                LargeLots.getOneParcel(data['parcel']);
             });
             window.setTimeout(function(){
                 if($.address.parameter('ppn')){
-                    LargeLots.getOneParcel($.address.parameter('ppn'))
+                    LargeLots.getOneParcel($.address.parameter('parcel'))
                 }
             }, 1000)
         }).error(function(e) {
         console.log('ERROR')
         console.log(e)
       });
+
       $("#search_address").val(LargeLots.convertToPlainString($.address.parameter('address')));
       LargeLots.addressSearch();
       $('.toggle-parcels').on('click', function(e){
@@ -145,7 +146,7 @@ var LargeLots = {
   },
 
   formatAddress: function (prop) {
-    return prop.number2 + " " + " " + prop.street2;
+    return prop.number + " " + " " + prop.street;
   },
 
   getOneParcel: function(ppn_current){
@@ -153,8 +154,9 @@ var LargeLots = {
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
       var sql = new cartodb.SQL({user: 'opencleveland', format: 'geojson'});
-	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014
-      sql.execute('SELECT * from joined WHERE ppn = \'{{num}}\'', {num:ppn_current})
+	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014 -- \'{{num}}\'
+      console.log(ppn_current);
+      sql.execute('SELECT * from joined WHERE parcel = \'{{num}}\'', {num:ppn_current})
         .done(function(data){
             var shape = data.features[0];
             // console.log(ppn_current);
@@ -186,7 +188,7 @@ var LargeLots = {
       info += "<tr><td colspan='2'><button type='button' id='lot_apply' data-ppn='" + props.parcel + "' data-address='" + address + "' href='#' class='btn btn-success'>Select this lot</button></td></tr>"
       // info += "</tbody></table></div><div class='col-xs-6 col-md-12'>\
       // <img class='img-responsive img-thumbnail' src='http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?" + props.pin14 + "=' /></div></div>";
-      $.address.parameter('ppn', props.ppn)
+      $.address.parameter('parcel', props.parcel)
       $('#lot-info').html(info);
 
       $("#lot_apply").on("click", function(){
@@ -258,9 +260,6 @@ var LargeLots = {
     LargeLots.marker = L.marker([first.lat, first.lon]).addTo(LargeLots.map);
   },
 
-  // formatPin: function(pin) {
-  //   return pin.replace(/(\d{2})(\d{2})(\d{3})(\d{3})(\d{4})/, '$1-$2-$3-$4-$5');
-  // },
 
   //converts a slug or query string in to readable text
   convertToPlainString: function (text) {
