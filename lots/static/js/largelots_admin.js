@@ -76,7 +76,7 @@ var LargeLotsAdmin = {
                   interactivity: fields
               },
               {
-                  sql: "SELECT * FROM joined WHERE ppn in (" + applied_ppns + ")",
+                  sql: "SELECT * FROM joined WHERE parcel in (" + applied_ppns + ")",
                   cartocss: $('#egp-styles-applied').html().trim(),
                   interactivity: fields
               }
@@ -98,7 +98,7 @@ var LargeLotsAdmin = {
               LargeLotsAdmin.info.clear();
             });
             LargeLotsAdmin.lotsLayer.on('featureClick', function(e, pos, latlng, data){
-                LargeLotsAdmin.getOneParcel(data['ppn']);
+                LargeLotsAdmin.getOneParcel(data['parcel']);
             });
         }).error(function(e) {
         console.log('ERROR')
@@ -117,7 +117,7 @@ var LargeLotsAdmin = {
       }
       var sql = new cartodb.SQL({user: 'opencleveland', format: 'geojson'});
     //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014
-      sql.execute('SELECT * from joined WHERE ppn = \'{{num}}\'', {num:ppn_current})
+      sql.execute('SELECT * from joined WHERE parcel = \'{{num}}\'', {num:ppn_current})
         .done(function(data){
             var shape = data.features[0];
             LargeLots.lastClickedLayer = L.geoJson(shape);

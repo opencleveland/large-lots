@@ -154,14 +154,11 @@ var LargeLots = {
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
       var sql = new cartodb.SQL({user: 'opencleveland', format: 'geojson'});
-	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014 -- \'{{num}}\'
+	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014 -- \'{{num}}\' -- cwang
       console.log(ppn_current);
       sql.execute('SELECT * from joined WHERE parcel = \'{{num}}\'', {num:ppn_current})
         .done(function(data){
             var shape = data.features[0];
-            // console.log(ppn_current);
-            // console.log(data);
-            // console.log(shape);
             LargeLots.lastClickedLayer = L.geoJson(shape);
             LargeLots.lastClickedLayer.addTo(LargeLots.map);
             LargeLots.lastClickedLayer.setStyle({fillColor:'#f7fcb9', weight: 2, fillOpacity: 1, color: '#000'});
