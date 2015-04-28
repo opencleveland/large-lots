@@ -33,7 +33,8 @@ def lots_admin_map(request):
     for lot in Lot.objects.all():
         applied_ppns.add(lot.ppn)
 
-    ppns_str = ",".join(["'%s'" % a.replace('-','').replace(' ','') for a in applied_ppns])
+    # ppns_str = ",".join(["'%s'" % a.replace('-','').replace(' ','') for a in applied_ppns])
+    ppns_str = ",".join(["'%s'" % a.replace(' ','') for a in applied_ppns])
     return render(request, 'admin-map.html', {'applied_ppns': ppns_str})
 
 @login_required(login_url='/lots-login/')
