@@ -27,6 +27,8 @@ csvjoin -c "ppn,ppn" parcels4326.csv cleveland-land-bank.csv > joined.csv
 ```
 This `joined.csv` file can be uploaded to CartoDB and accessed via API. Future versions of this may store all the parcel data online instead of just the parcels that are available, however this will require more storage space, as that file is ~300 MB and the free CartoDB limit is 50 MB. The `joined.csv` file is about 2 or 3 MB.
 
+## Updated Data Prep
+
 * log into NST with username opencleveland@gmail.com. Get the password in the Large-Lots Slack channel
 * Click "Cleveland city" to navigate to the data
 * Click "Reports" on the menu bar, and then select "Municipal lots w/sqft"
