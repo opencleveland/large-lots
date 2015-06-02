@@ -1,8 +1,22 @@
 # Large Lots
 
-The City of Chicago is selling lots in Englewood for $1 until April 21, 2014. Here's how you get one.
+The City of Cleveland Land Bank sells vacant lots to homeowners for a side yard expansion. 
 
-## Configuring and running locally
+Large Lots enables you to find if there is a vacant lot adjacent to your property that is eligible to be purchased for a side yard expansion and to complete the Land Bank's application. 
+
+
+A public website is not currently available. 
+
+This is based on a similar project in Chicago, called [Large Lots](http://www.largelots.org) made by Data Made. 
+
+### Errors / Bugs
+
+If something is not behaving as you expected, it could be a bug, and should be reported in our issue tracker at https://github.com/opencleveland/large-lots/issues
+
+
+## Developer Instructions
+
+### Configuring and running locally
 
 Clone the repo and install the requirements:
 
@@ -37,15 +51,12 @@ python manage.py runserver
 
 navigate to http://localhost:8000/
 
-## Data
+### Data
 
-Our map was built using open data from Chicago and Cook County:
+Our map was built using data from the City of Cleveland Land Bank.
 
-* [Chicago - City Owned Land Inventory](https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp)
-* [Chicago - Wards](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Wards/bhcv-wqkf)
-* [Cook County - 2012 Parcels](https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8)
 
-## Dependencies
+### Dependencies
 We used the following open source tools:
 
 * [QGIS](http://www.qgis.org/en/site/) - graphic information system (GIS) desktop application
@@ -54,31 +65,24 @@ We used the following open source tools:
 * [Leaflet](http://leafletjs.com/) - javascript library interactive maps
 * [jQuery Address](https://github.com/asual/jquery-address) - javascript library creating RESTful URLs
 
-## Team
+### Data Made Contributors
 
 * Demond Drummer - idea, content, outreach
 * Derek Eder - developer, content
 * Eric van Zanten - developer, GIS data merging
 * Forest Gregg - process design, content
-
-## Contributors
-
 * Aya O'Connor - logo
 * Juan-Pablo Velez - content
 
+### Open Cleveland Contributors 
 
-## Errors / Bugs
-
-If something is not behaving intuitively, it is a bug, and should be reported.
-Report it here: https://github.com/datamade/englewood-large-lots/issues
-
-## Note on Patches/Pull Requests
+### Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
 * Commit, do not mess with rakefile, version, or history.
 * Send me a pull request. Bonus points for topic branches.
 
-## Copyright
+### Copyright
 
-Copyright (c) 2014 DataMade and LISC Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
+Copyright (c) 2015 DataMade and LISC Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
