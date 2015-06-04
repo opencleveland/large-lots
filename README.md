@@ -80,7 +80,7 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
 2. Pull the Lots code from GitHub onto your server.
  * We hosted the code in `/usr/share/large-lots/`. You could put it somewhere else, but you'd have to change the nginx config file to match its new location.
  * `cd /usr/share/` - cd to the directory where you'll put large-lots
- * `git fetch https://github.com/opencleveland/large-lots.git`
+ * `sudo git clone https://github.com/opencleveland/large-lots.git`
  * In the /large-lots/ folder, copy local_settings_template.txt to create a file called local_settings.py. There are some sensitive settings in there (access keys) that we can't post on GitHub. See "Configuring and running locally" for a discussion of these settings.
 
 3. Configure PostgreSQL
@@ -88,7 +88,9 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
 
 4. Configure nginx
  * cd to the directory where you put the Lots code. Above we used /usr/share/large-lots/, so `cd /usr/share/large-lots/`
- * in /usr/share/large-lots/ create large_lots_nginx.conf. Set it up per tutorial at http://uwsgi.readthedocs.org/en/latest/tutorials/Django_and_nginx.html. We have also included our default large_lots_nginx.conf in the GitHub repo as an example; if you follow this tutorial exactly that file will work with minimal or no changes. Some important details:
+ * in /usr/share/large-lots/ create large_lots_nginx.conf. Set it up per tutorial at http://uwsgi.readthedocs.org/en/latest/tutorials/Django_and_nginx.html. We have also included our default large_lots_nginx.conf in the GitHub repo as an example; if you follow this tutorial exactly that file will work with minimal changes.
+    * At the very least, you wil need to change the "Server name" setting to the domain name your server is running on. nginx will only use this configuration file if the domain in the request matches the Server Name here. For example: if this server name is set to www.example.com, but someone accesses the server using another domain name or an IP address, nginx will skip this configuration (and therefore skip the Lots app) and instead will give them the default nginx page.
+ * Some important details:
     * upstream block ("django"), then server block.
     * Has separate settings for static files and dynamic applications.
     * uwsgi_pass digano; - this redirects requests that don't match the static file URLs tot the dynamic application mentioned in "upstream django"
