@@ -51,6 +51,61 @@ python manage.py runserver
 
 navigate to http://localhost:8000/
 
+### Running in a production environment
+
+We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: http://uwsgi.readthedocs.org/en/latest/tutorials/Django_and_nginx.html, but the tutorial is a little out-of-date and doesn't include every step we needed to get a production-grade web server running for our app. Below is a details walkthrough of the steps needed to get this code running on a fresh Ubuntu install (we used the Ubuntu Server 14.04 LTS image provided by Amazon Web Services).
+
+1. install the basics: nginx, git, PostgreSQL, Python utilities, Django, uWSGI, and assorted Python/Django modules.
+ * `sudo apt-get install nginx`
+    * The nginx daemon starts automatically
+ * `sudo apt-get install git`
+    * easiest way to get the Lots code off GitHub
+ * `sudo apt-get install postgresql postgresql-contrib`
+    * install the SQL database.
+ * `sudo apt-get install libpq-dev`
+    * needed to connect psycopg2 to PostgreSQL
+ * `sudo apt-get install python-dev`
+    * need this to install pip
+ * `sudo apt-get install python-pip`
+    * need this to install the latest version of uwsgi. Also the best way to install the latest version of Django.
+ * `sudo pip install Django`
+ * `sudo pip install uwsgi`
+ * `sudo pip install raven`
+    * Django module used in our app; uWSGI won't start without it.
+ * `sudo pip install psycopg2`
+    * Django module used in our app which connects Django to PostgreSQL; uWSGI won't start without it.
+ * `sudo pip install python-dateutil`
+    * Django module used in our app; uWSGI won't start without it.
+
+2. Pull the Lots code from GitHub onto your server.
+ * We hosted the code in `/usr/share/large-lots/`. You could put it somewhere else, but you'd have to change the nginx config file to match its new location.
+ * `cd /usr/share/` - cd to the directory where you'll put large-lots
+ * `git fetch https://github.com/opencleveland/large-lots.git`
+ * In the /large-lots/ folder, copy local_settings_template.txt to create a file called local_settings.py. There are some sensitive settings in there (access keys) that we can't post on GitHub. See "Configuring and running locally" for a discussion of these settings.
+
+3. Configure PostgreSQL
+ * Details to be added later.
+
+4. Configure nginx
+ * cd to the directory where you put the Lots code. Above we used /usr/share/large-lots/, so `cd /usr/share/large-lots/`
+ * in /usr/share/large-lots/ create large_lots_nginx.conf. Set it up per tutorial at http://uwsgi.readthedocs.org/en/latest/tutorials/Django_and_nginx.html. We have also included our default large_lots_nginx.conf in the GitHub repo as an example; if you follow this tutorial exactly that file will work with minimal or no changes. Some important details:
+    * upstream block ("django"), then server block.
+    * Has separate settings for static files and dynamic applications.
+    * uwsgi_pass digano; - this redirects requests that don't match the static file URLs tot the dynamic application mentioned in "upstream django"
+    * include <filepath>/uwsgi_params - this file is required for uwsgi. We didn't make any changes to it, just downloaded it and used it out of the box.
+ * Point nginx to the new .conf file we created
+    * put a symlink in /etc/nginx/sites-enabled/ pointing to /usr/share/large-lots/large_lots_nginx.conf: `sudo ln -s /usr/share/large-lots/large_lots_nginx.conf /etc/nginx/sites-enabled/`
+    * Be sure to use `sudo`, not `su -`. For some reason if you `su -` then run the command it doesn't work.
+
+5. Run uWSGI:
+ * cd to the large-lots folder (in our example, `cd /usr/share/large-lots/`, then start uwsgi like this: `uwsgi --module lots.wsgi --socket :8001`
+    * lots.wsgi in that command refers to wsgi.py in the lots folder. So in this case, it refers to /large-lots/lots/wsgi.py
+ * Note that uwsgi uses FastCGI instead of HTTP by default. nginx uses FastCGI to talk to uwsgi so the default is fine.
+ * Ideally, you won't run this from the command line except for testing. Instead you should make a script to run uWSGI, and run that script periodically with at cron job so if the uWSGI process dies it will come back up automatically.
+
+6. restart nginx: `sudo service nginx restart`
+ * Once uWSGI is running and nginx has restarted, nginx should load your configuration and be able to serve the app.
+
 ### Data
 
 Our map was built using data from the City of Cleveland Land Bank.
