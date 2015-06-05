@@ -110,8 +110,7 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
 
 ### Data
 
-Our map was built using data from the City of Cleveland Land Bank.
-
+Our map was built using data from the City of Cleveland Land Bank. The data comes from NEO CANDO's NST site: http://neocando.case.edu/nst/
 
 ### Dependencies
 We used the following open source tools:
@@ -122,7 +121,22 @@ We used the following open source tools:
 * [Leaflet](http://leafletjs.com/) - javascript library interactive maps
 * [jQuery Address](https://github.com/asual/jquery-address) - javascript library creating RESTful URLs
 
-### Data Made Contributors
+### Note on Patches/Pull Requests
+ 
+* Fork the project.
+* Make your feature addition or bug fix.
+* Commit, do not mess with rakefile, version, or history.
+* Send me a pull request. Bonus points for topic branches.
+
+### Open Cleveland Contributors 
+
+* Ariel Koiman
+* Carter Wang
+* Paul Koepke
+* Eamon Johnson
+* Raul Montejo
+
+### Data Made Contributors (to the Chicago project)
 
 * Demond Drummer - idea, content, outreach
 * Derek Eder - developer, content
@@ -131,15 +145,8 @@ We used the following open source tools:
 * Aya O'Connor - logo
 * Juan-Pablo Velez - content
 
-### Open Cleveland Contributors 
-
-### Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Commit, do not mess with rakefile, version, or history.
-* Send me a pull request. Bonus points for topic branches.
-
 ### Copyright
 
 Copyright (c) 2015 DataMade and LISC Chicago. Released under the [MIT License](https://github.com/datamade/large-lots/blob/master/LICENSE).
+
+
