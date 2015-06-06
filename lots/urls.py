@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 from django.contrib import admin
 admin.autodiscover()
@@ -16,6 +17,13 @@ urlpatterns = patterns('',
     url(r'^csv-dump/$', 'lots_admin.views.csv_dump', name='csv_dump'),
     url(r'^lots-login/$', 'lots_admin.views.lots_login', name='lots_login'),
     url(r'^logout/$', 'lots_admin.views.lots_logout', name='logout'),
-
     url(r'^django-admin/', include(admin.site.urls)),
 )
+
+urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.STATIC_ROOT,
+        }),)
