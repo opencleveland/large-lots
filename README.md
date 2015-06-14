@@ -86,7 +86,8 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
  * In the /large-lots/ folder, copy local_settings_template.txt to create a file called local_settings.py. There are some sensitive settings in there (access keys) that we can't post on GitHub. See "Configuring and running locally" for a discussion of these settings.
 
 3. Configure PostgreSQL
- * Details to be added later.
+ * Details to be added later. We used the standard Postgres tutorial: http://www.postgresql.org/docs/9.4/static/tutorial.html
+ * Whichever user runs uSWGI will need a role in PSQL.
 
 4. Configure nginx
  * cd to the directory where you put the Lots code. Above we used /usr/share/large-lots/, so `cd /usr/share/large-lots/`
