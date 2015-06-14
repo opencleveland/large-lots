@@ -69,7 +69,9 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
  * `sudo apt-get install python-pip`
     * need this to install the latest version of uwsgi. Also the best way to install the latest version of Django.
  * `sudo pip install Django`
+    * the web app framework we're using.
  * `sudo pip install uwsgi`
+    * a web server that can talk to Django and nginx.
  * `sudo pip install raven`
     * Django module used in our app; uWSGI won't start without it.
  * `sudo pip install psycopg2`
