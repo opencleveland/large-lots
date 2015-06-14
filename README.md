@@ -90,7 +90,7 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
 
 4. Configure PostgreSQL
  * Details to be added later. We used the standard Postgres tutorial: http://www.postgresql.org/docs/9.4/static/tutorial.html
- * Whichever user runs uSWGI will need a role in PSQL.
+ * Whichever user runs uSWGI will need a role in PSQL and permissions to write to the database where the lots data will be stored.
 
 5. Configure nginx
  * cd to the directory where you put the Lots code. Above we used /usr/share/large-lots/, so `cd /usr/share/large-lots/`
