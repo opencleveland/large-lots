@@ -84,7 +84,6 @@ class ApplicationForm(forms.Form):
     phone = forms.CharField(
         error_messages={'required': 'Provide a contact phone number'},
         label="Your phone number")
-    phone_2 = forms.CharField(required=False)
     email = forms.CharField(required=False)
     contact_street = forms.CharField(required=False)
     contact_city = forms.CharField(required=False)
@@ -200,7 +199,6 @@ def apply(request):
                 'plan_image': form.cleaned_data['plan_image'],
                 'contact_address': c_address,
                 'phone': form.cleaned_data['phone'],
-                'phone_2': form.cleaned_data['phone_2'],
                 'email': form.cleaned_data.get('email'),
                 'how_heard': form.cleaned_data.get('how_heard'),
                 'tracking_id': unicode(uuid4()),
@@ -239,13 +237,13 @@ def apply(request):
 
             #TODO: Get mailserver configured and running - ASKoiman 2/10/2015
             ## if provided, send confirmation email to applicant
-            #if app.email:
-            #    to_email.append(app.email)
+            if app.email:
+                to_email.append(app.email)
 
             ## send email confirmation to settings.EMAIL_HOST_USER
-            #msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
-            #msg.attach_alternative(html_content, 'text/html')
-            #msg.send()
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            msg.attach_alternative(html_content, 'text/html')
+            msg.send()
 
             return HttpResponseRedirect('/apply-confirm/%s/' % app.tracking_id)
         else:
@@ -259,7 +257,6 @@ def apply(request):
             context['last_name'] = form['last_name'].value()
             # context['organization'] = form['organization'].value()
             context['phone'] = form['phone'].value()
-            context['phone_2'] = form['phone_2'].value()
             context['email'] = form['email'].value()
             context['contact_street'] = form['contact_street'].value()
             context['contact_city'] = form['contact_city'].value()

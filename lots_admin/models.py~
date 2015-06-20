@@ -47,7 +47,6 @@ class Application(models.Model):
 
     contact_address = models.ForeignKey(Address, related_name='contact_address')
     phone = models.CharField(max_length=15)
-    phone_2 = models.CharField(max_length=15)
     email = models.CharField(max_length=255, null=True)
     how_heard = models.CharField(max_length=255, null=True)
     tracking_id = models.CharField(max_length=40)

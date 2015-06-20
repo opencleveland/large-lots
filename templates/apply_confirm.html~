@@ -125,12 +125,10 @@
                         <td>Phone</td>
                         <td>{{app.phone}}</td>
                     </tr>
-                    {% if app.phone_2 %}
-                        <tr>
-                            <td>Secondary phone</td>
-                            <td>{{app.phone_2}}</td>
-                        </tr>
-                    {% endif %}
+                    <tr>
+                        <td>Secondary hone</td>
+                        <td>{{app.phone_2}}</td>
+                    </tr>
                     {% if app.email %}
                         <tr>
                             <td>Email</td>

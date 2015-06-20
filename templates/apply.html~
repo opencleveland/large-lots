@@ -515,16 +515,6 @@
                   {% endfor %}
                 </div>
 
-                <!-- SECOND PHONE NUMBER -->
-                <div class="form-group">
-                  <label for="id_phone_2"><i class="fa fa-phone"></i> A second phone number (optional):</label>
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <input type="tel" value="{{phone}}" class="form-control" id="id_phone_2" name="phone_2" placeholder="###-###-####">
-                    </div>
-                  </div>
-                </div>
-
 
                 <!-- EMAIL -->
                 {% if form.email.errors %}
