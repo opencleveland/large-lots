@@ -36,12 +36,12 @@ DATABASES = {
 
 #...	For SQLite3 local db - ASKoiman ...#
 
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
-#...	For Postgres local db - ASKoiman ...#
-	'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+# #...	For Postgres local db - ASKoiman ...#
+# 	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
     }
 }
 
@@ -87,5 +87,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage' # Storing locally instead of S3 for now - ASKoiman 2/10/2015
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage' # Storing locally instead of S3 for now - ASKoiman 2/10/2015
 AWS_QUERYSTRING_AUTH = False
