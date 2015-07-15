@@ -27,137 +27,15 @@ csvjoin -c "ppn,ppn" parcels4326.csv cleveland-land-bank.csv > joined.csv
 ```
 This `joined.csv` file can be uploaded to CartoDB and accessed via API. Future versions of this may store all the parcel data online instead of just the parcels that are available, however this will require more storage space, as that file is ~300 MB and the free CartoDB limit is 50 MB. The `joined.csv` file is about 2 or 3 MB.
 
-## Everything below this is applicable to Large Lots, Chicago
+## Updated Data Prep
 
-**Data sources**
-
-* [Cook County Parcel Files](https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8)
-* [Addresses in Chicago by PIN](https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Address-Point-Chicago/jev2-4wjs)
-* [City-Owned Land Inventory](https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp)
-* [Chicago Community Areas](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6)
-
-**Transform coordinates for downloaded shapefiles**
-
-```bash 
-$ ogr2ogr -t_srs EPSG:4326 chicago_addresses.shp addressPointChi.shp
-$ ogr2ogr -t_srs EPSG:4326 cook_county_parcels.shp Parcel2012_County.shp
-$ ogr2ogr -t_srs EPSG:4326 community_areas.shp CommAreas.shp
-```
-
-**Load in shapefiles using ``shp2pgsql``**
-
-```bash 
-$ shp2pgsql -I -s 4326 cook_county_parcels.shp parcels | psql -U <db_user> -d <db_name>
-$ shp2pgsql -I -s 4326 chicago_addresses.shp chicago_addresses | psql -U postgres -d wopr
-```
-
-**Load Land Inventory using ``csvsql`` (from [csvkit](http://csvkit.readthedocs.org/))**
-
-```bash
-$ cat land_inventory.csv | \
-    (echo "pin14,street_number,street_dir,street_name,\
-    street_type,sq_ft,ward,community_area,zoning_classification,\
-    tif_district" ; tail -n +2) | \
-    csvsql --db "postgresql://<db_user>:@localhost:5432/<db_name>" \
-    --table land_inventory --insert
-```
-
-**Flag which parcels are city owned**
-
-```sql
-=> ALTER TABLE parcels ADD COLUMN city_owned BOOLEAN;
-=> ALTER TABLE parcels ALTER COLUMN city_owned SET DEFAULT FALSE;
-=> UPDATE parcels 
-      SET city_owned = TRUE 
-      WHERE pin14 IN (
-          SELECT replace(pin14, '-', '') FROM land_inventory
-      );
-```
-
-**Create table for just parcels in East Garfield Park**
-
-```sql
-=> CREATE TABLE egp_parcels AS 
-      SELECT p.pin14, p.geom, p.city_owned 
-          FROM parcels AS p 
-          JOIN community_areas 
-              ON ST_Within(p.geom, community_areas.geom) 
-          WHERE community_areas.community = 'EAST GARFIELD PARK';
-```
-
-**Add a few extra columns for address info and residential zoning flag**
-
-```sql
-=> ALTER TABLE egp_parcels ALTER COLUMN street_number TYPE integer;
-=> ALTER TABLE egp_parcels ALTER COLUMN street_name TYPE character varying(24);
-=> ALTER TABLE egp_parcels ALTER COLUMN street_dir TYPE character varying(14);
-=> ALTER TABLE egp_parcels ALTER COLUMN street_type TYPE character varying(14);
-=> ALTER TABLE egp_parcels ALTER COLUMN zip_code TYPE character varying(5);
-=> ALTER TABLE egp_parcels ALTER COLUMN sq_ft TYPE INTEGER;
-=> ALTER TABLE egp_parcels ADD COLUMN residential boolean;
-=> ALTER TABLE egp_parcels ALTER COLUMN residential SET DEFAULT FALSE;
-```
-
-**Add info from Land Inventory**
-
-```sql 
-=> UPDATE egp_parcels 
-      SET street_number=subquery.street_number, 
-          street_dir=subquery.street_dir, 
-          street_name=subquery.street_name, 
-          street_type=subquery.street_type, 
-          zoning_classification=subquery.zoning_classification,
-          sq_ft=subquery.sq_ft 
-      FROM (
-          SELECT 
-              street_number, 
-              street_dir, 
-              street_name, 
-              street_type, 
-              zoning_classification, 
-              replace(pin14, '-', '') as pin,
-              sq_ft 
-          FROM land_inventory 
-      ) AS subquery 
-      WHERE egp_parcels.pin14 = subquery.pin;
-```
-
-**Add residential flag**
-
-```sql
-=> UPDATE egp_parcels AS e 
-       SET residential = TRUE 
-       WHERE e.zoning_classification LIKE '%RS-1%' 
-           OR e.zoning_classification LIKE '%RS-2%' 
-           OR e.zoning_classification LIKE '%RS-3%' 
-           OR e.zoning_classification LIKE '%RT-3.5%' 
-           OR e.zoning_classification LIKE '%RT-4%' 
-           OR e.zoning_classification LIKE '%RT-4A%' 
-           OR e.zoning_classification LIKE '%RM-4.5%' 
-           OR e.zoning_classification LIKE '%RM-5%' 
-           OR e.zoning_classification LIKE '%RM-5.5%' 
-           OR e.zoning_classification LIKE '%RM-6%' 
-           OR e.zoning_classification LIKE '%RM-6.5%';
-```
-
-**Add address info from addresses table**
-
-```sql
-=> UPDATE egp_parcels 
-      SET street_number=subquery.street_number, 
-          street_dir=subquery.street_dir, 
-          street_name=subquery.street_name, 
-          street_type=subquery.street_type,
-          zip_code=subquery.zip_code
-      FROM (
-          SELECT stnameprd AS street_dir, 
-                 cast(addrnocom as integer) AS street_number, 
-                 stname AS street_name, 
-                 stnamepot AS street_type, 
-                 pin,
-                 zip5 as zip_code
-          FROM chicago_addresses
-          ) AS subquery 
-      WHERE egp_parcels.pin14 = subquery.pin;
-```
+* log into NST with username opencleveland@gmail.com. Get the password in the Large-Lots Slack channel
+* Click "Cleveland city" to navigate to the data
+* Click "Reports" on the menu bar, and then select "Municipal lots w/sqft"
+* Click "Download" on the menu bar, and then click "data download".
+* The downloaded csv will have a messy name. Rename it to downloaded.csv or something.
+* Rename "GIS Area (sq ft)" as "sqft"
+* Acquire the parcels.csv -- a csv that contains the parcel boundaries. Carter has a copy, as well as one being on the brigade's Socrata portal. That has it in a shapefile format, conversion is possible with ogr2ogr.
+* If both files are in the same folder and you have csvkit installed, run csvjoin -c "column1, column2" downloaded.csv parcels.csv > joined.csv, where column1 and column2 are the indices associated with the the columns that are being joined in the two csvs. It should be "1,3"
+* Upload joined.csv into CartoDB -- note that you have to delete the old copy of joined.csv first since the name of the dataset is what is accessed in the javascript files (largelots_cleveland.js or largelots_admin.js). The username for this is also opencleveland@gmail.com and the password is also in the Large-Lots Slack channel
 

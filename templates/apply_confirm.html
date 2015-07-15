@@ -36,7 +36,9 @@
         </div>
         {% for lot in lots %}
             <div class="col-sm-6">
-                <!-- <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" /> -->
+<!--
+                <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
+-->
                 <table class="table table-bordered table-condensed">
                     <tbody>
                         <tr>
@@ -46,8 +48,7 @@
                         <tr>
                             <td>PPN</td>
                             <td>
-			      <!-- TODO: Replace the hyperlink below -- Issue 17 -- ASKoiman 2/19/2015 -->
-                                {{lot.ppn}} <!--(<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)-->
+                                {{lot.ppn}} <a target="_blank" href="http://clevelandlots.org/apply/#/browse?parcel={{lot.ppn}}">info</a>
                             </td>
                         </tr>
                     </tbody>
@@ -58,7 +59,9 @@
         </div>
         {% for lot in lots %}
         <div class="col-sm-12">
-            <!-- <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" /> -->
+<!--
+            <img class="img-responsive img-thumbnail" src="http://cookviewer1.cookcountyil.gov/Jsviewer/image_viewer/requestImg.aspx?{{lot.pin|remove_str:'-'}}=" />
+-->
             <table class="table table-bordered table-condensed">
                 <tbody>
                     <tr>
@@ -68,8 +71,7 @@
                     <tr>
 		      <td>PPN</td>
                             <td>
-                              <!-- TODO: Replace the hyperlink below -- Issue 17 -- ASKoiman 2/19/2015 -->
-                                {{lot.ppn}} <!--(<a target="_blank" href="http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN={{lot.pin|remove_str:'-'}}">info</a>)-->
+                            {{lot.ppn}} <a target="_blank" href="http://clevelandlots.org/apply/#/browse?parcel={{lot.ppn}}">info</a>
                             </td>
                     </tr>
                 </tbody>
@@ -125,6 +127,12 @@
                         <td>Phone</td>
                         <td>{{app.phone}}</td>
                     </tr>
+                    {% if app.phone_2 %}
+                        <tr>
+                            <td>Secondary phone</td>
+                            <td>{{app.phone_2}}</td>
+                        </tr>
+                    {% endif %}
                     {% if app.email %}
                         <tr>
                             <td>Email</td>
