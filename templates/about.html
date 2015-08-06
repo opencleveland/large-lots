@@ -4,67 +4,38 @@
   <div class='col-md-8'>
     <h2>About</h2>
 
-    <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. The program is being piloted in community areas where the City owns large amounts of vacant land. The core goals of the program are:</p>
+    <p>The <strong>Large Lots</strong> website is brought to you by <a href='http://opencleveland.org'>Open Cleveland</a>, a Code for America brigade, in conjunction with the <a href='http://portal.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/CommunityDevelopment/LandBank'>City of Cleveland Land Bank</a> and supported by <a href='http://www.npi-cle.org/'>Cleveland Neighborhood Progress</a>. The program aims to:</p>
     <ul>
-      <li>Give local residents greater control over vacant land in their neighborhood</li>
+      <li>Give local residents greater access to vacant land in their neighborhood</li>
       <li>Dispose of some of the City-owned land in these neighborhoods efficiently, which returns the land to the tax rolls</li>
-      <li>Create wealth in the community by allowing owners to sell land after five years</li>
       <li>Increase safety, build community, and raise home values by creating more neighborhood-level investment</li>
     </ul>
 
-    <p><strong>LargeLots.org</strong> was built to make the process of purchasing City-owned land through this program easier for residents. It was initiated by <a href='https://twitter.com/citizendrummer'>Demond Drummer</a> at <a href='http://www.teamworkenglewood.org'>Teamwork Englewood</a>, built by <a href='http://datamade.us'>DataMade</a>, and funded by <a href='http://www.lisc-chicago.org/'>LISC Chicago</a> with support from the <a href='http://www.boeing.com/boeing/companyoffices/aboutus/community/index.page'>Boeing Corporation</a>, and the <a href='http://www.knightfoundation.org'>Knight Foundation</a> for LISC's <a href='http://www.knightfoundation.org/grants/201346115/'>OpenGov for the Rest of Us</a> project.</p>
-
     <h3>Built with open data</h3>
-    <p>This site was built using open data from <a href='https://data.cityofchicago.org/'>Chicago</a> and <a href='https://datacatalog.cookcountyil.gov/'>Cook County</a>:</p>
-
-    <ul>
-      <li><a href='https://data.cityofchicago.org/Community-Economic-Development/City-Owned-Land-Inventory/aksk-kvfp'>Chicago - City Owned Land Inventory</a></li>
-      <li><a href='https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6'>Chicago - Community Areas</a></li>
-      <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Address-Point-Chicago/jev2-4wjs'>Cook County - Address Point Chicago</a></li>
-      <li><a href='https://datacatalog.cookcountyil.gov/GIS-Maps/ccgisdata-Parcel-2012/e62c-6rz8'>Cook County - 2012 Parcels</a></li>
-    </ul>
-
+    <p>This site was built using data from the <a href='http://neocando.case.edu/nst/'>NST web application</a>, provided by the <a href='http://povertycenter.case.edu/'>Center on Urban Poverty and Community Development</a> at Case Western Reserve University.
+      
     <p>We prepared some extracts of the above sources for this project. You can download those here:</p>
 
-    <strong>Pilot 1: Greater Englewood Area</strong>
     <ul>
-        <li>Available lots (<a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_listing.csv">CSV</a> | <a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_area_parcels.zip">Shapefile</a>)</li>
-        <li>Boundary of the Large Lot Program area (<a href="http://s3.amazonaws.com/large-lots-data/pilot_1/large_lot_area_boundary.zip">Shapefile</a>)</li>
-    </ul>
-
-    <strong>Pilot 2: East Garfield Park</strong>
-    <ul>
-        <li>Available lots (<a href="http://s3.amazonaws.com/large-lots-data/pilot_2/large_lot_listing.csv">CSV</a>)</li>
+        <li>Available lots (<a href="https://opencleveland.cartodb.com/tables/joined/public/table">CartoDB</a>, downloadable as CSV, SHP, GEOJSON</li>
+        <li>Parcel boundaries (<a href="https://brigades.opendatanetwork.com/NEIGHBORHOODS/Cleveland-Parcel-Boundaries/auw9-csgs"> Socrata</a>, downloadable as CSV, JSON, SHP, KML) </li>
     </ul>
 
     <h3>Open source code</h3>
-    <p>All the code for this site is open source and <a href='https://github.com/datamade/large-lots'>available on Github</a>. We used the following open source tools:</p>
+    <p>All the code for this site is open source and <a href='https://github.com/opencleveland/large-lots'>available on Github</a>. This project is forked from <a href='https://github.com/datamade/large-lots'>DataMade</a>, who built the original Large Lots site for <a href='https://largelots.org'>Chicago</a>. We used the following open source tools:</p>
 
     <ul>
-      <li><a href='http://www.qgis.org/en/site/'>QGIS</a> - graphic information system (GIS) desktop application</li>
-      <li><a href='http://postgis.net/'>PostGIS</a> - geospatial database</li>
+
       <li><a href='https://www.djangoproject.com'>Django</a> - web framework</li>
       <li><a href='http://getbootstrap.com/'>Bootstrap</a> - Responsive HTML, CSS and Javascript framework</li>
       <li><a href='http://leafletjs.com/'>Leaflet</a> - javascript library interactive maps</li>
       <li><a href='http://cartodb.com'>CartoDB</a> - platform for rendering interactive map tiles</li>
+      <li><a href='https://csvkit.readthedocs.org/en/0.9.1/'>csvkit</a> - command line utility tool for working with CSV files</li>
       <li><a href='https://github.com/asual/jquery-address'>jQuery Address</a> - javascript library creating RESTful URLs</li>
     </ul>
 
     <h3>Press</h3>
-    <ul>
-      <li><a href="https://soundcloud.com/techshift/tech-shift-large-lots-program-expanding-in-chicago">'Large Lots' program expanding in Chicago</a> - Alderman Walter Burnett interview on WBEZ Tech Shift</li>
-      <li><a href="http://barbershopshow.tumblr.com/post/92861945326/on-this-installment-of-barber-shop-show-guest">Large Lots and Double Dutch</a> - Tina Harbin and Demond Drummer interview on the Barber Shop Show</li>
-      <li><a href="http://datamade.us/blog/large-lots-2-0/">Large Lots 2.0</a> - Derek Eder, DataMade</li>
-      <li><a href="http://www.smartchicagocollaborative.org/largelots-org-a-working-app-for-the-englewood-neighborhood/">Largelots.org – A working app for the Englewood Neighborhood</a> - Christopher Whitaker, Smart Chicago Collaborative</li>
-      <li><a href="http://www.columbiachronicle.com/metro/article_93095606-cce1-11e3-a559-001a4bcf6878.html">Local hackers raise awareness through community-focused websites</a> - Jennifer Wolan, The Columbia Chronicle</li>
-      <li><a href="http://wbezdata.tumblr.com/post/83103392730/how-largelots-org-became-a-reality">How LargeLots.org became a reality</a> - Chris Hagan, WBEZ Chicago Public Data</li>
-      <li><a href="https://soundcloud.com/techshift/hackers-fight-neighborhood-blight">Hackers fight neighborhood blight</a> - Aysha Butler and Demond Drummer interview on WBEZ Tech Shift</li>
-      <li><a href="http://chicagotonight.wttw.com/2014/04/17/empty-lots-sale-chicago">Empty Lots for Sale in Chicago</a> - Brandis Friedman, WTTW Chicago Tonight</li>
-      <li><a href="http://abclocal.go.com/wls/story?section=news/local/chicago_news&amp;id=9498064">Chicago-owned residential lots sell for $1 in Englewood, Washington Park, Woodlawn</a> - Ben Bradley, ABC 7 Chicago</li>
-      <li><a href="http://chicago.curbed.com/archives/2014/04/07/how-to-buy-a-city-owned-lot-in-englwood-for-only-1.php">Here’s How to Buy a City-Owned Lot in Englewood for Only $1</a> - AJ LaTrace, Curbed Chicago</li>
-      <li><a href="http://www.lisc-chicago.org/blog/9">Website Helps Residents Buy $1 Vacant Lots</a> - Patrick Barry, LISC Chicago</li>
-      <li><a href="http://www.teamworkenglewood.org/news/7462">Teamwork Englewood Launches LargeLots.org</a> - Demond Drummer, Teamwork Englewood</li>
-      <li><a href="http://datamade.us/blog/the-launch-of-large-lots/">The Launch of LargeLots.org</a> - Derek Eder, DataMade</li>
-    </ul>
+
+    <p> Hopefully we'll get some soon!
   </div>
 {% endblock %}

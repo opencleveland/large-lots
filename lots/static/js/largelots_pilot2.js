@@ -65,14 +65,14 @@ var LargeLots = {
 
       LargeLots.info.addTo(LargeLots.map);
 
-      var fields = "ppn,parcel,address,build,ward,spa,sqft,street2,number2" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
+      var fields = "ppn,parcel,address,build,ward,spa,sqft,street,number" //"pin14,zoning_classification,ward,street_name,street_dir,street_number,street_type,city_owned,residential"
       var layerOpts = {
           user_name: 'opencleveland',
           type: 'cartodb',
           cartodb_logo: false,
           sublayers: [
               {
-                  sql: "SELECT * FROM joined WHERE (street2 != '') AND (number2 > 0)",
+                  sql: "SELECT * FROM joined WHERE (street != '') AND (number > 0)",
                   cartocss: $('#egp-styles').html().trim(),
                   interactivity: fields
               }
@@ -145,7 +145,7 @@ var LargeLots = {
   },
 
   formatAddress: function (prop) {
-    return prop.number2 + " " + " " + prop.street2;
+    return prop.number + " " + " " + prop.street;
   },
 
   getOneParcel: function(ppn_current){

@@ -62,7 +62,7 @@ var LargeLotsAdmin = {
       }
 
       LargeLotsAdmin.info.addTo(LargeLotsAdmin.map);
-
+      console.log(applied_ppns);
       var fields = "ppn,parcel,address,sqft,street,number"
       var layerOpts = {
           user_name: 'opencleveland',
