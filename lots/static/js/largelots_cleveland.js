@@ -189,10 +189,10 @@ var LargeLots = {
       $('#lot-info').html(info);
 
       $("#lot_apply").on("click", function(){
-        if ($("#id_lot_1_address").val() == "") {
+        // if ($("#id_lot_1_address").val() == "") {
           $("#id_lot_1_address").val($(this).data('address'));
           $("#id_lot_1_ppn").val($(this).data('ppn'));
-        }
+        // }
 
         // else if ($("#id_lot_1_address").val() != $(this).data('address')){
         //   $("#id_lot_2_address").val($(this).data('address'));
