@@ -1,128 +1,116 @@
 {% extends "base.html" %}
 {% block title %} | FAQ {% endblock %}
 {% block content %}
-  <div class='col-md-8'>
+  <div class='col-md-10'>
     <h2>Frequently asked questions</h2>
 
     <div class='well'>
       <ul>
-        <li><a href='#faq-timeline'>Once I apply, how long will it take to hear back?</a></li>
-        <li><a href='#faq-evaluation'>How will applications be evaluated?</a></li>
-        <li><a href='#faq-assistance'>Where can I get help in filling out my application?</a></li>
-        <li><a href='#faq-estimated-taxes'>How much in property taxes will I pay?</a></li>
-        <li><a href='#faq-back-taxes'>Will I have to pay back taxes?</a></li>
-        <li><a href='#faq-block'>What defines a block?</a></li>
-        <li><a href='#faq-deed'>How do I download my deed from the Cook County Recorder of Deeds?</a></li>
+        <li><a href='#faq-how'>How do I purchase a sideyard?</a></li>
+        <li><a href='#faq-where'>Where can I find an application?</a></li>
+        <li><a href='#faq-cost'>How much does a property cost?</a></li>
+        <li><a href='#faq-pay'>Do I pay for the lot when I return the application?</a></li>
+        <li><a href='#faq-behind'>Can I buy the lot behind my home?</a></li>
+        <li><a href='#faq-non-adjacent'>Why can’t I purchase a lot for a sideyard that isn’t adjacent to me?</a></li>
+        <li><a href='#faq-prevent'>What would prevent me from getting the property that I am applying for?</a></li>
+        <li><a href='#faq-council'>Would speaking to the council person for the area where the land bank parcel is help?</a></li>
+        <li><a href='#faq-maintaining'>I’m already maintaining the vacant lot – does this increase my chances of getting it?</a></li>
+        <li><a href='#faq-steps'>What are the steps in the application process?</a></li>
+        <li><a href='#faq-decision'>Why can’t you tell me how long it will take to make a decision about my application?</a></li>
+        <li><a href='#faq-notified'>How will I be notified when a decision is made about my application?</a></li>
+        <li><a href='#faq-plant'>What can I plant in my sideyard?</a></li>
+        <li><a href='#faq-fence'>Can I put a fence around my sideyard?</a></li>
+        <li><a href='#faq-driveway'>What if the sideyard I purchase still includes the driveway apron?</a></li>
       </ul>
     </div>
 
-    <h3 id='faq-timeline'>Once I apply, how long will it take to hear back?</h3>
-    <p>Applicants will receive information regarding the status of their application about 6 weeks after the application has been received.</p>
-
-    <h3 id='faq-evaluation'>How will applications be evaluated?</h3>
-    <p>The main point of evaluation is to assess the completeness of the application and proof of ownership. If multiple requests are submitted for the same property the City will review on a case by case basis.</p>
-
-    <h3 id='faq-assistance'>Where can I get help in filling out my application?</h3>
-    <p>You can get free assistance in filling out your application from <a href='http://cpl.org/thelibrary/subjectscollections/techcentral/'>Tech Central</a> at the Main Branch of the Cleveland Public Library near Public Square.</p>
-    
-    <h3 id='faq-estimated-taxes'>How much in property taxes will I pay?</h3>
-    <p>The amount of yearly property tax you will pay is determined by the <a href='http://www.cookcountyassessor.com/'>Cook County Assessor</a> and based on the <a href='http://www.cookcountyassessor.com/propertyvaluation.aspx'>assessed value</a> of the property and the tax rates for all local governments providing services in your community.</p>
-
-    <p>To get a sense of what the property tax will be for your vacant lot, we took a look at the taxes paid for a few vacant lots sold by the City of Chicago:</p>
-
-    <table class='table'>
-      <thead>
-        <tr>
-          <td>Address</td>
-          <td>Sq ft</td>
-          <td>Assessed value</td>
-          <td>2012 taxes</td>
-          <td>Sold on</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>5302 S Winchester Ave</td>
-          <td>2,892</td>
-          <td>$15,900</td>
-          <td><a href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=20074160240000'>$287.65</a></td>
-          <td><a href='http://chicagocouncilmatic.org/legislation/935330'>Sept 8, 2011</td>
-        </tr>
-        <tr>
-          <td>745 N Cicero Ave</td>
-          <td>3,305</td>
-          <td>$28,268</td>
-          <td><a href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=16101000030000'>$548.01</a></td>
-          <td><a href='http://chicagocouncilmatic.org/legislation/915228'>Jul 6, 2011</td>
-        </tr>
-        <tr>
-          <td>1319 S Tripp Ave</td>
-          <td>3,142</td>
-          <td>$31,420</td>
-          <td><a href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=16222110070000'>$563.81</a></td>
-          <td><a href='http://chicagocouncilmatic.org/legislation/874345'>Apr 13, 2011</td>
-        </tr>
-        <tr>
-          <td>1326 W 109th St</td>
-          <td>3,730</td>
-          <td>$20,510</td>
-          <td><a href='http://cookcountypropertyinfo.com/Pages/PIN-Results.aspx?PIN=25173130320000'>$368.83</a></td>
-          <td><a href='http://chicagocouncilmatic.org/legislation/848704'>March 9, 2011</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 id='faq-back-taxes'>Will I have to pay back taxes?</h3>
-    <p>No you will not. When the lot is sold, no unpaid taxes by the previous owner will be transferred to you.</p>
-
-    <h3 id='faq-block'>What defines a block?</h3>
-
-    <p><img class='img-responsive img-thumbnail' src='/static/images/same-block.png' /></p>
-
-    <p>Property owners can purchase a city-owned lot:</p>
-
-    <ul>
-      <li>On their side of the street</li>
-      <li>Across the street</li>
-      <li>Across the alley behind their property</li>
-    </ul>
-
-    <h3 id='faq-deed'>How do I download my deed from the Cook County Recorder of Deeds?</h3>
-    <p>The <a href="http://12.218.239.81/i2/default.aspx" target="blank">Cook County Recorder of Deeds</a> holds records of property ownership. If your deed was dated <strong>before 1985</strong>, you will need to pick up your deed in person at <a href="https://www.google.com/maps/place/Cook+County+Recorder+of+Deeds/@41.883823,-87.63144,17z">118 N Clark St</a> and then scan or take a picture of it.</p>
-
-    <p>If your deed is from <strong>after 1985</strong>, you can download a scanned version of your property deed by following these steps:
-
-    <p><strong>1. Look up your Property Identification Number (PIN)</strong></p>
-
-    <p>You will need to know the <strong>PIN</strong> of <i>your own</i> property. You can look it up by your address on <a href='http://cookcountypropertyinfo.com/Pages/PIN-Search.aspx'>CookCountyPropertyInfo.com</a>.</p>
-
-    <p><a href='http://cookcountypropertyinfo.com/Pages/PIN-Search.aspx'><img class='img-responsive img-thumbnail' src='/static/images/ccpi-website.png' /></a></p>
-
-    <p><strong>2. Search records under your PIN</strong></p>
-
-    <p class="deed-explain">
-      Enter your current PIN <a href="http://12.218.239.81/i2/default.aspx" target="blank">here</a> and click Search. You will see a list of various records associated with your PIN.
+    <h3 id='faq-how'>How do I purchase a sideyard?</h3>
+    <p>You must own a home adjacent to the vacant lot you wish to purchase. The lot you desire must be in the city of Cleveland’s inventory at the time of application. You must be current on your taxes, and your property must be free of any code violations (this stands for any additional property you may own in Cuyahoga County).</p>
+    <p>You may put in an application with the city land bank. Applications must include a photo of your property, a photo of the vacant lot you wish to purchase, and a site design for the vacant lot.
     </p>
 
-    <p>
-      <img class='img-responsive img-thumbnail' src="/static/images/deed1.png"/>
+    <h3 id='faq-where'>Where can I find an application?</h3>
+    <p>You can apply directly through this website! Applications can also be picked up at the office of Community Development at 601 Lakeside Ave., Room 320, Cleveland, OH 44114. You can also contact the community development department via phone or e-mail and request that an application be mailed to you. Applications can be returned via mail, e-mail, or at the office of Community Development.
+      <ul>
+        <li> Phone: (216) 664 – 4126 </li>
+        <li> E-mail: CD-DND@city.cleveland.oh.us </li>
+        <li> Download the application <a href="http://www.city.cleveland.oh.us/sites/default/files/forms_publications/LandBankApplicationYardExpansions.pdf">here</a></li>
+      </ul>
     </p>
 
-    <p><strong>3. View your deed</strong></p>
-    <p class="deed-explain">
-    Click on the most recent deed - this will likely be in the first row. Document details will show up on the right side of the page, and a scanned image of your deed will show up in a new window. If you do not see the scanned image, click View Images (make sure pop-ups are allowed).</p>
-
-    <p>
-      <img class='img-responsive img-thumbnail' src="/static/images/deed2.png"/>
+    <h3 id='faq-cost'>How much does a property cost</h3>
+    <p>Cost is determined by the planned use.
+      <ul>
+        <li> Side Yard Expansion: $200 </li>
+        <li> New Housing Construction Lot: $200 </li>
+        <li> Development Lots: by appraised value </li>
+        <li> Agriculture/Garden Lots: $200 or lease purchase price for $1. There is a “claw back” provision if used for non-agricultural purposes. </li>
+        <li>Interim Uses (License): Negotiated. Generally licensed for $1 per year for gardening/greening uses. </li>
+      </ul>
     </p>
 
-    <p><strong>4. Download your deed as a PDF (this costs $4.00)</strong></p>
-    <p class="deed-explain">
-    Within the pop-up, click Print Document and enter your payment information. Once you are done, you will have the scanned document as a PDF on your computer.</p>
+    <h3 id='faq-pay'>How much in property taxes will I pay?</h3>
+    <p>No. You will be contacted via mail if your application is approved and payment will be requested then. We are not able to process refund payment for applications paid for in advance in the event that the application ends up not being approved.</p>
 
-    <p>
-      <img class='img-responsive img-thumbnail' src="/static/images/deed3.png"/>
+
+
+    <h3 id='faq-behind'>Can I buy the lot behind my home?</h3>
+    <p>These purchases are discouraged because the residents who are adjacent and share a side property line may be interested in purchasing the lot. Also, while the lot may be a valued addition for your personal property, the flow of the street on which the lot resides may be interrupted by a lot used in that way.</p>
+
+    <h3 id='faq-non-adjacent'>Why can’t I purchase a lot for a sideyard that isn’t adjacent to me?</h3>
+
+    <p>Lots not adjacent to your property are not considered side yards and aren’t eligible for purchase for that purpose. Lots not adjacent to your property have potential for development or greenspace only. Those applications can be found <a href = "http://www.city.cleveland.oh.us/CityofCleveland/Home/Government/CityAgencies/CommunityDevelopment/LandBank">here</a>.</p>
+
+    <h3 id='faq-prevent'>What would prevent me from getting the property that I am applying for?</h3>
+
+    <p>Reasons to deny a resident’s request to purchase a lot might be but are not limited to:
+      <ul>
+        <li>Delinquent taxes</li>
+        <li>Poor condition of applicant’s own property</li>
+        <li>If applicant’s property has gone into foreclosure (even if payment arrangements have been made). </li>
+      </ul>
     </p>
+
+    <h3 id='faq-council'>Would speaking to the council person for the area where the land bank parcel is help?</h3>
+
+    <p>Speaking to the council person in the area that the land bank lot is in is never a bad idea, with the understanding that while their input is important, they do not have the final say in regards to the resident’s application approval.</p>
+
+    <h3 id='faq-maintaining'>I’m already maintaining the vacant lot – does this increase my chances of getting it?</h3>
+
+    <p>Providing maintenance (mowing, removing trash, etc.) to a lot you wish to purchase can demonstrate that you would be willing and capable of continuing to take care of the property if it was in your possession. However, no resident is required to maintain a vacant lot. Even if you have not done any maintenance to the lot you wish to purchase, your application is considered with the same regard.
+    </p>
+
+    <h3 id='faq-steps'>What are the steps in the application process?</h3>
+
+    <img class='img-responsive img-thumbnail' src="/static/images/CityofClevelandSideyardProcess.png"/>
+
+    <h3 id='#faq-decision'>Why can’t you tell me how long it will take to make a decision about my application?</h3>
+    <p> The application process can be a lengthy one for the following reasons:
+      <ul>
+        <li>Staff changes which contributed to a current backlog of applications.</li>
+        <li>Land bank staff is waiting to receive additional requested information from the applicant.</li>
+        <li>Application must be reviewed by many people (as shown in the flow chart), which can take time.</li>
+        <li>Additional review may be required for lots in Design Review Districts, Landmark Districts, or Sustainable Development Planning areas. </li>
+      </ul>
+    </p>
+
+    <h3 id='#faq-notified'>How will I be notified when a decision is made about my application?</h3>
+
+    <p> You will be notified by mail if your application is approved or disapproved. If approved, you will receive a deed package which will include the property deed that you will need to sign and return, along with payment for the property.</p>
+
+    <h3 id='#faq-plant'>What can I plant in my sideyard?</h3>
+
+    <p>Native plants and shrubs are welcome to be planted, though you are invited to be creative. For a list of native plant examples, visit <a href="http://www.plantnative.org/rpl-inoh.htm"> http://www.plantnative.org/rpl-inoh.htm</a>. For more on native plants, check out: http://www.nativeplantsocietyneo.org/. For ideas on incorporating native plants, shrubs, and trees, visit the <a href="http://www.npi-cle.org/files/2012/07/IdeastoActionResourceBook.pdf ">Re-Imagining Cleveland Ideas to Action Resource Book</a>.</p>
+
+    <h3 id='#faq-fence'>Can I put a fence around my sideyard?</h3>
+
+    <p>Yes, you can put a fence around your sideyard, but it must be to city code. It must be no more than 6 feet high at the back and sides of the property. Fencing at the front of the property must be no more than 4 feet high, and usually must be constructed of an ornamental fencing material. For a more detailed description of the fence requirements, see the <a href='http://library.amlegal.com/nxt/gateway.dll/Ohio/cleveland_oh/partthreelandusecode/partiiiblandusecode-zoningcode/titleviizoningcode/chapter358-fenceregulations?f=templates$fn=default.htm$3.0$vid=amlegal:cleveland_oh$anc=JD_358.04'> Cleveland Code</a> on the topic.</p>
+
+    <h3 id='#faq-driveway'>What if the sideyard I purchase still includes the driveway apron?</h3>
+
+    <p>It is possible that a driveway apron may remain as part of the lot from when the demolition was completed. If this is the case, once you purchase the sideyard, you must have the driveway apron removed, and re-instate the tree lawn and curb for that lot.</p>
+
+
 
     <hr />
     <h2 id='questions'>More questions?</h2>

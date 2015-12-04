@@ -10,34 +10,17 @@
           <div class='col-md-8 col-md-offset-2'>
             <div class='well'>
 
-               <!-- {% if application_active %} -->
-               
-               <p></p>Applications will be accepted until <strong>August 4th, 2015</strong>. <a href='{% url "apply" %}'>Apply for a lot today!</a>                </p>
+
+
+               <p><a href='{% url "apply" %}'>Search and apply for a lot today!</a>                </p>
 
                 <div class='row'>
                   <div class='col-md-10 col-md-offset-1'>
-                    <p><a href='{% url "apply" %}'><img src='{% static "images/cleveland_map_demo_2.17.15.png" %}' class='img-responsive img-thumbnail' alt='Cleveland large lots locations' /></a></p>
+                    <p><a href='{% url "apply" %}'><img src='{% static "images/cleveland_map.png" %}' class='img-responsive img-thumbnail' alt='Cleveland large lots locations' /></a></p>
                   </div>
                 </div>
 
                 <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
-<!--  We don't seem to ever close it, so no need to keep track of dates! -->
-               <!-- {% else %}
-
-                 <h3>Mount Pleasant <small class='closed'>Closed</small></h3>
-
-                <p> The Large Lot Program ended in Mount Pleasant on <strong>August 4th at 11:59 p.m.</strong> Applicants will be contacted via a letter regarding the status of their application sometime after the 1st week of October.
-                </p>
-
-                <div class='row'>
-                  <div class='col-md-10 col-md-offset-1'>
-                    <p><img src='{% static "images/phase-2-screenshot-1.png" %}' class='img-responsive img-thumbnail' alt='East Garfield Park' /></p>
-                  </div>
-                </div>
-
-                <p class='text-center'><strong>Closed on Aug 4th, 2015</strong></p>
-              {% endif %} -->
-
             </div>
           </div>
 
