@@ -138,7 +138,7 @@ def csv_dump(request):
             application.plan_image.url,
             contact_address,
             application.phone,
-            application.phone2,
+            application.phone_2,
             application.email,
             application.how_heard,
             lot_1_ppn,

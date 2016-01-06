@@ -87,5 +87,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage' # Storing locally instead of S3 for now - ASKoiman 2/10/2015
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage' # Storing locally instead of S3 for now - ASKoiman 2/10/2015
 AWS_QUERYSTRING_AUTH = False
