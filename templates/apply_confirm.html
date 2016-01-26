@@ -7,10 +7,10 @@
         <div class="col-sm-12">
             <p>
                 <a class='btn btn-default' id='print-page' href="#">
-                    <i class='fa fa-print'></i> Print this page for your records
+                    <i class='fa fa-print'></i>Print this page for your records
                 </a>
             </p>
-            <h1>Thanks for Applying {{app.first_name}}!</h1>
+            <h1>Thanks for applying, {{app.first_name}}!</h1>
             {% if app.email %}
             <p>You should receive confirmation email shortly.</p>
             {% endif %}

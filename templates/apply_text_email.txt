@@ -1,5 +1,5 @@
 {% load lots_filters %}
-** Thanks for Applying {{app.first_name}}!
+** Thanks for applying, {{app.first_name}}!
 ------------------------------------------------------------
 
 Lot information:
