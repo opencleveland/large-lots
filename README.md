@@ -110,7 +110,7 @@ We used nginx and uWSGI to run Cleveland Lots. The tutorial we used is here: htt
     * lots.wsgi in that command refers to wsgi.py in the lots folder. So in this case, it refers to /large-lots/lots/wsgi.py
  * Note that uwsgi uses FastCGI instead of HTTP by default. nginx uses FastCGI to talk to uwsgi so the default is fine.
  * There are 2 ways to run uwsgi so it continues running after you log out.
-    * The easiest is to make it a background process and use nohup to allow the command to keep running after you close your terminal: `cd /usr/share/large-lots/`, then start uwsgi like this: `nohup uwsgi --module lots.wsgi --socket :8001 &`. This is the method we are using in production today - log in as the `ubuntu` user, cd to the directory, and run uwsgi with nohup.
+    * The easiest is to make it a background process and use nohup to allow the command to keep running after you close your terminal: `cd /usr/share/large-lots/`, then start uwsgi like this: `nohup uwsgi --module lots.wsgi --socket :8001 &`. This is the method we are using in production today - log in as the `ubuntu` user, cd to the directory, and run uwsgi with `nohup` and `&`. Note that if you omit either `nohup` or `&`, the uswgi process will end when you log out of the server and the app will no longer be accessible.
     * Or you could write a bash script that starts the web server and run that script periodically with crontab. This has the added benefit of restarting uwsgi regularly if the server goes down. But crontab adds its own levels of complexity that may not be worth the effort.
 
 7. restart nginx: `sudo service nginx restart`
