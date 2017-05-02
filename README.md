@@ -21,7 +21,7 @@ If something is not behaving as you expected, it could be a bug, and should be r
 Clone the repo and install the requirements:
 
 ``` bash
-git clone git@github.com:datamade/large-lots.git
+git clone git@github.com:opencleveland/large-lots.git
 cd large-lots
 pip install -r requirements.txt
 ```
