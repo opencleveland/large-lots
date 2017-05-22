@@ -13,7 +13,7 @@ class Address(models.Model):
 
 def upload_name(instance, filename):
     now = int(time.time())
-    print instance.first_name, instance.last_name
+    print (instance.first_name, instance.last_name)
     return 'plans/%s-%s-%s_%s' % \
         (instance.first_name, instance.last_name, now, filename)
 

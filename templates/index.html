@@ -3,36 +3,37 @@
 {% block content %}
       <div class='col-md-12'>
 
-        <br />
-        <p class='lead'>The City of Cleveland is selling vacant residential lots for side yard expansion for <strong>$200</strong>. Here's how you get one.</p>
+    <br />
+    <p class='lead'>The City of Cleveland is selling vacant residential lots for side yard expansion for <strong>$200</strong>. Here's how you get one.</p>
 
-        <div class='row'>
-          <div class='col-md-8 col-md-offset-2'>
+    <div class='row'>
+        <div class='col-md-8 col-md-offset-2'>
             <div class='well'>
 
 
 
-               <p><a href='{% url "apply" %}'>Search and apply for a lot today!</a>                </p>
+                <p><a href='{% url "apply" %}'>Search and apply for a lot today!</a>                </p>
 
                 <div class='row'>
-                  <div class='col-md-10 col-md-offset-1'>
-                    <p><a href='{% url "apply" %}'><img src='{% static "images/cleveland_map.png" %}' class='img-responsive img-thumbnail' alt='Cleveland large lots locations' /></a></p>
-                  </div>
+                    <div class='col-md-10 col-md-offset-1'>
+                        <p><a href='{% url "apply" %}'><img src='{% static "images/cleveland_map.png" %}' class='img-responsive img-thumbnail' alt='Cleveland large lots locations' /></a></p>
+                    </div>
                 </div>
 
                 <p class='text-center'><a href='{% url "apply" %}' class="btn btn-success btn-lg">Apply for a lot</a></p>
             </div>
-          </div>
+        </div>
 
 
 
         <div class='row'>
-          <div class='col-md-8'>
-            <h3>About</h3>
-            <p><strong>Cleveland Lots</strong> is an online application for side yard expansion in Cleveland and was developed by Open Cleveland with the City of Cleveland Land Bank.</p>
-            <!-- <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. This website was built to make the process of purchasing City-owned land through this program easier for residents. <a href='/about'>Read more &raquo;</a> -->
-          </div>
+            <div class='col-md-8'>
+                <h3>About</h3>
+                <p><strong>Cleveland Lots</strong> is an online application for side yard expansion in Cleveland and was developed by Open Cleveland with the City of Cleveland Land Bank.</p>
+                <!-- <p>The <strong>Large Lot Program</strong> is a housing land use approach that was developed as part of the <a href='http://www.cityofchicago.org/city/en/depts/dcd/supp_info/green-healthy-neighborhoods.html'>Green Healthy Neighborhoods</a> public planning process. This website was built to make the process of purchasing City-owned land through this program easier for residents. <a href='/about'>Read more &raquo;</a> -->
+            </div>
         </div>
-      </div>
+    </div>
+</div>
 
 {% endblock %}

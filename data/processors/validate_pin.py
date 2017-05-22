@@ -8,7 +8,7 @@ bad_pin = 'Information could not be retrieved for the specified PIN.'
 def validate(pin):
     if not pin:
         return None
-    print 'Looking up %s in cookcountyproperty' % pin
+    print('Looking up %s in cookcountyproperty' % pin)
     r = requests.get(url, params={'PIN': pin})
     soup = BeautifulSoup(r.content)
     text = soup.find(attrs={'class': 'search-results-overview'}).text
@@ -20,7 +20,7 @@ def validate(pin):
 def check_db(pin, cursor):
     if not pin:
         return None
-    print 'Looking up %s in DB' % pin
+    print('Looking up %s in DB' % pin)
     parcel_q = 'select cook_county_parcels.geom \
                 from cook_county_parcels join large_lot_boundary on \
                 ST_Within(cook_county_parcels.geom, large_lot_boundary.geom) \
