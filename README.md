@@ -6,6 +6,7 @@ Large Lots enables you to find if there is a vacant lot adjacent to your propert
 
 A production version is available at [clevelandlots.org](http://clevelandlots.org). 
 
+
 This is based on a similar project in Chicago, called [Large Lots](http://www.largelots.org) made by Data Made. 
 
 ### Errors / Bugs
