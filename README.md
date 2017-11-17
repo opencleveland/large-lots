@@ -4,8 +4,8 @@ The City of Cleveland Land Bank sells vacant lots to homeowners for a side yard 
 
 Large Lots enables you to find if there is a vacant lot adjacent to your property that is eligible to be purchased for a side yard expansion and to complete the Land Bank's application. 
 
+A production version is available at [clevelandlots.org](http://clevelandlots.org). 
 
-A public website is available at http://clevelandlots.org
 
 This is based on a similar project in Chicago, called [Large Lots](http://www.largelots.org) made by Data Made. 
 
