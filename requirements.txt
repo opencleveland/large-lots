@@ -6,4 +6,3 @@ gunicorn==19.0.0
 raven==5.0.0
 python-dateutil==1.5
 django-extensions==1.1.1
-psycopg2==2.6.2
