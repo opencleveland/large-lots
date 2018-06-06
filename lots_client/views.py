@@ -235,7 +235,7 @@ def apply(request):
             subject = 'Large Lots Application for %s %s' % (app.first_name, app.last_name)
 
             from_email = settings.EMAIL_HOST_USER
-            to_email = [from_email]
+            to_email = [from_email, 'CD-DND@city.cleveland.oh.us']
 
             #TODO: Get mailserver configured and running - ASKoiman 2/10/2015
             ## if provided, send confirmation email to applicant
