@@ -98,7 +98,7 @@ class ApplicationForm(forms.Form):
         label="Application terms")
 
     def _check_ppn(self, ppn):
-        carto = 'https://opencleveland.cartodb.com/api/v2/sql'
+        carto = 'http://opencleveland.cartodb.com/api/v2/sql'
         params = {
             'api_key': settings.CARTODB_API_KEY,
             'q':  "SELECT ppn FROM joined WHERE ppn = '%s'" % ppn.replace('-', ''),
@@ -204,25 +204,25 @@ def apply(request):
                 'email': form.cleaned_data.get('email'),
                 'how_heard': form.cleaned_data.get('how_heard'),
                 'tracking_id': unicode(uuid4()),
-		'owned_live': form.cleaned_data.get('owned_live'),
-		'owned_properties': form.cleaned_data.get('owned_properties'),
-		'owned_properties_info': form.cleaned_data.get('owned_properties_info'),
-		'lot_1_use' : form.cleaned_data.get('lot_1_use'),
-		'lot_1_improvements' : form.cleaned_data.get('lot_1_improvements'),
-		'lot_1_descr' : form.cleaned_data.get('lot_1_descr'),
-		'fencing_descr': form.cleaned_data.get('fencing_descr'),
-		'fencing_cost': form.cleaned_data.get('fencing_cost'),
-		'landscaping_descr': form.cleaned_data.get('landscaping_descr'),
+                'owned_live': form.cleaned_data.get('owned_live'),
+                'owned_properties': form.cleaned_data.get('owned_properties'),
+                'owned_properties_info': form.cleaned_data.get('owned_properties_info'),
+                'lot_1_use' : form.cleaned_data.get('lot_1_use'),
+                'lot_1_improvements' : form.cleaned_data.get('lot_1_improvements'),
+        		'lot_1_descr' : form.cleaned_data.get('lot_1_descr'),
+        		'fencing_descr': form.cleaned_data.get('fencing_descr'),
+        		'fencing_cost': form.cleaned_data.get('fencing_cost'),
+        		'landscaping_descr': form.cleaned_data.get('landscaping_descr'),
                 'landscaping_cost': form.cleaned_data.get('landscaping_cost'),
-		'apron_descr': form.cleaned_data.get('apron_descr'),
+		        'apron_descr': form.cleaned_data.get('apron_descr'),
                 'apron_cost': form.cleaned_data.get('apron_cost'),
-		'other_descr': form.cleaned_data.get('other_descr'),
+		        'other_descr': form.cleaned_data.get('other_descr'),
                 'other_cost': form.cleaned_data.get('other_cost'),
             }
             app = Application(**app_info)
-            
+
             app.save()
-            app.lot_set.add(lot1)            
+            app.lot_set.add(lot1)
 
             app.save()
 
@@ -253,7 +253,20 @@ def apply(request):
             context['lot_1_address'] = form['lot_1_address'].value()
             context['lot_1_ppn'] = form['lot_1_ppn'].value()
             context['lot_1_use'] = form['lot_1_use'].value()
+            context['lot_1_improvements'] = form['lot_1_improvements'].value()
+            context['lot_1_descr'] = form['lot_1_descr'].value()
             context['owned_address'] = form['owned_address'].value()
+            context['owned_live'] = form['owned_live'].value()
+            context['owned_properties'] = form['owned_properties'].value()
+            context['owned_properties_info'] = form['owned_properties_info'].value()
+            context['fencing_descr'] = form['fencing_descr'].value()
+            context['fencing_cost'] = form['fencing_cost'].value()
+            context['landscaping_descr'] = form['landscaping_descr'].value()
+            context['landscaping_cost'] = form['landscaping_cost'].value()
+            context['apron_descr'] = form['apron_descr'].value()
+            context['apron_cost'] = form['apron_cost'].value()
+            context['other_descr'] = form['other_descr'].value()
+            context['other_cost'] = form['other_cost'].value()
             context['plan_image'] = form['plan_image'].value()
             context['first_name'] = form['first_name'].value()
             context['last_name'] = form['last_name'].value()
