@@ -20,16 +20,19 @@ If something is not behaving as you expected, it could be a bug, and should be r
 
 Clone the repo and install the requirements:
 
+We recommend creating a [virtualenv](https://github.com/codeforamerica/howto/blob/master/Python-Virtualenv.md) environment although not required. 
+
 ``` bash
-git clone git@github.com:opencleveland/large-lots.git
+git clone https://github.com/opencleveland/large-lots.git
 cd large-lots
 pip install -r requirements.txt
 ```
 
-Setup a few Environmental variables:
+Create local_settings.py and setup a few environmental variables
+(Ask Will in Slack for these keys.).
 
 ``DJANGO_SECRET_KEY`` Django’s [Secret
-Key](https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-SECRET_KEY)
+Key](https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/#secret-key)
 used by the project. Can be any relatively hard to guess string.
 
 ``AWS_ACCESS_KEY`` AWS key used by the file storage mechanism to store files in
