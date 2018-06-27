@@ -263,9 +263,9 @@
                         <div class="col-sm-4">
                           <select class="form-control" id="id_owned_live" name="owned_live">
                             <option></option>
-                            <option value="Owner-occupied" {% if owned_live == 'The owner' %}selected=true{% endif %}>The owner lives here</option>
-                            <option value="Rental property" {% if owned_live == 'It is a rental property' %}selected=true{% endif %}>It is a rental property</option>
-                            <option value="Empty" {% if owned_live == 'No one lives here' %}selected=true{% endif %}>No one lives here</option>
+                            <option value="Owner-occupied" {% if owned_live == 'Owner-occupied' %}selected=true{% endif %}>The owner lives here</option>
+                            <option value="Rental property" {% if owned_live == 'Rental property' %}selected=true{% endif %}>It is a rental property</option>
+                            <option value="Empty" {% if owned_live == 'Empty' %}selected=true{% endif %}>No one lives here</option>
                           </select>
                         </div>
                       </div>
@@ -305,9 +305,9 @@
                   <div class="col-sm-8">
                     <div class="row">
                       <div class="col-sm-12">
-                        <label for="owed_properties_info">If so, list the addresses, parcel numbers, and property types</label>
+                        <label for="owned_properties_info">If so, list the addresses, parcel numbers, and property types</label>
                         <div class="form-group">
-                          <input type="text" value="{{ owed_properties_info }}" class="form-control" id="id_owed_properties_info" name="owed_properties_info"/>
+                          <input type="text" value="{{ owned_properties_info }}" class="form-control" id="id_owned_properties_info" name="owned_properties_info"/>
                         </div>
                       </div>
                     </div>
@@ -360,7 +360,7 @@
                 <div class="form-group">
                   {% endif %}
                   <label for="id_plan_image"><i class='fa fa-upload'></i> Upload your proposed site plan</label><span class="red">*</span>
-                  <input type="file" value="{{plan_image}}" id="id_plan_image" name="plan_image">
+                  <input type="file" value="{{ plan_image }}" id="id_plan_image" name="plan_image">
                   {% for error in form.plan_image.errors %}
                   <span class="help-block">{{ error }}</span>
                   {% endfor %}
@@ -542,7 +542,7 @@
                   {% for error in form.email.errors %}
                     <span class="help-block">{{ error }}</span>
                   {% endfor %}
-                  
+
                 </div>
 
                 <!-- ADDRESS -->
@@ -588,7 +588,7 @@
                       <select class="form-control" id="id_how_heard" name="how_heard">
                         <option></option>
                         <option value='I did not receive assistance'>I did not receive assistance</option>
-                        <option value="Friend, family, or neighbor" {% if how_heard == 'Friend or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
+                        <option value="Friend, family, or neighbor" {% if how_heard == 'Friend, family, or neighbor' %}selected=true{% endif %}>Friend or neighbor</option>
                         <option value="Community organization" {% if how_heard == 'Community organization' %}selected=true{% endif %}>Community organization</option>
                         <option value="City of Cleveland staff" {% if how_heard == 'City of Clevleand staff' %}selected=true{% endif %}>City of Cleveland</option>
                         <option value="Cleveland Public Library" {% if how_heard == 'Cleveland Public Library' %}selected=true{% endif %}>Cleveland Public Library</option>
