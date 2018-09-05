@@ -83,7 +83,7 @@ var LargeLots = {
           ]
       }
 
-      cartodb.createLayer(LargeLots.map, layerOpts)
+      cartodb.createLayer(LargeLots.map, layerOpts, { https: true })
         .addTo(LargeLots.map)
         .done(function(layer) {
             LargeLots.lotsLayer = layer.getSubLayer(0);
@@ -230,7 +230,7 @@ var LargeLots = {
 
       var s = document.createElement("script");
       s.type = "text/javascript";
-      s.src = "http://nominatim.openstreetmap.org/search/" + encodeURIComponent(searchAddress) + "?format=json&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "&json_callback=LargeLots.returnAddress";
+      s.src = "https://nominatim.openstreetmap.org/search/" + encodeURIComponent(searchAddress) + "?format=json&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "&json_callback=LargeLots.returnAddress";
       document.body.appendChild(s);
       //&bounded=1&viewbox=" + LargeLots.boundingBox['left'] + "," + LargeLots.boundingBox['top'] + "," + LargeLots.boundingBox['right'] + "," + LargeLots.boundingBox['bottom'] + "
     }

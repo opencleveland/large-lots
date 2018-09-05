@@ -98,7 +98,7 @@ class ApplicationForm(forms.Form):
         label="Application terms")
 
     def _check_ppn(self, ppn):
-        carto = 'http://opencleveland.cartodb.com/api/v2/sql'
+        carto = 'https://opencleveland.cartodb.com/api/v2/sql'
         params = {
             'api_key': settings.CARTODB_API_KEY,
             'q':  "SELECT ppn FROM joined WHERE ppn = '%s'" % ppn.replace('-', ''),
