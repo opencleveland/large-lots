@@ -83,7 +83,7 @@ var LargeLots = {
           ]
       }
 
-      cartodb.createLayer(LargeLots.map, layerOpts)
+      cartodb.createLayer(LargeLots.map, layerOpts, { https: true })
         .addTo(LargeLots.map)
         .done(function(layer) {
             LargeLots.lotsLayer = layer.getSubLayer(0);
@@ -154,7 +154,7 @@ var LargeLots = {
       if (LargeLots.lastClickedLayer){
         LargeLots.map.removeLayer(LargeLots.lastClickedLayer);
       }
-      var sql = new cartodb.SQL({user: 'openclevelandgis', format: 'geojson', https: true});
+      var sql = new cartodb.SQL({user: 'openclevelandgis', format: 'geojson'});
 	  //Issue #4: using apostrophes instead of casting to keep leading zeros. - ASKoiman 12/6/2014 -- \'{{num}}\' -- cwang
       console.log(ppn_current);
       sql.execute('SELECT * from sideyard WHERE parcelpo_1 = \'{{num}}\'', {num:ppn_current})

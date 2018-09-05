@@ -83,7 +83,7 @@ var LargeLotsAdmin = {
           ]
       }
 
-      cartodb.createLayer(LargeLotsAdmin.map, layerOpts)
+      cartodb.createLayer(LargeLotsAdmin.map, layerOpts, {https: true})
         .addTo(LargeLotsAdmin.map)
         .done(function(layer) {
             LargeLotsAdmin.lotsLayer = layer.getSubLayer(0);
