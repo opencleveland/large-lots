@@ -134,7 +134,7 @@ class ApplicationForm(forms.Form):
         #Added .lower() for string comparison - ASKoiman 12/26/2014
         if ftype.lower() not in ['pdf', 'png', 'jpg', 'jpeg']:
 
-            raise forms.ValidationError('File type not supported. Please choose an image or PDF.')
+            raise forms.ValidationError('File type not supported. Please choose an image (PNG or JPG/JPEG) or PDF.')
         return self.cleaned_data['plan_image']
 
 def home(request):
