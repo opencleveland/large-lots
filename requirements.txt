@@ -1,4 +1,4 @@
-Django==1.6.5
+Django==1.11.29
 django-storages==1.1.8
 boto==2.29.1
 requests==2.3.0
